@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TppRouteConfMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppRouteConf">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="ROUTE_NAME" jdbcType="VARCHAR" property="routeName" />
+		<result column="PRIORITY" jdbcType="DECIMAL" property="priority" />
+		<result column="IS_AVAILABLE" jdbcType="VARCHAR" property="isAvailable" />
+		<result column="ROUTE_CLASS" jdbcType="VARCHAR" property="routeClass" />
+	</resultMap>
+	
+	
+	<select id="getRouteConfInfoList" resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN FROM (
+		select 
+			c.id,
+			c.route_name,
+			c.priority,
+			c.is_available,
+			c.route_class
+  			from tpp_route_conf c
+    		where 1=1
+    		<if test="isAvailable != null" > 
+   				and c.is_available = #{isAvailable,jdbcType=VARCHAR}
+   			</if>
+			 order by c.priority asc  
+    
+			 ) X 
+			 <if test="rowEnd != null" >
+			 WHERE ROWNUM  &lt;= #{rowEnd}
+			 </if>
+			) 
+			<if test="rowBegin != null" >
+			WHERE RN &gt;=  #{rowBegin}
+			 </if>
+	</select>
+	
+	<select id="getRouteConfInfoListCount" resultType="Integer">
+		select count(*) from tpp_route_conf
+	</select>
+	
+	<select id="getRouteConfByID" resultMap="BaseResultMap">
+		select 
+			c.id,
+			c.route_name,
+			c.priority,
+			c.is_available,
+			c.route_class
+  			from tpp_route_conf c
+    		where   c.ID = #{id,jdbcType=DECIMAL}
+	</select>
+	
+	<update id="update" parameterType="com.zdmoney.manager.models.TppRouteConf">
+		update tpp_route_conf
+		<trim prefix="set" suffixOverrides=",">
+			<if test="routeName!=null">ROUTE_NAME=#{routeName,jdbcType=VARCHAR},</if>
+			<if test="isAvailable!=null">IS_AVAILABLE=#{isAvailable,jdbcType=VARCHAR},</if>
+			<if test="priority!=null">PRIORITY=#{priority,jdbcType=DECIMAL},</if>
+			<if test="routeClass!=null">ROUTE_CLASS=#{routeClass,jdbcType=VARCHAR}</if>
+		</trim>
+		WHERE id=#{id,jdbcType=VARCHAR}
+	</update>
+	
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TppRouteConf">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_ROUTE.nextval from dual
+		</selectKey>
+		insert into  tpp_route_conf (<include refid="key"/>) values(<include refid="value"/>)
+	</insert>
+    
+    <!-- sql片段对应字段名,id属性值任意 -->
+    <sql id="key">
+        <!-- 去掉最后一个, -->
+        <trim suffixOverrides=",">
+                id,
+            <if test="routeName!=null">
+                route_name,
+            </if>
+            <if test="priority!=null">
+                priority,
+            </if>
+            <if test="isAvailable!=null">
+                is_available,
+            </if>
+            <if test="routeClass!=null">
+                route_class
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- sql片段对应?,id属性值任意 -->
+    <sql id="value">
+        <!-- 去掉最后一个, -->
+        <trim suffixOverrides=",">
+               #{id,jdbcType=DECIMAL},
+             <if test="routeName!=null">
+                #{routeName,jdbcType=VARCHAR},
+            </if>
+            <if test="priority!=null">
+                #{priority,jdbcType=DECIMAL},
+            </if>
+            <if test="isAvailable!=null">
+                #{isAvailable,jdbcType=VARCHAR},
+            </if>
+            <if test="routeClass!=null">
+                #{routeClass,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </sql>
+	
+
+	
+</mapper>

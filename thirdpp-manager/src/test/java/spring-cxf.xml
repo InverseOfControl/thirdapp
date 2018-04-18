@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd   ">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<!--服务端 发布ws服务 -->
+	<jaxws:endpoint id="wsDealProcessorService" address="/DealProcessor"
+		implementor="websvc.impl.DealProcessorServiceImpl">
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+	<!-- 注入超强获取业务层或持久层对象 -->
+	<bean id="SpringContextHelper" class="websvc.utils.SpringContextHelper" />
+
+	<!--消息推送系统ws服务 -->
+	<bean id="DealProcessorService" class="websvc.DealProcessorService"
+		factory-bean="DealProcessorServiceFactory" factory-method="create" />
+	<bean id="DealProcessorServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+		<property name="serviceClass" value="websvc.DealProcessorService" />
+		<property name="address" value="${messageWsRootUrl}/services/DealProcessor?wsdl=DealProcessorService.wsdl" />
+	</bean>
+</beans>

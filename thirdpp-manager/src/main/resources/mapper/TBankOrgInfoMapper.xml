@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TBankOrgInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TBankOrgInfo">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="BANK_CODE" jdbcType="VARCHAR" property="bankCode" />
+		<result column="BANK_NAME" jdbcType="VARCHAR" property="bankName" />
+		<result column="BANK_ORG_NO" jdbcType="VARCHAR" property="bankOrgNo" />
+		<result column="BANK_ORG_NAME" jdbcType="VARCHAR" property="bankOrgName" />
+		<result column="BANK_ORG_PROVINCE_NO" jdbcType="VARCHAR" property="bankOrgProvinceNo" />
+		<result column="BANK_ORG_PROVINCE_City_NO" jdbcType="VARCHAR" property="bankOrgProvinceCityNo" />
+		<result column="BANK_ORG_PROVINCE_NAME" jdbcType="VARCHAR" property="bankOrgProvinceName" />
+		<result column="BANK_ORG_PROVINCE_CITY_NAME" jdbcType="VARCHAR" property="bankOrgProvinceCityName" />
+		<result column="NOTE" jdbcType="VARCHAR" property="note" />
+		<result column="BANK_LINE_NO" jdbcType="VARCHAR" property="bankLineNo" />
+		<result column="DT_TIME" property="dtTime" />
+		<!-- <collection property="permissions" resultMap="com.zdmoney.manager.mapper.TSysPermissionMapper.BaseResultMap"/> -->
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,BANK_ORG_NO,BANK_ORG_NAME,BANK_CODE,BANK_ORG_PROVINCE_NO,DT_TIME,NOTE,BANK_NAME
+	</sql>
+	<select id="getBankOrgInfoList" resultType="java.util.HashMap">
+	 SELECT * FROM (
+		SELECT X.*,ROWNUM RN FROM (
+		
+	select
+		BOI.ID,BOI.BANK_LINE_NO,BOI.BANK_ORG_NO,BOI.BANK_ORG_NAME,BOI.BANK_CODE,BOI.BANK_ORG_PROVINCE_NO,to_date(BOI.DT_TIME,'yyyymmdd') as DT_TIME, BOI.NOTE
+		,BI.BANK_NAME,
+    (select ai.AREA_NAME  from DD_T_AREA_INFO ai where BOI.BANK_ORG_PROVINCE_NO=ai.AREA_CODE) AS BANK_ORG_PROVINCE_NAME,
+    (select ai.AREA_NAME  from DD_T_AREA_INFO ai where BOI.BANK_ORG_PROVINCE_CITY_NO=ai.AREA_CODE) AS BANK_ORG_PROVINCE_CITY_NAME
+		from DD_T_BANK_ORG_INFO BOI LEFT JOIN DD_T_BANK_INFO BI   ON BOI.BANK_CODE=BI.BANK_CODE
+       
+  	  where 1=1
+   
+		<if test="bankOrgName != null and bankOrgName != ''">
+			and BOI.BANK_ORG_NAME like '${bankOrgName}%'
+		</if>
+		<if test="bankOrgNo != null and bankOrgNo != ''">
+			and BOI.BANK_ORG_NO = #{bankOrgNo}
+		</if>
+		<if test="bankCode != null and bankCode != ''">
+			and BOI.BANK_CODE = #{bankCode}
+		</if>
+			<if test="bankOrgProvinceNo != null and bankOrgProvinceNo != ''">
+			and BOI.BANK_ORG_PROVINCE_NO = #{bankOrgProvinceNo}
+		</if>
+		<if test="bankOrgProvinceCityNo != null and bankOrgProvinceCityNo != ''">
+			and BOI.BANK_ORG_PROVINCE_City_NO = #{bankOrgProvinceCityNo}
+		</if>
+		<if test="beginTime != null and beginTime != ''">
+			and BOI.DT_TIME &gt;= #{beginTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			and BOI.DT_TIME &lt;= #{endTime}
+		</if>  order by ID desc  
+			<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]> 
+	</select>
+ 
+	<select id="getBankCodeCount" resultType="integer">
+		select count(ID) from DD_T_BANK_ORG_INFO  where BANK_ORG_NO = #{bankCode}
+	</select>
+	<select id="getBankOrgCount" resultType="integer" parameterType="com.zdmoney.manager.models.TBankOrgInfo">
+		select count(ID) from DD_T_BANK_ORG_INFO  where BANK_ORG_NO = #{bankOrgNo} and BANK_CODE = #{bankCode}
+	</select>
+	<select id="getBankLineNo" resultType="integer" parameterType="com.zdmoney.manager.models.TBankOrgInfo" >
+		select count(ID) from DD_T_BANK_ORG_INFO  where BANK_LINE_NO = #{bankLineNo}
+	</select>
+	<select id="getBankOrgInfoMap" resultMap="BaseResultMap">
+		select bank_org_no,bank_code,BANK_LINE_NO from DD_T_BANK_ORG_INFO
+	</select>
+	<select id="getBankOrgInID" resultType="java.lang.String">
+		select ID from DD_T_BANK_ORG_INFO  where BANK_LINE_NO = #{bankLineNo}
+	</select>
+	<select id="getBankOrgInfoListCount" resultType="Integer">
+			select count(BOI.ID)  from DD_T_BANK_ORG_INFO BOI LEFT JOIN DD_T_BANK_INFO BI   ON BOI.BANK_CODE=BI.BANK_CODE where 1=1
+				<if test="bankOrgName != null and bankOrgName != ''">
+			and BOI.BANK_ORG_NAME like '${bankOrgName}%'
+		</if>
+		<if test="bankOrgNo != null and bankOrgNo != ''">
+			and BOI.BANK_ORG_NO = #{bankOrgNo}
+		</if>
+		<if test="bankCode != null and bankCode != ''">
+			and BOI.BANK_CODE = #{bankCode}
+		</if>
+			<if test="bankOrgProvinceNo != null and bankOrgProvinceNo != ''">
+			and BOI.BANK_ORG_PROVINCE_NO = #{bankOrgProvinceNo}
+		</if>
+		<if test="bankOrgProvinceCityNo != null and bankOrgProvinceCityNo != ''">
+			and BOI.BANK_ORG_PROVINCE_City_NO = #{bankOrgProvinceCityNo}
+		</if>
+		<if test="beginTime != null and beginTime != ''">
+			and BOI.DT_TIME &gt;= #{beginTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			and BOI.DT_TIME &lt;= #{endTime}
+		</if>
+	</select>
+	<select id="selectBankOrgInfoByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		ID,BANK_ORG_NO,BANK_LINE_NO,BANK_ORG_NAME,BANK_CODE,BANK_ORG_PROVINCE_NO,BANK_ORG_PROVINCE_City_NO,to_date(DT_TIME,'yyyymmdd') as DT_TIME, NOTE
+		from DD_T_BANK_ORG_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TBankOrgInfo">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_DD_T_BANK_ORG_INFO.nextval from dual
+		</selectKey>
+		merge into DD_T_BANK_ORG_INFO t using dual
+				on ( t.BANK_ORG_NO = #{bankOrgNo,jdbcType=VARCHAR} and t.BANK_CODE =#{bankCode,jdbcType=VARCHAR} ) 
+		 	
+		when not matched then
+		insert (ID,BANK_ORG_NO,BANK_ORG_NAME,BANK_CODE,BANK_ORG_PROVINCE_NO,BANK_ORG_PROVINCE_City_NO,BANK_LINE_NO,DT_TIME,NOTE)
+		values(#{id,jdbcType=DECIMAL},#{bankOrgNo,jdbcType=VARCHAR},#{bankOrgName,jdbcType=VARCHAR},#{bankCode,jdbcType=VARCHAR},
+		#{bankOrgProvinceNo,jdbcType=VARCHAR},#{bankOrgProvinceCityNo,jdbcType=VARCHAR},#{bankLineNo,jdbcType=VARCHAR},to_char(sysdate,'yyyymmdd'),#{note,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateBankOrgInfo" parameterType="com.zdmoney.manager.models.TBankOrgInfo">
+		update DD_T_BANK_ORG_INFO
+		set BANK_ORG_NO = #{bankOrgNo,jdbcType=VARCHAR},
+		BANK_ORG_NAME = #{bankOrgName,jdbcType=VARCHAR},
+		bank_code = #{bankCode,jdbcType=VARCHAR},
+		BANK_ORG_PROVINCE_NO = #{bankOrgProvinceNo,jdbcType=VARCHAR},
+		BANK_ORG_PROVINCE_City_NO = #{bankOrgProvinceCityNo,jdbcType=VARCHAR},
+		BANK_LINE_NO = #{bankLineNo,jdbcType=VARCHAR},
+		dt_time = to_char(sysdate,'yyyymmdd'),
+		note = #{note,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<delete id="batchDeleteInfo" parameterType="java.util.List">  
+    	delete from DD_T_BANK_ORG_INFO where ID in  
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+       	 #{item}   
+    	</foreach>  
+	</delete>
+		<select id="getBankName" resultType="java.lang.String">
+		select bank_name from dd_t_bank_info  where BANK_CODE = #{bankCode}
+	</select>
+</mapper>

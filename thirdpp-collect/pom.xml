@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>thirdpp-new-parent</artifactId>
+        <groupId>com.zendaimoney.thirdpp</groupId>
+        <version>1.0.4</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>thirdpp-collect</artifactId>
+    <packaging>jar</packaging>
+
+    <name>thirdpp-collect</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <thirdpp-common-version>0.0.6</thirdpp-common-version>
+        <poi.version>3.15</poi.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.zendaimoney.thirdpp</groupId>
+            <artifactId>thirdpp-common</artifactId>
+            <version>${thirdpp-common-version}</version>
+
+        </dependency>
+
+        <!-- office操作 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zendaimoney.thirdpp</groupId>
+            <artifactId>thirdpp-trade</artifactId>
+            <version>0.0.4</version>
+            <classifier>pub-service</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.31</version>
+        </dependency>
+
+
+    </dependencies>
+    <build>
+        <finalName>thirdpp-collect</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+</project>

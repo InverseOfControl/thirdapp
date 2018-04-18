@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.Request" >
+ <typeAlias alias="Request" type="com.zendaimoney.thirdpp.trade.entity.Request" />
+  <resultMap id="BaseResultMap" class="Request" >
+    <result column="REQ_ID" property="reqId" jdbcType="java.lang.String" />
+    <result column="BIZ_TYPE" property="bizTypeNo" jdbcType="java.lang.String" />
+    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="java.lang.String" />
+    <result column="IP" property="ip" jdbcType="java.lang.String" />
+    <result column="IS_SYNC" property="isSync" jdbcType="java.lang.String" />
+    <result column="IS_HAND_ADD" property="isHandAdd" jdbcType="java.lang.String" />
+    <result column="REMARK" property="remark" jdbcType="java.lang.String" />
+    <result column="CREATER" property="creater" jdbcType="java.lang.String" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="java.lang.String" />
+    <result column="SPARE1" property="spare1" jdbcType="java.lang.String" />
+    <result column="SPARE2" property="spare2" jdbcType="java.lang.String" />
+     <result column="INFO_CATEGORY_CODE" property="infoCategoryCode" jdbcType="java.lang.String" nullValue=""/>
+  </resultMap>
+  <insert id="insert" parameterClass="Request" >
+    insert into TPP_TRADE_T_REQUEST(REQ_ID, BIZ_TYPE, BIZ_SYS_NO, IP, IS_SYNC, 
+      IS_HAND_ADD, REMARK, 
+      CREATER, CREATE_TIME, SPARE1, 
+      SPARE2,INFO_CATEGORY_CODE, PAY_SYS_NO)
+    values (#reqId#,#bizTypeNo#, #bizSysNo#,#ip#, #isSync#, 
+    #isHandAdd#, #remark#, 
+    #creater#,sysdate, #spare1#, #spare2#,#infoCategoryCode#, #paySysNo#)
+  </insert>
+</sqlMap>

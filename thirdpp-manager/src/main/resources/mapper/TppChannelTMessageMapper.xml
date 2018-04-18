@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppChannelTMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppChannelTMessage" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="REQ_ID" property="reqId" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="MESSAGE" property="message" jdbcType="VARCHAR" />
+    <result column="PAY_SYS_NO" property="paySysNo" jdbcType="VARCHAR" />
+    <result column="SPARE1" property="spare1" jdbcType="VARCHAR" />
+    <result column="SPARE2" property="spare2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, REQ_ID, MSG_TYPE, CREATE_TIME, MESSAGE, PAY_SYS_NO, SPARE1, SPARE2
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TPP_CHANNEL_T_MESSAGE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TPP_CHANNEL_T_MESSAGE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppChannelTMessage" >
+    insert into TPP_CHANNEL_T_MESSAGE (ID, REQ_ID, MSG_TYPE, 
+      CREATE_TIME, MESSAGE, PAY_SYS_NO, 
+      SPARE1, SPARE2)
+    values (#{id,jdbcType=DECIMAL}, #{reqId,jdbcType=VARCHAR}, #{msgType,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{message,jdbcType=VARCHAR}, #{paySysNo,jdbcType=VARCHAR}, 
+      #{spare1,jdbcType=VARCHAR}, #{spare2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppChannelTMessage" >
+    insert into TPP_CHANNEL_T_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="reqId != null" >
+        REQ_ID,
+      </if>
+      <if test="msgType != null" >
+        MSG_TYPE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="message != null" >
+        MESSAGE,
+      </if>
+      <if test="paySysNo != null" >
+        PAY_SYS_NO,
+      </if>
+      <if test="spare1 != null" >
+        SPARE1,
+      </if>
+      <if test="spare2 != null" >
+        SPARE2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="reqId != null" >
+        #{reqId,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null" >
+        #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="paySysNo != null" >
+        #{paySysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="spare1 != null" >
+        #{spare1,jdbcType=VARCHAR},
+      </if>
+      <if test="spare2 != null" >
+        #{spare2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.manager.models.TppChannelTMessage" >
+    update TPP_CHANNEL_T_MESSAGE
+    <set >
+      <if test="reqId != null" >
+        REQ_ID = #{reqId,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null" >
+        MSG_TYPE = #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="message != null" >
+        MESSAGE = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="paySysNo != null" >
+        PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="spare1 != null" >
+        SPARE1 = #{spare1,jdbcType=VARCHAR},
+      </if>
+      <if test="spare2 != null" >
+        SPARE2 = #{spare2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.manager.models.TppChannelTMessage" >
+    update TPP_CHANNEL_T_MESSAGE
+    set REQ_ID = #{reqId,jdbcType=VARCHAR},
+      MSG_TYPE = #{msgType,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MESSAGE = #{message,jdbcType=VARCHAR},
+      PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+      SPARE1 = #{spare1,jdbcType=VARCHAR},
+      SPARE2 = #{spare2,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <sql id="Channel_message_Column_List">
+  	ID,REQ_ID,MSG_TYPE,CREATE_TIME,MESSAGE,PAY_SYS_NO,SPARE1,SPARE2
+  </sql>
+  <!--用于模糊查询-->
+    <select id="select_tppChannelTMessageList"  resultType="java.util.HashMap">
+     SELECT * FROM (
+		SELECT X.*,ROWNUM RN,(select DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=X.pay_sys_no) pay_sys_name FROM (
+		 select * from (
+         SELECT  <include refid="Channel_message_Column_List"/> 
+		  FROM TPP_CHANNEL_T_MESSAGE union all select <include refid="Channel_message_Column_List"/> 
+		  FROM TPP_CHANNEL_T_MESSAGE_HIS)
+		  WHERE 1=1 
+		  	<if test="SEARCH_REQ_ID != null and SEARCH_REQ_ID != ''">
+		  		and REQ_ID =#{SEARCH_REQ_ID}
+		  	</if>
+		    <if test="orderStr != null">
+		  	 	 ${orderStr} 
+		  	</if>
+		<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+    </select>
+    
+    <!--用于查询总数-->
+    <select id="select_tppChannelTMessageList_count" resultType="int">
+			SELECT  count(ID) from 
+			(select <include refid="Channel_message_Column_List"/> 
+		     FROM TPP_CHANNEL_T_MESSAGE union all select <include refid="Channel_message_Column_List"/> 
+		  	 FROM TPP_CHANNEL_T_MESSAGE_HIS)
+			WHERE 1=1    
+			<if test="SEARCH_REQ_ID != null and SEARCH_REQ_ID != ''">
+		  		and REQ_ID =#{SEARCH_REQ_ID}
+		  	</if>
+	 </select>
+	 
+	 
+	 <select id="select_tppChannelTMessageByReqId"  resultType="java.util.HashMap">
+		 select * from (
+         SELECT  <include refid="Channel_message_Column_List"/> 
+		  FROM TPP_CHANNEL_T_MESSAGE union all select <include refid="Channel_message_Column_List"/> 
+		  FROM TPP_CHANNEL_T_MESSAGE_HIS)
+		  WHERE 1=1 
+		  	<if test="SEARCH_REQ_ID != null and SEARCH_REQ_ID != ''">
+		  		and REQ_ID =#{SEARCH_REQ_ID}
+		  	</if>
+    </select>
+</mapper>

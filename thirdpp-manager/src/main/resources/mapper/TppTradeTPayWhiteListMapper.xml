@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppTradeTPayWhiteListMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppTradeTPayWhiteList" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="INFO_CATEGORY_CODE" property="infoCategoryCode" jdbcType="VARCHAR"/>
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="CREATER" property="creater" jdbcType = "VARCHAR"/>
+    <result column="BANK_CARD_NO" property="bankCardNo" jdbcType="VARCHAR"/>
+    <result column="ACCOUNT_NO" property="accountNo" jdbcType="VARCHAR"/>
+    <result column="STATUS" property="status" jdbcType="DECIMAL"/>
+    <result column="NOTE" property="note" jdbcType="VARCHAR"/>
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppTradeTPayWhiteList" >
+  	<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+		select SEQ_TPP_WHITELIST.nextval from dual
+	</selectKey>
+    insert into TPP_WHITELIST (ID, INFO_CATEGORY_CODE, CREATE_TIME, 
+      CREATER, BANK_CARD_NO, ACCOUNT_NO, 
+      STATUS, NOTE, 
+      UPDATE_TIME, BIZ_SYS_NO)
+    values (#{id,jdbcType=DECIMAL}, #{infoCategoryCode,jdbcType=VARCHAR}, SYSDATE, 
+      #{creater,jdbcType=VARCHAR}, #{bankCardNo,jdbcType=VARCHAR}, #{accountNo,jdbcType=VARCHAR}, 
+      #{status,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR},SYSDATE, 
+      #{bizSysNo,jdbcType=VARCHAR})
+  </insert>
+  
+  <!--用于模糊查询-->
+  <select id="getWhiteList" resultType="java.util.HashMap">
+      SELECT * FROM (
+		SELECT X.*,ROWNUM RN, (select app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME,
+		(select INFO_CATEGORY_NAME from TPP_SYS_T_INFO_CATEGORY t where t.INFO_CATEGORY_CODE=x.INFO_CATEGORY_CODE) INFO_CATEGORY_NAME FROM (
+          SELECT  * 
+		  FROM TPP_WHITELIST
+		  WHERE 1=1 
+		   <if test="SEARCH_ID != null and SEARCH_ID != ''">
+		    	and id = #{SEARCH_ID}
+		    </if>
+		  	<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+		    	and CREATE_TIME >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+		    </if>
+		    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+		    	and CREATE_TIME <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+		    </if>
+		    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+		    </if>
+		    <if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+		    	and STATUS = #{SEARCH_STATUS}
+		    </if>
+		    <if test="SEARCH_INFO_CATEGORY != null and SEARCH_INFO_CATEGORY != ''">
+		    	and INFO_CATEGORY_CODE = #{SEARCH_INFO_CATEGORY}
+		    </if>
+		    <if test="SEARCH_BANK_CARD_NO != null and SEARCH_BANK_CARD_NO != ''">
+		    	and BANK_CARD_NO like '%${SEARCH_BANK_CARD_NO}%'
+		    </if>
+		    <if test="SEARCH_ACCOUNT_NO != null and SEARCH_ACCOUNT_NO != ''">
+		    	and ACCOUNT_NO like '%${SEARCH_ACCOUNT_NO}%'
+		    </if>
+		    
+		  	<if test="orderStr != null">
+		  	 	 ${orderStr}, CREATE_TIME DESC nulls last
+		  	</if>
+		  	<if test="orderStr == null">
+			  	ORDER BY CREATE_TIME DESC nulls last
+		  	</if>
+		  <![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin} 
+		  ]]>
+     </select>
+     
+     <select id="detailWhiteList" resultType="java.util.HashMap">
+      	SELECT * FROM TPP_WHITELIST WHERE id = #{SEARCH_ID}
+     </select>
+     
+     <delete id="delete" parameterType="java.util.List">  
+    	delete from TPP_WHITELIST where ID in  
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+       	 #{item}   
+    	</foreach>  
+	 </delete>
+	
+       <!--用于查询总数-->
+     <select id="getPayWhiteListCount"  resultType="int">
+			SELECT  count(ID)
+		    FROM TPP_WHITELIST
+			WHERE 1=1  	
+			<if test="SEARCH_ID != null and SEARCH_ID != ''">
+		    	and id = #{SEARCH_ID}
+		    </if>
+		  	<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+		    	and CREATE_TIME >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+		    </if>
+		    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+		    	and CREATE_TIME <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+		    </if>
+		    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+		    </if>
+		    <if test="SEARCH_INFO_CATEGORY_CODE != null and SEARCH_INFO_CATEGORY_CODE != ''">
+		    	and INFO_CATEGORY_CODE = #{SEARCH_INFO_CATEGORY_CODE}
+		    </if>
+		    <if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+		    	and STATUS = #{SEARCH_STATUS}
+		    </if>
+		    <if test="SEARCH_INFO_CATEGORY != null and SEARCH_INFO_CATEGORY != ''">
+		    	and INFO_CATEGORY_CODE = #{SEARCH_INFO_CATEGORY}
+		    </if>
+		    <if test="SEARCH_BANK_CARD_NO != null and SEARCH_BANK_CARD_NO != ''">
+		    	and BANK_CARD_NO like '%${SEARCH_BANK_CARD_NO}%'
+		    </if>
+		    <if test="SEARCH_ACCOUNT_NO != null and SEARCH_ACCOUNT_NO != ''">
+		    	and ACCOUNT_NO like '%${SEARCH_ACCOUNT_NO}%'
+		    </if>
+	 </select>
+     
+     <update id="update" parameterType="com.zdmoney.manager.models.TppTradeTPayWhiteList">
+     	update TPP_WHITELIST 
+     	<set>
+			UPDATE_TIME = SYSDATE 
+			<if test="accountNo != null">
+			    ,ACCOUNT_NO = #{accountNo,jdbcType=VARCHAR} 
+			</if>
+			<if test="infoCategoryCode != null">
+			    ,INFO_CATEGORY_CODE = #{infoCategoryCode,jdbcType=VARCHAR} 
+			</if>
+			<if test="bankCardNo != null">
+			    ,BANK_CARD_NO = #{bankCardNo,jdbcType=VARCHAR} 
+			</if>
+			<if test="bizSysNo != null">
+			    ,BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR} 
+			</if>
+			<if test="note != null">
+			    ,NOTE = #{note,jdbcType=VARCHAR} 
+			</if>
+			<if test="status != null">
+			    ,STATUS = #{status,jdbcType=DECIMAL} 
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+     </update>
+</mapper>

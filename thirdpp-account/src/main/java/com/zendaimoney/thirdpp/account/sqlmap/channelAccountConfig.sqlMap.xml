@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace = "com.zendaimoney.thirdpp.account.entity.ChannelAccountConfig">
+	<typeAlias alias = "ChannelAccountConfig" type = "com.zendaimoney.thirdpp.account.entity.ChannelAccountConfig"/>
+	<resultMap id = "ChannelAccountConfigMap" class = "ChannelAccountConfig">
+		<result column = "ID" property = "id" jdbcType = "java.lang.Long"/>
+		<result column = "APP_NAME" property = "appName" jdbcType = "java.lang.String"/>
+		<result column = "CHANNEL_NAME" property = "channelName" jdbcType = "java.lang.String"/>
+		<result column = "THIRD_TYPE_NO" property = "thirdTypeNo" jdbcType = "java.lang.String"/>
+		<result column = "BIZ_TYPE" property = "bizType" jdbcType = "java.lang.String"/>
+		<result column = "MERCHANT_NO" property = "merchantNo" jdbcType = "java.lang.String"/>
+		<result column = "FETCH_METHOD" property = "fetchMethod" jdbcType = "java.lang.String"/>
+		
+		<result column = "FETCH_TYPE" property = "fetchType" jdbcType = "java.lang.Integer"/>
+		<result column = "DOWNLOAD_URL" property = "downloadUrl" jdbcType = "java.lang.String"/>
+		<result column = "SERVER" property = "server" jdbcType = "java.lang.String"/>
+		<result column = "PORT" property = "port" jdbcType = "java.lang.Integer"/>
+		<result column = "LOGIN_USERNAME" property = "loginUsername" jdbcType = "java.lang.String"/>
+		<result column = "LOGIN_PWD" property = "loginPwd" jdbcType = "java.lang.String"/>
+		<result column = "FILE_PATH" property = "filePath" jdbcType = "java.lang.String"/>
+		<result column = "FILE_PATH_SUB" property = "filePathSub" jdbcType = "java.lang.String"/>
+		
+		<result column = "FILE_ENCODING" property = "fileEncoding" jdbcType = "java.lang.String"/>
+		<result column = "FILE_NAME_FORMAT" property = "fileNameFormat" jdbcType = "java.lang.String"/>
+		<result column = "FILE_SUFFIX" property = "fileSuffix" jdbcType = "java.lang.String"/>
+		
+		<result column = "FILE_START_INDEX" property = "fileStartIndex" jdbcType = "java.lang.Integer"/>
+		<result column = "FILE_HEADER_ATTRS_INDEX" property = "fileHeaderAttrsIndex" jdbcType = "java.lang.String"/>
+		<result column = "ACCOUNT_TIME" property = "accountTime" jdbcType = "java.lang.String"/>
+		<result column = "ATTR_SPLIT" property = "attrSplit" jdbcType = "java.lang.String"/>
+		
+		<result column = "ATTRS_DEFINITION" property = "attrsDefinition" jdbcType = "java.lang.String"/>
+		
+		<result column = "CURRENCY" property = "currency" jdbcType = "java.lang.String"/>
+		<result column = "CURRENCY_UNIT" property = "currencyUnit" jdbcType = "java.lang.String"/>
+		<result column = "MAX_DOWNLOAD_FAILED_TIMES" property = "maxDownloadFailedTimes" jdbcType = "java.lang.Integer"/>
+		<result column = "MAX_INSERT_FAILED_TIMES" property = "maxInsertFailedTimes" jdbcType = "java.lang.Integer"/>
+		<result column = "MAX_ACCOUNT_FAILED_TIMES" property = "maxAccountFailedTimes" jdbcType = "java.lang.Integer"/>
+		<result column = "MAX_BACKUP_FAILED_TIMES" property = "maxBackupFailedTimes" jdbcType = "java.lang.Integer"/>
+		<result column = "STATUS" property = "status" jdbcType = "java.lang.Integer"/>
+		<result column = "CREATE_TIME" property = "createTime" jdbcType = "java.util.Date"/>
+	</resultMap>
+	
+	<select id = "queryAvailableChannelAccountConfig" resultMap = "ChannelAccountConfigMap" parameterClass = "java.util.Map">
+		select * 
+		from TPP_ACCOUNT_CHANNEL_CONFIG 
+		where STATUS = 1 
+		and APP_NAME = #appName# 
+	</select>
+	
+	<select id = "queryChannelAccountConfigByBizType" resultMap = "ChannelAccountConfigMap" parameterClass = "java.util.Map">
+		select * 
+		from TPP_ACCOUNT_CHANNEL_CONFIG 
+		where STATUS = 1 
+		and BIZ_TYPE like '%' || #bizType# || '%' 
+	</select>
+	
+	<select id = "queryChannelAccountConfigByConfigId" resultMap = "ChannelAccountConfigMap" parameterClass = "java.util.Map">
+		select * 
+		from TPP_ACCOUNT_CHANNEL_CONFIG 
+		where ID = #configId# 
+	</select>
+</sqlMap>

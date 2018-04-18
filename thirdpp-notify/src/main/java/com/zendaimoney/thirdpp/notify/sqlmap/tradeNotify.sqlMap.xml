@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.notify.entity.TradeNotify">
+	<typeAlias alias="TradeNotify"
+		type="com.zendaimoney.thirdpp.notify.entity.TradeNotify" />
+	<resultMap id="TradeNotifyMap" class="TradeNotify">
+		<result column="ID" property="id" jdbcType="java.lang.Long" />
+		<result column="BIZ_FLOW" property="bizFlow" jdbcType="java.lang.String"
+			nullValue="" />
+		<result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="java.lang.String"
+			nullValue="" />
+		<result column="BIZ_TYPE" property="bizType"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="CREATE_TIME" property="createTime"
+			jdbcType="java.util.Date" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="java.util.Date" />
+		<result column="NOTIFY_STATUS" property="notifyStatus"
+			jdbcType="java.lang.Long" nullValue="" />
+		<result column="TRADE_STATUS" property="tradeStatus"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="TRADE_RESULT_INFO" property="tradeResultInfo" jdbcType="java.lang.String"
+			nullValue="" />
+		<result column="TASK_ID" property="taskId"
+			jdbcType="java.lang.Long" nullValue="" />
+		<result column="TRADE_FLOW" property="tradeFlow"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="TRADE_SUCCESS_AMOUNT" property="tradeSuccessAmount"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="APP_NAME" property="appName"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="NOTIFY_COUNT" property="notifyCount"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="FAIL_REASON" property="failReason"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="PRIORITY" property="priority"
+			jdbcType="java.lang.Long" nullValue="" />
+		<result column="OP_MODE" property="opMode"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="NOTIFY_URL" property="notifyUrl"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="PAY_SYS_NO" property="paySysNo"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="MER_ID" property="merId"
+			jdbcType="java.lang.String" nullValue="" />
+	</resultMap>
+	
+	<insert id="insert" parameterClass="TradeNotify">
+		insert into TPP_TRADE_T_NOTIFY (ID, BIZ_FLOW, BIZ_SYS_NO, 
+	      BIZ_TYPE, CREATE_TIME,  
+	      NOTIFY_STATUS, TRADE_STATUS, TRADE_RESULT_INFO, 
+	      TASK_ID, TRADE_FLOW, TRADE_SUCCESS_AMOUNT , APP_NAME , NOTIFY_COUNT，
+	      FAIL_REASON,PRIORITY,OP_MODE, NOTIFY_URL,PAY_SYS_NO,MER_ID)
+	    values (SEQ_TPP_TRADE_T_NOTIFY.Nextval, #bizFlow#,#bizSysNo#,
+	    	#bizType#,sysdate, #notifyStatus#, #tradeStatus#, 
+	        #tradeResultInfo#, #taskId#, #tradeFlow#, 
+	        #tradeSuccessAmount# , #appName# , #notifyCount#,#failReason#,#priority#,#opMode#, #notifyUrl#,#paySysNo#,#merId#)
+	</insert>
+	
+	<select id="selectByAppName" parameterClass="java.util.Map" resultMap="TradeNotifyMap">
+		select *
+  		from (select *
+          		from tpp_trade_t_notify
+         		where app_name = #appName#
+           		and notify_status = 1
+           		<isNotEmpty prepend=" and " property="opMode">
+	           		op_mode = #opMode#
+           		</isNotEmpty>
+	 			<![CDATA[ and notify_count < #notifyCount#]]>
+           		order by PRIORITY desc,create_time asc)
+        <![CDATA[ 
+ 		where rownum <= #rowNum#
+ 		]]>
+	</select>
+	
+	<update id="update" parameterClass="TradeNotify">		
+		update tpp_trade_t_notify
+   		set update_time   = sysdate,
+   			notify_count  = notify_count + 1 
+	   		<isNotEmpty prepend="," property="notifyStatus">
+				notify_status = #notifyStatus#
+			</isNotEmpty>       		 		
+ 		where id = #id#
+   			and notify_status = 1
+	</update>
+</sqlMap>

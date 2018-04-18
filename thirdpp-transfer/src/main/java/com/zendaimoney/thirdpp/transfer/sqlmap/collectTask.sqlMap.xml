@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.transfer.entity.collect.CollectTask">
+	<typeAlias alias="CollectTask" type="com.zendaimoney.thirdpp.transfer.entity.collect.CollectTask" />
+    <resultMap id="CollectTaskMap" class="CollectTask">
+	    <result column="ID" property="id" jdbcType="java.lang.Long" />
+	    <result column="REQ_ID" property="reqId" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAY_SYS_NO" property="paySysNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="BIZ_SYS_ACCOUNT_NO" property="bizSysAccountNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="ZENGDAI_ACCOUNT_NO" property="zengdaiAccountNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="java.lang.String" nullValue=""/>
+	    <result column="RECEIVER_ACCOUNT_NO" property="receiverAccountNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="REVEIVER_ACCOUNT_NAME" property="reveiverAccountName" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_NAME" property="payerName" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_ACCOUNT_NO" property="payerAccountNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_BANK_CARD_NO" property="payerBankCardNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_BANK_CARD_TYPE" property="payerBankCardType" jdbcType="java.lang.String" nullValue=""/>
+	    <result column="PAYER_ID_TYPE" property="payerIdType" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_ID" property="payerId" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_BANK_CODE" property="payerBankCode" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_SUB_BANK_CODE" property="payerSubBankCode" jdbcType="java.lang.String" nullValue="" />
+	    <result column="CURRENCY" property="currency" jdbcType="java.lang.String" nullValue="" />
+	    <result column="AMOUNT" property="amount" jdbcType="java.math.BigDecimal" />
+	    <result column="FEE" property="fee" jdbcType="java.math.BigDecimal" />
+	    <result column="BIZ_REMARK" property="bizRemark" jdbcType="java.lang.String" nullValue=""  />
+	    <result column="BIZ_FLOW" property="bizFlow" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PRIORITY" property="priority" jdbcType="java.lang.Integer" />
+	    <result column="STATUS" property="status" jdbcType="java.lang.Integer" />
+	    <result column="REMARK" property="remark" jdbcType="java.lang.String" nullValue="" />
+	    <result column="CREATER" property="creater" jdbcType="java.lang.String" nullValue="" />
+	    <result column="CREATE_TIME" property="createTime" jdbcType="java.lang.String" nullValue="" />
+	    <result column="UPDATE_TIME" property="updateTime" jdbcType="java.lang.String" nullValue="" />
+	    <result column="SEND_THREAD_NAME" property="sendThreadName" jdbcType="java.lang.String" nullValue="" />
+	    <result column="SEND_NUM" property="sendNum" jdbcType="java.lang.Integer" nullValue="" />
+	    <result column="IS_SEPARATE" property="isSeparate" jdbcType="java.lang.Integer" />
+	    <result column="SEPARATE_COUNT" property="separateCount" jdbcType="java.lang.Integer" />
+	    <result column="BIZ_TYPE" property="bizTypeNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="SPARE1" property="spare1" jdbcType="java.lang.String" nullValue="" />
+	    <result column="SPARE2" property="spare2" jdbcType="java.lang.String" nullValue=""/>
+	    <result column="IS_NEED_PUSH" property="isNeedPush" jdbcType="java.lang.Integer" />
+	    <result column="INFO_CATEGORY_CODE" property="infoCategoryCode" jdbcType="java.lang.String" nullValue=""/>
+	     <result column="IS_NEED_SPILT" property="isNeedSpilt" jdbcType="java.lang.Integer" />
+	     <result column="PAYER_MOBILE" property="payerMobile" jdbcType="java.lang.String" nullValue="" />
+  </resultMap>
+  <insert id="insert" parameterClass="CollectTask" >
+    insert into TPP_TRADE_T_COLLECT_TASK (ID, REQ_ID, PAY_SYS_NO, 
+      BIZ_SYS_ACCOUNT_NO, ZENGDAI_ACCOUNT_NO, BIZ_SYS_NO, 
+      RECEIVER_ACCOUNT_NO, REVEIVER_ACCOUNT_NAME, 
+      PAYER_NAME, PAYER_BANK_CARD_NO, PAYER_BANK_CARD_TYPE, 
+      PAYER_ID_TYPE, PAYER_ID, PAYER_BANK_CODE, 
+      PAYER_SUB_BANK_CODE, CURRENCY, AMOUNT, 
+      FEE, BIZ_REMARK, BIZ_FLOW, 
+      PRIORITY, STATUS, REMARK, 
+      CREATER, CREATE_TIME, 
+      SEND_THREAD_NAME, IS_SEPARATE, SEPARATE_COUNT, 
+      SPARE1, SPARE2,BIZ_TYPE,INFO_CATEGORY_CODE,IS_NEED_SPILT,PAYER_MOBILE)
+    values (SEQ_TPP_TRADE_TASK.Nextval, #reqId#, #paySysNo#, 
+      #bizSysAccountNo#, #zengdaiAccountNo#, #bizSysNo#, 
+      #receiverAccountNo#, #reveiverAccountName#, 
+      #payerName#, #payerBankCardNo#, #payerBankCardType#, 
+      #payerIdType#, #payerId#, #payerBankCode#, 
+      #payerSubBankCode#, #currency#, #amount#, 
+      #fee#, #bizRemark#, #bizFlow#, 
+      #priority#, #status#, #remark#, 
+      #creater#, sysdate, 
+      #sendThreadName#, #isSeparate#, #separateCount#, 
+      #spare1#, #spare2#,#bizTypeNo#,#infoCategoryCode#,#isNeedSpilt#,#payerMobile#)
+  </insert>
+  <insert id="update" parameterClass="CollectTask">
+		update TPP_TRADE_T_COLLECT_TASK set
+		UPDATE_TIME = sysdate
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="isSeparate">
+			IS_SEPARATE=#isSeparate#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="separateCount">
+			SEPARATE_COUNT=#separateCount#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="sendThreadName">
+			SEND_THREAD_NAME=#sendThreadName#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="sendNum">
+			SEND_NUM=SEND_NUM+1
+		</isNotEmpty>
+		where ID=#id#
+		<isNotEmpty prepend="and" property="oldStatus">
+			STATUS=#oldStatus#
+		</isNotEmpty>
+  </insert>
+  <select id="queryWaitingSendTask" parameterClass="java.util.HashMap" resultMap="CollectTaskMap">
+		select * from ( select * from TPP_TRADE_T_COLLECT_TASK t where t.PAY_SYS_NO=#paySysNo# 
+		and ((STATUS = '1' and t.SEND_THREAD_NAME=#sendThreadName#) or STATUS = '0' ) 
+		and BIZ_TYPE=#bizTypeNo#
+		and SEND_NUM &lt;= #maxSendNum#
+		 order by PRIORITY desc
+		 ) where rownum=1
+  </select>
+</sqlMap>

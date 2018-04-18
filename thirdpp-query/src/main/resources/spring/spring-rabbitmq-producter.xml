@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/rabbit
+                http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
+	<!-- 连接服务配置 -->
+	<rabbit:connection-factory id="connectionFactory"
+		host="${rabbitmq.host}" username="${rabbitmq.username}" password="${rabbitmq.password}" 
+		port="${rabbitmq.port}" virtual-host="${rabbitmq.virtualhost}"/>
+		
+
+	<rabbit:admin connection-factory="connectionFactory" />
+
+	<!-- queue 队列声明 -->
+	<!-- durable=true,交换机持久化,rabbitmq服务重启交换机依然存在,保证不丢失; durable=false,相反 -->
+	<!-- auto-delete=true:无消费者时，队列自动删除; auto-delete=false：无消费者时，队列不会自动删除 -->
+	<!-- 排他性，exclusive=true:首次申明的connection连接下可见; exclusive=false：所有connection连接下都可见 -->
+	<rabbit:queue id="q_tpp_merge_online" durable="true" auto-delete="false" exclusive="false" name="${rabbitmq.onlineMergeQueue}" />
+	<rabbit:queue id="q_tpp_merge_offline" durable="true" auto-delete="false" exclusive="false" name="${rabbitmq.offlineMergeQueue}" />
+
+	<!-- exchange queue binging key 绑定 -->
+	<!-- durable=true,交换机持久化,rabbitmq服务重启交换机依然存在,保证不丢失; durable=false,相反 -->
+	<!-- auto-delete=true:无消费者时，队列自动删除; auto-delete=false：无消费者时，队列不会自动删除 -->
+	<rabbit:direct-exchange name="${rabbitmq.exchangeName}" durable="true" auto-delete="false" id="${rabbitmq.exchangeName}">
+	    <rabbit:bindings>
+   	        <rabbit:binding queue="${rabbitmq.onlineMergeQueue}" key="r_tpp_online" />
+   	        <rabbit:binding queue="${rabbitmq.offlineMergeQueue}" key="r_tpp_offline" />
+	    </rabbit:bindings>
+	</rabbit:direct-exchange>
+	
+	
+	<rabbit:template id="amqpTemplate" exchange="${rabbitmq.exchangeName}"  connection-factory="connectionFactory" />
+
+</beans>

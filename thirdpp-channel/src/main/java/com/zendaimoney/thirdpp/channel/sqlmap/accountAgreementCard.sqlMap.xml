@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.channel.entity.AccountAgreementCard">
+
+    <typeAlias alias="accountAgreementCard" type="com.zendaimoney.thirdpp.channel.entity.AccountAgreementCard" />
+
+    <resultMap id="accountAgreementCardMap" class="accountAgreementCard">
+        <result column="id" property="id" jdbcType="java.lang.Long" />
+        <result column="account_id" property="accountId" jdbcType="java.lang.Long" />
+        <result column="third_type" property="thirdType" jdbcType="java.lang.String" nullValue="" />
+        <result column="bank_code" property="bankCode" jdbcType="java.lang.String" nullValue="" />
+        <result column="bank_name" property="bankName" jdbcType="java.lang.String" nullValue="" />
+        <result column="account_type" property="accountType" jdbcType="java.lang.String" nullValue=""/>
+        <result column="account_no" property="accountNo" jdbcType="java.lang.String" nullValue="" />
+        <result column="account_name" property="accountName" jdbcType="java.lang.String" nullValue="" />
+        <result column="account_prop" property="accountProp" jdbcType="java.lang.String" nullValue="" />
+        <result column="tel" property="tel" jdbcType="java.lang.String" nullValue=""/>
+        <result column="cvv2" property="cvv2" jdbcType="java.lang.String" nullValue="" />
+        <result column="validate_date" property="validDate" jdbcType="java.lang.String" nullValue="" />
+        <result column="merrem" property="merrem" jdbcType="java.lang.String" nullValue="" />
+        <result column="remark" property="remark" jdbcType="java.lang.String" nullValue="" />
+        <result column="agrm_no" property="agrmNo" jdbcType="java.lang.String" nullValue="" />
+        <result column="status" property="status" jdbcType="java.lang.String" />
+        <result column="create_time" property="createTime" jdbcType="java.util.Date" />
+        <result column="update_time" property="updateTime" jdbcType="java.util.Date" nullValue="" />
+    </resultMap>
+
+    <insert id="insert" parameterClass="accountAgreementCard">
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT SEQ_TPP_ACCOUNT_AGREEMENT_CARD.NEXTVAL FROM DUAL
+        </selectKey>
+        insert into TPP_ACCOUNT_AGREEMENT_CARD (
+            id,
+            third_type,
+            bank_code,
+            bank_name,
+            account_type,
+            account_no,
+            account_name,
+            account_prop,
+            tel,
+            cvv2,
+            validate_date,
+            merrem,
+            remark,
+            agrm_no,
+            account_id,
+            create_time,
+            update_time,
+            status
+        ) values (
+            #id#,
+            #thirdType#,
+            #bankCode#,
+            #bankName#,
+            #accountType#,
+            #accountNo#,
+            #accountName#,
+            #accountProp#,
+            #tel#,
+            #cvv2#,
+            #validDate#,
+            #merrem#,
+            #remark#,
+            #agrmNo#,
+            #accountId#,
+            sysdate,
+            sysdate,
+            #status#
+        )
+    </insert>
+
+    <insert id="update" parameterClass="accountAgreementCard">
+        update TPP_ACCOUNT_AGREEMENT_CARD set
+        update_time = sysdate
+        <isNotEmpty prepend="," property="thirdType">
+            third_type=#thirdType#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="bankCode">
+            bank_code=#bankCode#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="bankName">
+            bank_name=#bankName#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="accountType">
+            account_type=#accountType#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="accountNo">
+            account_no=#accountNo#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="accountName">
+            account_name=#accountName#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="accountProp">
+            account_prop=#accountProp#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="tel">
+            tel=#tel#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="cvv2">
+            cvv2=#cvv2#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="validDate">
+            validate_date=#validDate#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="merrem">
+            merrem=#merrem#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="remark">
+            remark=#remark#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="agrmNo">
+            agrm_no=#agrmNo#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="accountId">
+            account_id=#accountId#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="status">
+            status=#status#
+        </isNotEmpty>
+        where id = #id#
+    </insert>
+
+    <select id="queryByThirdTypeAndAccountNo" parameterClass="HashMap" resultMap="accountAgreementCardMap">
+        select * from TPP_ACCOUNT_AGREEMENT_CARD t1
+        where t1.account_id = #accountId#
+        and t1.third_type = #thirdType#
+        and t1.account_no = #accountNo#
+    </select>
+
+</sqlMap>

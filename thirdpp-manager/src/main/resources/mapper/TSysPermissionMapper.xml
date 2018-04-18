@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TSysPermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TSysPermission" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PERM_NAME" property="permName" jdbcType="VARCHAR" />
+    <result column="PERM_URL" property="permUrl" jdbcType="VARCHAR" />
+    <result column="PERM_TYPE" property="permType" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="DECIMAL" />
+    <result column="PARENT_NAME" property="parentName" jdbcType="DECIMAL" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="RESV_FLD1" property="resvFld1" jdbcType="VARCHAR" />
+    <result column="RESV_FLD2" property="resvFld2" jdbcType="VARCHAR" />
+    <result column="RESV_FLD3" property="resvFld3" jdbcType="VARCHAR" />
+    <collection property="children" column="ID" select="getChildrenPermission" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PERM_NAME, PERM_URL, PERM_TYPE, POSITION, PARENT_ID, CREATOR, UPDATOR, CREATE_TIME, 
+    UPDATE_TIME, RESV_FLD1, RESV_FLD2, RESV_FLD3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_PERMISSION
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SYS_PERMISSION
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TSysPermission" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_SYS_PERMISSION.nextval from dual
+    </selectKey>
+    insert into T_SYS_PERMISSION (ID, PERM_NAME, PERM_URL, 
+      PERM_TYPE, POSITION, PARENT_ID, 
+      CREATOR, UPDATOR, CREATE_TIME, 
+      UPDATE_TIME, RESV_FLD1, RESV_FLD2, 
+      RESV_FLD3)
+    values (#{id,jdbcType=DECIMAL}, #{permName,jdbcType=VARCHAR}, #{permUrl,jdbcType=VARCHAR}, 
+      #{permType,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{parentId,jdbcType=DECIMAL}, 
+      #{creator,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}, sysdate, 
+      sysdate, #{resvFld1,jdbcType=VARCHAR}, #{resvFld2,jdbcType=VARCHAR}, 
+      #{resvFld3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TSysPermission" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_SYS_PERMISSION.nextval from dual
+    </selectKey>
+    insert into T_SYS_PERMISSION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="permName != null" >
+        PERM_NAME,
+      </if>
+      <if test="permUrl != null" >
+        PERM_URL,
+      </if>
+      <if test="permType != null" >
+        PERM_TYPE,
+      </if>
+      <if test="position != null" >
+        POSITION,
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="updator != null" >
+        UPDATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="resvFld1 != null" >
+        RESV_FLD1,
+      </if>
+      <if test="resvFld2 != null" >
+        RESV_FLD2,
+      </if>
+      <if test="resvFld3 != null" >
+        RESV_FLD3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="permName != null" >
+        #{permName,jdbcType=VARCHAR},
+      </if>
+      <if test="permUrl != null" >
+        #{permUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="permType != null" >
+        #{permType,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=DECIMAL},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resvFld1 != null" >
+        #{resvFld1,jdbcType=VARCHAR},
+      </if>
+      <if test="resvFld2 != null" >
+        #{resvFld2,jdbcType=VARCHAR},
+      </if>
+      <if test="resvFld3 != null" >
+        #{resvFld3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.manager.models.TSysPermission" >
+    update T_SYS_PERMISSION
+    <set >
+      <if test="permName != null" >
+        PERM_NAME = #{permName,jdbcType=VARCHAR},
+      </if>
+      <if test="permUrl != null" >
+        PERM_URL = #{permUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="permType != null" >
+        PERM_TYPE = #{permType,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        POSITION = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID = #{parentId,jdbcType=DECIMAL},
+      </if>
+      <if test="updator != null" >
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+        UPDATE_TIME = sysdate,
+      <if test="resvFld1 != null" >
+        RESV_FLD1 = #{resvFld1,jdbcType=VARCHAR},
+      </if>
+      <if test="resvFld2 != null" >
+        RESV_FLD2 = #{resvFld2,jdbcType=VARCHAR},
+      </if>
+      <if test="resvFld3 != null" >
+        RESV_FLD3 = #{resvFld3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.manager.models.TSysPermission" >
+    update T_SYS_PERMISSION
+    set PERM_NAME = #{permName,jdbcType=VARCHAR},
+      PERM_URL = #{permUrl,jdbcType=VARCHAR},
+      PERM_TYPE = #{permType,jdbcType=VARCHAR},
+      POSITION = #{position,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=DECIMAL},
+      UPDATOR = #{updator,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate,
+      RESV_FLD1 = #{resvFld1,jdbcType=VARCHAR},
+      RESV_FLD2 = #{resvFld2,jdbcType=VARCHAR},
+      RESV_FLD3 = #{resvFld3,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="getPermissionList" resultMap="BaseResultMap">
+   select 
+   ID, PERM_NAME, PERM_URL, PERM_TYPE, POSITION, PARENT_ID, CREATOR, UPDATOR, CREATE_TIME, 
+    UPDATE_TIME, RESV_FLD1, RESV_FLD2, RESV_FLD3, 
+    (select p.PERM_NAME from T_SYS_PERMISSION p where p.ID = t.PARENT_ID) PARENT_NAME
+    from T_SYS_PERMISSION t where 1=1
+    <if test="permName != null">
+        and t.PERM_NAME like '%'||(#{permName})||'%'
+    </if> 
+    <if test="permUrl != null">
+        and t.PERM_URL like '%'||(#{permUrl})||'%'
+    </if> 
+    <if test="permType != null">
+        and t.PERM_TYPE = #{permType}
+    </if> 
+    <if test="parentId != null">
+        and t.PARENT_ID = #{parentId}
+    </if> 
+    <if test="beginTime != null">
+        and t.CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-MM-dd')  
+    </if> 
+    <if test="endTime != null">
+        and t.CREATE_TIME &lt;= to_date(#{endTime},'yyyy-MM-dd')  
+    </if>    
+    order by t.POSITION,t.ID
+  </select>
+  <!-- 查询除掉本身以外的其他所有权限(用于选择父权限) -->
+  <select id="getOtherPermissionList" resultMap="BaseResultMap">
+   select 
+   <include refid="Base_Column_List" />
+    from T_SYS_PERMISSION where PERM_TYPE=1 and PARENT_ID is null 
+     <if test="id != null">
+        and ID != #{id,jdbcType=DECIMAL} 
+    </if> 
+    order by POSITION
+  </select>
+  <!-- 查询当前角色分配的所有权限 -->
+  <select id="getPermissionByRole" resultMap="BaseResultMap">
+    select 
+    p.ID, p.PERM_NAME, p.PERM_URL, p.PERM_TYPE, p.POSITION, p.PARENT_ID, p.CREATOR, 
+    p.UPDATOR, p.CREATE_TIME,p.UPDATE_TIME, p.RESV_FLD1, p.RESV_FLD2, p.RESV_FLD3
+    from T_SYS_ROLE_PERMISSION rp left join T_SYS_PERMISSION p
+    on rp.PERM_ID = p.ID
+    where 1=1 
+    <if test="roleId != null">
+       and rp.ROLE_ID = #{roleId,jdbcType=DECIMAL}
+    </if> 
+    order by p.POSITION, p.ID
+  </select>
+  <!-- 根据父权限查询子权限列表 -->
+  <select id="getChildrenPermission" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_PERMISSION where PARENT_ID = #{parentId,jdbcType=DECIMAL}
+    order by POSITION,ID
+  </select>
+  <!-- 查询顶级权限(顶级菜单) -->
+  <select id="getTopPermissionList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_PERMISSION where PARENT_ID is null
+    <if test="permType != null">
+        and PERM_TYPE = #{permType} 
+    </if> 
+    order by POSITION
+  </select>
+  
+  <!-- 查询一个权限列表中已分配给角色的数量 -->
+  <select id="getPermUsedCount" parameterType="java.util.List" resultType="int">
+    select count(ID) from T_SYS_ROLE_PERMISSION where PERM_ID in  
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+        #{item}   
+    </foreach>  
+  </select>
+  
+  <!-- 查询一个权限列表中子权限的数量 -->
+  <select id="getSonPermsCount" parameterType="java.util.List" resultType="int">
+    select count(ID) from T_SYS_PERMISSION where PARENT_ID in  
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+        #{item}   
+    </foreach>  
+  </select>
+  
+   <!-- 批量删除 -->
+  <delete id="batchDeletePerm" parameterType="java.util.List">  
+    delete from T_SYS_PERMISSION where ID in  
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+        #{item}   
+    </foreach>  
+</delete>
+<!--用于模糊查询-->
+     <select id="select_tSysPermissionList"  resultType="java.util.HashMap">
+      SELECT * FROM (
+		SELECT X.*,ROWNUM RN,(select USER_NAME from T_sys_user t1 where t1.login_user_name=x.CREATOR) CREATOR_NAME,(select USER_NAME from T_sys_user t2 where t2.login_user_name=x.UPDATOR) UPDATOR_NAME FROM (
+          SELECT  
+		 		ID  <!--主键ID-->
+		  		,PERM_NAME  <!--权限名称-->
+		  		,PERM_URL  <!--权限URL-->
+		  		,PERM_TYPE  <!--权限类型：1 菜单 2 功能-->
+		  		,POSITION  <!--菜单位置-->
+		  		,PARENT_ID  <!--父级权限ID-->
+		  		,CREATOR  <!--创建者-->
+		  		,UPDATOR  <!--更新者-->
+		  		,CREATE_TIME  <!--创建时间-->
+		  		,UPDATE_TIME  <!--更新时间-->
+		  		,RESV_FLD1  <!--备用域1-->
+		  		,RESV_FLD2  <!--备用域2-->
+		  		,RESV_FLD3  <!--备用域3-->
+		  FROM T_SYS_PERMISSION
+		  WHERE 1=1 
+		  <if test="SEARCH_PERM_NAME != null and SEARCH_PERM_NAME != ''">
+		  	and perm_name like '%'||(#{SEARCH_PERM_NAME})||'%'
+		  </if>
+		  <if test="SEARCH_PERM_URL != null and SEARCH_PERM_URL != ''">
+		  	and perm_url like '%'||(#{SEARCH_PERM_URL})||'%'
+		  </if>
+		  <if test="SEARCH_PERM_TYPE != null and SEARCH_PERM_TYPE != ''">
+		  	and perm_type = #{SEARCH_PERM_TYPE}
+		  </if>
+		  <if test="orderStr != null">
+		  	 	 ${orderStr} 
+		  	</if>
+		<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tSysPermissionList_count"  resultType="int">
+			SELECT  count(ID)
+		    FROM T_SYS_PERMISSION
+			WHERE 1=1    
+			  <if test="SEARCH_PERM_NAME != null and SEARCH_PERM_NAME != ''">
+			  	and perm_name like '%'||(#{SEARCH_PERM_NAME})||'%'
+			  </if>
+			  <if test="SEARCH_PERM_URL != null and SEARCH_PERM_URL != ''">
+			  	and perm_url like '%'||(#{SEARCH_PERM_URL})||'%'
+			  </if>
+			  <if test="SEARCH_PERM_TYPE != null and SEARCH_PERM_TYPE != ''">
+			  	and perm_type = #{SEARCH_PERM_TYPE}
+			  </if>
+	 </select>
+
+</mapper>

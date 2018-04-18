@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.transfer.entity.SysQueryInfo">
+	<typeAlias alias="SysQueryInfo" type="com.zendaimoney.thirdpp.transfer.entity.SysQueryInfo" />
+
+	<resultMap id="SysQueryInfoMap" class="SysQueryInfo">
+	<result property="bizTypeNo" column="BIZ_TYPE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="paySysNo" column="PAY_SYS_NO" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="appName" column="APP_NAME" jdbcType="java.lang.String"  nullValue=""/>
+	</resultMap>
+	
+	<select id="querySysQueryInfos"  resultMap="SysQueryInfoMap">
+	    select t.biz_type,t.pay_sys_no,  listagg(app_name, ',') within group( order by t.biz_type,t.pay_sys_no) as app_name  from tpp_sys_t_query_info t where t.is_active='1' group by t.biz_type,t.pay_sys_no
+	</select>
+
+</sqlMap>

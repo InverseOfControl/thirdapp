@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppTradeTNotifyMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppTradeTNotify" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="BIZ_FLOW" property="bizFlow" jdbcType="VARCHAR" />
+    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="NOTIFY_STATUS" property="notifyStatus" jdbcType="DECIMAL" />
+    <result column="TRADE_STATUS" property="tradeStatus" jdbcType="VARCHAR" />
+    <result column="TRADE_RESULT_INFO" property="tradeResultInfo" jdbcType="VARCHAR" />
+    <result column="TASK_ID" property="taskId" jdbcType="DECIMAL" />
+    <result column="TRADE_FLOW" property="tradeFlow" jdbcType="VARCHAR" />
+    <result column="TRADE_SUCCESS_AMOUNT" property="tradeSuccessAmount" jdbcType="DECIMAL" />
+    <result column="APP_NAME" property="appName" jdbcType="VARCHAR" />
+    <result column="NOTIFY_COUNT" property="notifyCount" jdbcType="DECIMAL" />
+    <result column="FAIL_REASON" property="failReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppTradeTNotify" >
+    insert into TPP_TRADE_T_NOTIFY (ID, BIZ_FLOW, BIZ_SYS_NO, 
+      BIZ_TYPE, CREATE_TIME, UPDATE_TIME, 
+      NOTIFY_STATUS, TRADE_STATUS, TRADE_RESULT_INFO, 
+      TASK_ID, TRADE_FLOW, TRADE_SUCCESS_AMOUNT, 
+      APP_NAME, NOTIFY_COUNT, FAIL_REASON
+      )
+    values (#{id,jdbcType=DECIMAL}, #{bizFlow,jdbcType=VARCHAR}, #{bizSysNo,jdbcType=VARCHAR}, 
+      #{bizType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{notifyStatus,jdbcType=DECIMAL}, #{tradeStatus,jdbcType=VARCHAR}, #{tradeResultInfo,jdbcType=VARCHAR}, 
+      #{taskId,jdbcType=DECIMAL}, #{tradeFlow,jdbcType=VARCHAR}, #{tradeSuccessAmount,jdbcType=DECIMAL}, 
+      #{appName,jdbcType=VARCHAR}, #{notifyCount,jdbcType=DECIMAL}, #{failReason,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppTradeTNotify" >
+    insert into TPP_TRADE_T_NOTIFY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="bizFlow != null" >
+        BIZ_FLOW,
+      </if>
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO,
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="notifyStatus != null" >
+        NOTIFY_STATUS,
+      </if>
+      <if test="tradeStatus != null" >
+        TRADE_STATUS,
+      </if>
+      <if test="tradeResultInfo != null" >
+        TRADE_RESULT_INFO,
+      </if>
+      <if test="taskId != null" >
+        TASK_ID,
+      </if>
+      <if test="tradeFlow != null" >
+        TRADE_FLOW,
+      </if>
+      <if test="tradeSuccessAmount != null" >
+        TRADE_SUCCESS_AMOUNT,
+      </if>
+      <if test="appName != null" >
+        APP_NAME,
+      </if>
+      <if test="notifyCount != null" >
+        NOTIFY_COUNT,
+      </if>
+      <if test="failReason != null" >
+        FAIL_REASON,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="bizFlow != null" >
+        #{bizFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="bizSysNo != null" >
+        #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notifyStatus != null" >
+        #{notifyStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeStatus != null" >
+        #{tradeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeResultInfo != null" >
+        #{tradeResultInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeFlow != null" >
+        #{tradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeSuccessAmount != null" >
+        #{tradeSuccessAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyCount != null" >
+        #{notifyCount,jdbcType=DECIMAL},
+      </if>
+      <if test="failReason != null" >
+        #{failReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="getNotifyList" resultMap="BaseResultMap">
+  	select * from TPP_TRADE_T_NOTIFY
+  </select>
+  
+  <sql id="Notify_Column_List">
+  	ID,BIZ_FLOW,BIZ_SYS_NO,BIZ_TYPE,CREATE_TIME,UPDATE_TIME,NOTIFY_STATUS,TRADE_STATUS,TRADE_RESULT_INFO,TASK_ID,TRADE_FLOW,TRADE_SUCCESS_AMOUNT,APP_NAME,NOTIFY_COUNT,FAIL_REASON,PRIORITY,OP_MODE,NOTIFY_URL,PAY_SYS_NO
+  </sql>
+
+  <!--用于模糊查询-->
+     <select id="select_tppTradeTNotifyList"  resultType="java.util.HashMap">
+      SELECT * FROM (
+		SELECT X.*,ROWNUM RN , (select tpp_sys_app.app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME,
+		(select DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=X.pay_sys_no) pay_sys_name FROM (
+          select * from (SELECT  <include refid="Notify_Column_List"/>  
+		  FROM TPP_TRADE_T_NOTIFY union all SELECT  <include refid="Notify_Column_List"/>  
+		  FROM TPP_TRADE_T_NOTIFY_HIS)
+		  WHERE 1=1 
+		  	<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+		    	and create_time >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+		    </if>
+		    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+		    	and create_time <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+		    </if>
+		  	<if test="SEARCH_BIZ_FLOW != null and SEARCH_BIZ_FLOW != ''">
+		  		and biz_flow = #{SEARCH_BIZ_FLOW}
+		  	</if>
+		  	<if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		  		and biz_sys_no = #{SEARCH_BIZ_SYS_NO}
+		  	</if>
+		  	<if test="SEARCH_TRADE_FLOW != null and SEARCH_TRADE_FLOW != ''">
+		  		and trade_flow =#{SEARCH_TRADE_FLOW}
+		  	</if>
+		  	<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+		  		and biz_type = #{SEARCH_BIZ_TYPE}
+		  	</if>
+		  	<if test="SEARCH_NOTIFY_STATUS != null and SEARCH_NOTIFY_STATUS != ''">
+		  		and notify_status =#{SEARCH_NOTIFY_STATUS}
+		  	</if>
+		  	<if test="taskId != null and taskId != ''">
+		  		and task_id = #{taskId}
+		  	</if>
+		  	<if test="SEARCH_OP_MODE != null and SEARCH_OP_MODE != ''">
+		  		and op_mode =#{SEARCH_OP_MODE}
+		  	</if>
+		  	<if test="APPIDS != null and APPIDS != ''">
+		    	and biz_sys_no in 
+		    	<foreach item="item" index="index" collection="APPIDS" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+		    </if>
+		  	<if test="orderStr != null">
+		  	 	 ${orderStr} 
+		  	</if>
+		<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppTradeTNotifyList_count"  resultType="int">
+			SELECT  count(ID)
+		    FROM (select <include refid="Notify_Column_List"/> from TPP_TRADE_T_NOTIFY union all select <include refid="Notify_Column_List"/> from TPP_TRADE_T_NOTIFY_HIS)
+			WHERE 1=1 
+			<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+		    	and create_time >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+		    </if>
+		    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+		    	and create_time <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+		    </if>
+		  	<if test="SEARCH_BIZ_FLOW != null and SEARCH_BIZ_FLOW != ''">
+		  		and biz_flow = #{SEARCH_BIZ_FLOW}
+		  	</if>
+		  	<if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		  		and biz_sys_no = #{SEARCH_BIZ_SYS_NO}
+		  	</if>
+		  	<if test="SEARCH_TRADE_FLOW != null and SEARCH_TRADE_FLOW != ''">
+		  		and trade_flow =#{SEARCH_TRADE_FLOW}
+		  	</if>
+		  	<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+		  		and biz_type = #{SEARCH_BIZ_TYPE}
+		  	</if>
+		  	<if test="SEARCH_NOTIFY_STATUS != null and SEARCH_NOTIFY_STATUS != ''">
+		  		and notify_status =#{SEARCH_NOTIFY_STATUS}
+		  	</if>
+		  	<if test="taskId != null and taskId != ''">
+		  		and task_id = #{taskId}
+		  	</if>
+		  	<if test="SEARCH_OP_MODE != null and SEARCH_OP_MODE != ''">
+		  		and op_mode =#{SEARCH_OP_MODE}
+		  	</if>
+		  	<if test="APPIDS != null and APPIDS != ''">
+		    	and biz_sys_no in 
+		    	<foreach item="item" index="index" collection="APPIDS" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+		    </if>
+	 </select>
+	 
+	 <select id="select_tppTradeTNotifyById" resultType="java.util.HashMap">
+	 	 select x.*,(select tpp_sys_app.app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME from (SELECT  <include refid="Notify_Column_List"/>  
+		  FROM TPP_TRADE_T_NOTIFY union all SELECT  <include refid="Notify_Column_List"/>  
+		  FROM TPP_TRADE_T_NOTIFY_HIS) x
+		  where x.id=#{notifyId}
+	 </select>
+	 
+	 <update id="updateNotifyCount" >
+	 		update TPP_TRADE_T_NOTIFY set NOTIFY_COUNT=0 where  ID=#{id}
+	 </update>
+	  <update id="updateNotifyHisCount" >
+	 		update TPP_TRADE_T_NOTIFY_HIS set NOTIFY_COUNT=0 where  ID=#{id}
+	 </update>
+	 <update id="updateNotifyHisAllCount" parameterType="java.util.HashMap">
+	 	update TPP_TRADE_T_NOTIFY_HIS set  NOTIFY_COUNT = 0 where
+	 	 create_time >= to_date(#{clear_begin_date},'yyyy-mm-dd hh24:mi:ss')
+	 	 	and create_time <![CDATA[<=]]> to_date(#{clear_end_date},'yyyy-mm-dd hh24:mi:ss')
+	 	 	and NOTIFY_COUNT>=#{notifyCount}
+	 	 <if test="bizSysNo != null and bizSysNo != ''">
+		  			and BIZ_SYS_NO=#{bizSysNo}
+		  	</if>
+		  	and NOTIFY_STATUS <![CDATA[!=]]> 3
+	 </update>
+	  <update id="updateNotifyAllCount" parameterType="java.util.HashMap">
+	 	update TPP_TRADE_T_NOTIFY set  NOTIFY_COUNT = 0 where
+	 	 create_time >= to_date(#{clear_begin_date},'yyyy-mm-dd hh24:mi:ss')
+	 	 	and create_time <![CDATA[<=]]> to_date(#{clear_end_date},'yyyy-mm-dd hh24:mi:ss')
+	 	 	and NOTIFY_COUNT>=#{notifyCount}
+	 	 	<if test="bizSysNo != null and bizSysNo != ''">
+		  			and BIZ_SYS_NO=#{bizSysNo}
+		  	</if>
+		  	and NOTIFY_STATUS <![CDATA[!=]]> 3
+	 	 
+	 </update>
+	 
+</mapper>

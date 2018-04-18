@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.query.entity.TradeWaitingQuery">
+	<typeAlias alias="TradeWaitingQuery" type="com.zendaimoney.thirdpp.query.entity.TradeWaitingQuery" />
+	<resultMap id="TradeWaitingQueryMap" class="TradeWaitingQuery">
+		<result column="ID" property="id" jdbcType="java.lang.Long" nullValue=""/>
+		<result column="TRADE_FLOW" property="tradeFlow" jdbcType="java.lang.String" nullValue=""/>
+		<result column="BIZ_TYPE_NO" property="bizTypeNo" jdbcType="java.lang.String" nullValue=""/>
+		<result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="java.lang.String" nullValue=""/>
+		<result column="PAY_SYS_NO" property="paySysNo" jdbcType="java.lang.String" nullValue=""/>
+		<result column="INFO_CATEGORY_CODE" property="infoCategoryCode" jdbcType="java.lang.String" nullValue=""/>
+		<result column="QUERY_MODULE_NAME" property="queryModuleName" jdbcType="java.lang.String" nullValue=""/>
+		<result column="CREATE_TIME" property="createTime" jdbcType="java.lang.String" nullValue=""/>
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="java.lang.String" nullValue=""/>
+		<result column="STATUS" property="status" jdbcType="java.lang.Long" nullValue="0"/>
+		<result column="PAYER_ACCOUNT_NO" property="payerAccountNo" jdbcType="java.lang.String" nullValue=""/>
+		<result column="OP_MODE" property="opMode" jdbcType="java.lang.String" nullValue=""/>
+	</resultMap>
+	
+	<!-- 查询待处理的记录集 -->
+	<select id="queryTppTradeWaitingQueryDaos" parameterClass="java.util.Map" resultMap="TradeWaitingQueryMap">
+		SELECT ID,TRADE_FLOW,BIZ_TYPE_NO,BIZ_SYS_NO,PAY_SYS_NO,INFO_CATEGORY_CODE,QUERY_MODULE_NAME,to_char(CREATE_TIME, 'yyyy-mm-dd hh24:mi:ss') CREATE_TIME,UPDATE_TIME,STATUS,PAYER_ACCOUNT_NO,OP_MODE
+		FROM TPP_TRADE_T_WAITING_QUERY t
+		WHERE 1=1
+		<isNotEmpty prepend="and" property="bizTypeNo">
+			t.BIZ_TYPE_NO=#bizTypeNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paySysNo">
+			t.PAY_SYS_NO=#paySysNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="queryModuleName">
+			t.QUERY_MODULE_NAME=#queryModuleName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="status">
+			t.STATUS = #status#
+		</isNotEmpty>
+		order by t.CREATE_TIME
+	</select>
+	
+	<!-- 更新条件加入 STATUS 为中间状态 -->
+	<update id="updateStatus" parameterClass="java.util.Map"> 
+		update TPP_TRADE_T_WAITING_QUERY set
+		UPDATE_TIME = sysdate,
+		STATUS = #targetStatus#
+		where ID = #id#
+		<isNotEmpty prepend="and" property="tradeFlow">
+			TRADE_FLOW=#tradeFlow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="queryModuleName">
+			QUERY_MODULE_NAME = #queryModuleName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="oldStatus">
+			STATUS = #oldStatus#
+		</isNotEmpty>
+	</update>
+	
+	<insert id="insert" parameterClass="TradeWaitingQuery">
+		insert into TPP_TRADE_T_WAITING_QUERY (ID,TRADE_FLOW,BIZ_TYPE_NO,BIZ_SYS_NO,PAY_SYS_NO,INFO_CATEGORY_CODE,QUERY_MODULE_NAME,CREATE_TIME,UPDATE_TIME,STATUS,PAYER_ACCOUNT_NO,OP_MODE) 
+		values (SEQ_TPP_TRADE_T_WAITING_QUERY.NEXTVAL,#tradeFlow#,#bizTypeNo#,#bizSysNo#,#paySysNo#,#infoCategoryCode#,#queryModuleName#,to_date(#createTime#,'yyyy-mm-dd,hh24:mi:ss'),sysdate,'2',#payerAccountNo#,#opMode#)
+	</insert>
+</sqlMap>

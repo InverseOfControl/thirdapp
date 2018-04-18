@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppAccountChannelRequestMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppAccountChannelRequest" >
+    <result column="REQ_ID" property="reqId" jdbcType="VARCHAR" />
+    <result column="APP_NAME" property="appName" jdbcType="VARCHAR" />
+    <result column="THIRD_TYPE_NO" property="thirdTypeNo" jdbcType="VARCHAR" />
+    <result column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    
+    <result column="ACCOUNT_DAY" property="accountDay" jdbcType="VARCHAR" />
+    <result column="CONFIG_ID" property="configId" jdbcType="DECIMAL" />
+    
+    <result column="DOWNLOAD_START_TIME" property="downloadStartTime" jdbcType="TIMESTAMP" />
+    <result column="DOWNLOAD_FAILED_TIMES" property="downloadFailedTimes" jdbcType="DECIMAL" />
+    <result column="DOWNLOAD_FILE_NAME" property="downloadFileName" jdbcType="VARCHAR" />
+    <result column="DOWNLOAD_FILE_SIZE" property="downloadFileSize" jdbcType="DECIMAL" />
+    <result column="DOWNLOAD_FILE_PATH" property="downloadFilePath" jdbcType="VARCHAR" />
+    <result column="DOWNLOAD_END_TIME" property="downloadEndTime" jdbcType="TIMESTAMP" />
+    
+    <result column="TOTAL_COUNT_AMOUNT_DESC" property="totalCountAmountDesc" jdbcType="VARCHAR" />
+    
+    <result column="INSERT_START_TIME" property="insertStartTime" jdbcType="TIMESTAMP" />
+    <result column="INSERT_FAILED_TIMES" property="insertFailedTimes" jdbcType="DECIMAL" />
+    <result column="INSERT_END_TIME" property="insertEndTime" jdbcType="TIMESTAMP" />
+    
+    <result column="ACCOUNT_FAILED_TIMES" property="accountFailedTimes" jdbcType="DECIMAL" />
+     
+    <result column="BACKUP_START_TIME" property="backupStartTime" jdbcType="TIMESTAMP" />
+    <result column="BACKUP_FAILED_TIMES" property="backupFailedTimes" jdbcType="DECIMAL" />
+    <result column="BACKUP_END_TIME" property="backupEndTime" jdbcType="TIMESTAMP" />
+    
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="HANDLE_ACCOUNT_STATUS" property="handleAccountStatus" jdbcType="DECIMAL" />
+    
+    <result column="FAILED_REASON" property="failedReason" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="SPARE1" property="spare1" jdbcType="VARCHAR" />
+    <result column="SPARE2" property="spare2" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppAccountChannelRequest" >
+    insert into TPP_ACCOUNT_CHANNEL_REQUEST (REQ_ID, APP_NAME, THIRD_TYPE_NO, MERCHANT_NO, 
+      BIZ_TYPE, ACCOUNT_DAY, CONFIG_ID, 
+      DOWNLOAD_START_TIME, DOWNLOAD_FAILED_TIMES, 
+      DOWNLOAD_FILE_NAME, DOWNLOAD_FILE_SIZE, DOWNLOAD_FILE_PATH, 
+      DOWNLOAD_END_TIME, TOTAL_COUNT_AMOUNT_DESC, 
+      INSERT_START_TIME, INSERT_FAILED_TIMES, INSERT_END_TIME, 
+      ACCOUNT_FAILED_TIMES, 
+      BACKUP_START_TIME, BACKUP_FAILED_TIMES, BACKUP_END_TIME, 
+      STATUS, HANDLE_ACCOUNT_STATUS, 
+      FAILED_REASON, CREATE_TIME, UPDATE_TIME,  SPARE1, SPARE2)
+    values (#{reqId,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, #{thirdTypeNo,jdbcType=VARCHAR}, #{merchantNo,jdbcType=VARCHAR}, 
+      #{bizType,jdbcType=VARCHAR}, #{accountDay,jdbcType=VARCHAR}, #{configId,jdbcType=DECIMAL}, 
+      #{downloadStartTime,jdbcType=TIMESTAMP}, #{downloadFailedTimes,jdbcType=DECIMAL}, 
+      #{downloadFileName,jdbcType=VARCHAR}, #{downloadFileSize,jdbcType=DECIMAL}, #{downloadFilePath,jdbcType=VARCHAR}, 
+      #{downloadEndTime,jdbcType=TIMESTAMP}, #{totalCountAmountDesc,jdbcType=DECIMAL},
+      #{insertStartTime,jdbcType=TIMESTAMP}, #{insertFailedTimes,jdbcType=DECIMAL}, #{insertEndTime,jdbcType=TIMESTAMP}, 
+      #{accountFailedTimes,jdbcType=DECIMAL},
+      #{backupStartTime,jdbcType=TIMESTAMP},  #{backupFailedTimes,jdbcType=DECIMAL}, #{backupEndTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=DECIMAL}, #{handleAccountStatus,jdbcType=DECIMAL}, 
+      #{failedReason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{spare1,jdbcType=VARCHAR}, #{spare2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppAccountChannelRequest" >
+    insert into TPP_ACCOUNT_CHANNEL_REQUEST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reqId != null" >
+        REQ_ID,
+      </if>
+      <if test="appName != null" >
+        APP_NAME,
+      </if>
+      <if test="thirdTypeNo != null" >
+        THIRD_TYPE_NO,
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO,
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE,
+      </if>
+      <if test="accountDay != null" >
+        ACCOUNT_DAY,
+      </if>
+      <if test="configId != null" >
+        CONFIG_ID,
+      </if>
+      <if test="downloadStartTime != null" >
+        DOWNLOAD_START_TIME,
+      </if>
+      <if test="downloadFailedTimes != null" >
+        DOWNLOAD_FAILED_TIMES,
+      </if>
+      <if test="downloadFileName != null" >
+        DOWNLOAD_FILE_NAME,
+      </if>
+      <if test="downloadFileSize != null" >
+        DOWNLOAD_FILE_SIZE,
+      </if>
+      <if test="downloadFilePath != null" >
+        DOWNLOAD_FILE_PATH,
+      </if>
+      <if test="downloadEndTime != null" >
+        DOWNLOAD_END_TIME,
+      </if>
+      <if test="totalCountAmountDesc != null" >
+        TOTAL_COUNT_AMOUNT_DESC,
+      </if>
+      <if test="insertStartTime != null" >
+        INSERT_START_TIME,
+      </if>
+      <if test="insertFailedTimes != null" >
+        INSERT_FAILED_TIMES,
+      </if>
+      <if test="insertEndTime != null" >
+        INSERT_END_TIME,
+      </if>
+      <if test="accountFailedTimes != null" >
+        ACCOUNT_FAILED_TIMES,
+      </if>
+      <if test="backupStartTime != null" >
+        BACKUP_START_TIME,
+      </if>
+      <if test="backupFailedTimes != null" >
+        BACKUP_FAILED_TIMES,
+      </if>
+      <if test="backupEndTime != null" >
+        BACKUP_END_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="handleAccountStatus != null" >
+        HANDLE_ACCOUNT_STATUS,
+      </if>
+      <if test="failedReason != null" >
+        FAILED_REASON,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="spare1 != null" >
+        SPARE1,
+      </if>
+      <if test="spare2 != null" >
+        SPARE2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reqId != null" >
+        #{reqId,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdTypeNo != null" >
+        #{thirdTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="accountDay != null" >
+        #{accountDay,jdbcType=VARCHAR},
+      </if>
+      <if test="configId != null" >
+        #{configId,jdbcType=DECIMAL},
+      </if>
+      <if test="downloadStartTime != null" >
+        #{downloadStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="downloadFailedTimes != null" >
+        #{downloadFailedTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="downloadFileName != null" >
+        #{downloadFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadFileSize != null" >
+        #{downloadFileSize,jdbcType=DECIMAL},
+      </if>
+      <if test="downloadFilePath != null" >
+        #{downloadFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadEndTime != null" >
+        #{downloadEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalCountAmountDesc != null" >
+        #{totalCountAmountDesc,jdbcType=DECIMAL},
+      </if>
+      <if test="insertStartTime != null" >
+        #{insertStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertFailedTimes != null" >
+        #{insertFailedTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="insertEndTime != null" >
+        #{insertEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backupStartTime != null" >
+        #{backupStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backupFailedTimes != null" >
+        #{backupFailedTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="backupEndTime != null" >
+        #{backupEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="handleAccountStatus != null" >
+        #{handleAccountStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="failedReason != null" >
+        #{failedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spare1 != null" >
+        #{spare1,jdbcType=VARCHAR},
+      </if>
+      <if test="spare2 != null" >
+        #{spare2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <sql id="Channel_Request_Column_List" >
+  	REQ_ID,APP_NAME,THIRD_TYPE_NO,MERCHANT_NO,BIZ_TYPE,ACCOUNT_DAY,CONFIG_ID,
+  	DOWNLOAD_START_TIME,DOWNLOAD_FAILED_TIMES,DOWNLOAD_FILE_NAME,DOWNLOAD_FILE_SIZE,DOWNLOAD_FILE_PATH,DOWNLOAD_END_TIME,
+  	TOTAL_COUNT_AMOUNT_DESC,
+  	INSERT_START_TIME,INSERT_FAILED_TIMES,INSERT_END_TIME,
+  	ACCOUNT_FAILED_TIMES,
+  	BACKUP_START_TIME,BACKUP_FAILED_TIMES,BACKUP_END_TIME,
+  	STATUS,HANDLE_ACCOUNT_STATUS,
+  	FAILED_REASON,CREATE_TIME,UPDATE_TIME,SPARE1,SPARE2
+  </sql>
+  
+  <!--用于模糊查询-->
+     <select id="select_tppAccountChannelRequestList" resultType="java.util.HashMap">
+          SELECT * FROM (
+			SELECT X.*,ROWNUM RN,(select dic_name from dd_t_dictionary t where t.dic_type='3' and t.dic_code=X.THIRD_TYPE_NO) THIRD_PAY_NAME
+				FROM (
+					select * from (
+	        			SELECT    <include refid="Channel_Request_Column_List" />
+	  					FROM TPP_ACCOUNT_CHANNEL_REQUEST) 
+	  			WHERE 1=1  
+	    		<if test="SEARCH_REQ_ID != null and SEARCH_REQ_ID != ''">
+	    			and REQ_ID like '%'||(#{SEARCH_REQ_ID})||'%'
+	    		</if>
+	    		<if test="SEARCH_THIRD_TYPE_NO != null and SEARCH_THIRD_TYPE_NO != ''">
+	    			and THIRD_TYPE_NO = #{SEARCH_THIRD_TYPE_NO}
+	    		</if>
+	    		<if test="SEARCH_MERCHANT_NO != null and SEARCH_MERCHANT_NO != ''">
+	    			and MERCHANT_NO like '%'||(#{SEARCH_MERCHANT_NO})||'%'
+	    		</if>
+	    		<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+			    	<foreach item="item" index="index" collection="SEARCH_BIZ_TYPE">
+	                       and BIZ_TYPE like '%'||(#{item})||'%'
+	                </foreach>
+			    </if>
+	    		<if test="SEARCH_CONFIG_ID != NULL and SEARCH_CONFIG_ID != ''">
+	    			and CONFIG_ID like '%'||(#{SEARCH_CONFIG_ID})||'%'
+	    		</if>
+	    		<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+	    			and STATUS = #{SEARCH_STATUS}
+	    		</if>
+	    		<if test="SEARCH_FAILED_REASON != null and SEARCH_FAILED_REASON != ''">
+	    			and FAILED_REASON = #{SEARCH_FAILED_REASON}
+	    		</if>
+	    		<if test="SEARCH_APP_NAME != null and SEARCH_APP_NAME !=''">
+	    			and APP_NAME = #{SEARCH_APP_NAME}
+	    		</if>
+	    		<if test="SEARCH_ACCOUNT_BEGIN_DATE != null and SEARCH_ACCOUNT_BEGIN_DATE != ''">
+			    	and account_day >= #{SEARCH_ACCOUNT_BEGIN_DATE}
+			    </if>
+			    <if test="SEARCH_ACCOUNT_END_DATE != null and SEARCH_ACCOUNT_END_DATE != ''">
+			    	and account_day <![CDATA[<=]]> #{SEARCH_ACCOUNT_END_DATE} 
+			    </if>
+			    <if test="orderStr != null">
+			  		${orderStr} 
+			  	</if>
+	  			<![CDATA[
+	 		) X WHERE ROWNUM  <= #{rowEnd}
+		) WHERE RN >= #{rowBegin}
+		
+		]]>
+		
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppAccountChannelRequestList_count" resultType="int">
+			SELECT  count(REQ_ID)
+		    FROM TPP_ACCOUNT_CHANNEL_REQUEST
+			WHERE 1=1 
+				<if test="SEARCH_REQ_ID != null and SEARCH_REQ_ID != ''">
+	    			and REQ_ID like '%'||(#{SEARCH_REQ_ID})||'%'
+	    		</if>
+	    		<if test="SEARCH_THIRD_TYPE_NO != null and SEARCH_THIRD_TYPE_NO != ''">
+	    			and THIRD_TYPE_NO = #{SEARCH_THIRD_TYPE_NO}
+	    		</if>
+	    		<if test="SEARCH_MERCHANT_NO != null and SEARCH_MERCHANT_NO != ''">
+	    			and MERCHANT_NO like '%'||(#{SEARCH_MERCHANT_NO})||'%'
+	    		</if>
+	    		<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+			    	<foreach item="item" index="index" collection="SEARCH_BIZ_TYPE">
+	                       and BIZ_TYPE like '%'||(#{item})||'%'
+	                </foreach>
+			    </if>
+	    		<if test="SEARCH_CONFIG_ID != NULL and SEARCH_CONFIG_ID != ''">
+	    			and CONFIG_ID like '%'||(#{SEARCH_CONFIG_ID})||'%'
+	    		</if>
+	    		<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+	    			and STATUS = #{SEARCH_STATUS}
+	    		</if>
+	    		<if test="SEARCH_FAILED_REASON != null and SEARCH_FAILED_REASON != ''">
+	    			and FAILED_REASON = #{SEARCH_FAILED_REASON}
+	    		</if>
+	    		<if test="SEARCH_APP_NAME != null and SEARCH_APP_NAME !=''">
+	    			and APP_NAME = #{SEARCH_APP_NAME}
+	    		</if>
+	    		<if test="SEARCH_ACCOUNT_BEGIN_DATE != null and SEARCH_ACCOUNT_BEGIN_DATE != ''">
+			    	and account_day >= #{SEARCH_ACCOUNT_BEGIN_DATE}
+			    </if>
+			    <if test="SEARCH_ACCOUNT_END_DATE != null and SEARCH_ACCOUNT_END_DATE != ''">
+			    	and account_day <![CDATA[<=]]> #{SEARCH_ACCOUNT_END_DATE} 
+			    </if>
+	 </select>
+</mapper>

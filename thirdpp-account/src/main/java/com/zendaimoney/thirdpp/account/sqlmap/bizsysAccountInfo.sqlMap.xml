@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace = "com.zendaimoney.thirdpp.account.entity.BizsysAccountInfo">
+	<typeAlias alias = "BizsysAccountInfo" type = "com.zendaimoney.thirdpp.account.entity.BizsysAccountInfo"/>
+	<select id = "bizsysAccountStatistic" resultClass = "BizsysAccountInfo" parameterClass = "java.util.Map">
+		select 
+		tai.TASK_ID as taskId,
+		tai.BIZ_TYPE as bizType,
+		tai.THIRD_TYPE_NO as paySysNo, 
+		tai.BIZ_FLOW as bizFlow, 
+		tai.BIZ_SYS_NO as bizSysNo, 
+		tai.ACCOUNT_DAY as accountDay,
+		sum(case 
+             when tai.ACCOUNT_STATUS = 2 then 
+              tai.AMOUNT 
+             else 
+              0 
+           end) as successAmount,
+        tai.TASK_AMOUNT as totalAmount 
+		from TPP_ACCOUNT_INFO tai 
+		where tai.BIZ_TYPE = #bizType# 
+		and tai.BIZ_SYS_NO = #bizSysNo# 
+		and tai.ACCOUNT_DAY = #accountDay# 
+		and tai.ACCOUNT_STATUS = 2 
+		and tai.BIZSYS_ACCOUNT_STATUS = 0 
+		group by tai.TASK_ID, tai.BIZ_TYPE, tai.BIZ_SYS_NO, tai.THIRD_TYPE_NO, tai.BIZ_FLOW, tai.ACCOUNT_DAY, tai.TASK_AMOUNT  
+	</select>
+	
+	<insert id = "insert" parameterClass = "BizsysAccountInfo">
+	insert into TPP_ACCOUNT_BIZSYS_INFO(BIZ_SYS_NO, TASK_ID, BIZ_FLOW, PAY_SYS_NO, BIZ_TYPE, SUCCESS_AMOUNT, TOTAL_AMOUNT, ACCOUNT_DAY, CREATE_TIME)
+	values (#bizSysNo#, #taskId#, #bizFlow#, #paySysNo#, #bizType#, #successAmount#, #totalAmount#, #accountDay#, sysdate)
+	</insert>
+</sqlMap>

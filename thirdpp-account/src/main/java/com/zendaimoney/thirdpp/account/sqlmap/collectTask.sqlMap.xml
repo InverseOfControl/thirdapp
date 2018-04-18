@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.account.entity.CollectTask">
+	<typeAlias alias="CollectTask" type="com.zendaimoney.thirdpp.account.entity.CollectTask" />
+	<resultMap id="CollectTaskMap" class="CollectTask">
+		<result column="ID" property="id" jdbcType="java.lang.Long" />
+	    <result column="REQ_ID" property="reqId" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAY_SYS_NO" property="paySysNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="BIZ_SYS_ACCOUNT_NO" property="bizSysAccountNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="ZENGDAI_ACCOUNT_NO" property="zengdaiAccountNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="java.lang.String" nullValue=""/>
+	    <result column="RECEIVER_ACCOUNT_NO" property="receiverAccountNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="REVEIVER_ACCOUNT_NAME" property="reveiverAccountName" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_NAME" property="payerName" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_ACCOUNT_NO" property="payerAccountNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_BANK_CARD_NO" property="payerBankCardNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_BANK_CARD_TYPE" property="payerBankCardType" jdbcType="java.lang.String" nullValue=""/>
+	    <result column="PAYER_ID_TYPE" property="payerIdType" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_ID" property="payerId" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_BANK_CODE" property="payerBankCode" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PAYER_SUB_BANK_CODE" property="payerSubBankCode" jdbcType="java.lang.String" nullValue="" />
+	    <result column="CURRENCY" property="currency" jdbcType="java.lang.String" nullValue="" />
+	    <result column="AMOUNT" property="amount" jdbcType="java.math.BigDecimal" />
+	    <result column="FEE" property="fee" jdbcType="java.math.BigDecimal" />
+	    <result column="BIZ_REMARK" property="bizRemark" jdbcType="java.lang.String" nullValue=""  />
+	    <result column="BIZ_FLOW" property="bizFlow" jdbcType="java.lang.String" nullValue="" />
+	    <result column="PRIORITY" property="priority" jdbcType="java.lang.Integer" />
+	    <result column="STATUS" property="status" jdbcType="java.lang.Integer" />
+	    <result column="REMARK" property="remark" jdbcType="java.lang.String" nullValue="" />
+	    <result column="CREATER" property="creater" jdbcType="java.lang.String" nullValue="" />
+	    <result column="CREATE_TIME" property="createTime" jdbcType="java.lang.String" nullValue="" />
+	    <result column="UPDATE_TIME" property="updateTime" jdbcType="java.lang.String" nullValue="" />
+	    <result column="SEND_THREAD_NAME" property="sendThreadName" jdbcType="java.lang.String" nullValue="" />
+	    <result column="SEND_NUM" property="sendNum" jdbcType="java.lang.Integer" nullValue="" />
+	    <result column="IS_SEPARATE" property="isSeparate" jdbcType="java.lang.Integer" />
+	    <result column="SEPARATE_COUNT" property="separateCount" jdbcType="java.lang.Integer" />
+	    <result column="BIZ_TYPE" property="bizTypeNo" jdbcType="java.lang.String" nullValue="" />
+	    <result column="SPARE1" property="spare1" jdbcType="java.lang.String" nullValue="" />
+	    <result column="SPARE2" property="spare2" jdbcType="java.lang.String" nullValue=""/>
+	    <result column="IS_NEED_PUSH" property="isNeedPush" jdbcType="java.lang.Integer" />
+	    <result column="TRADE_STATUS" property="tradeStatus" jdbcType="java.lang.String" nullValue=""/>
+	    <result column="TRADE_RESULT_INFO" property="tradeResultInfo" jdbcType="java.lang.String" nullValue=""/>
+	    <result column="TRADE_SUCCESS_AMOUNT" property="tradeSuccessAmount" jdbcType="java.math.BigDecimal" />
+	    <result column="INFO_CATEGORY_CODE" property="infoCategoryCode" jdbcType="java.lang.String" nullValue=""/>
+	     <result column="IS_NEED_SPILT" property="isNeedSpilt" jdbcType="java.lang.Integer" />
+	      <result column="PAYER_MOBILE" property="payerMobile" jdbcType="java.lang.String" nullValue="" />
+	</resultMap>
+	
+   <select id="queryCollectTaskByTaskId" parameterClass="java.util.HashMap" resultMap="CollectTaskMap">
+		select * from TPP_TRADE_T_COLLECT_TASK t where t.ID=#id# 
+		<![CDATA[and rownum <= 1]]>
+  </select>
+  
+  <select id="queryCollectTaskHisByTaskId" parameterClass="java.util.HashMap" resultMap="CollectTaskMap">
+		select * from TPP_TRADE_T_COLLECT_TASK_HIS t where t.ID=#id# 
+		<![CDATA[and rownum <= 1]]>
+  </select>
+</sqlMap>

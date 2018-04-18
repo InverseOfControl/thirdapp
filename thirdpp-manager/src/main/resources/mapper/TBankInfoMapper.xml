@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TBankInfoMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TBankInfo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="BANK_CODE" jdbcType="VARCHAR" property="bankCode" />
+    <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="DT_TIME" property="dtTime" />
+<!--     <collection property="permissions" resultMap="com.zdmoney.manager.mapper.TSysPermissionMapper.BaseResultMap"/> -->
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BANK_CODE, BANK_NAME, DT_TIME, NOTE
+  </sql>
+  <select id="getBankInfoList" resultType="java.util.HashMap">
+   SELECT * FROM (
+		SELECT X.*,ROWNUM RN FROM ( select 
+     ID, BANK_CODE, BANK_NAME,to_date(DT_TIME,'yyyymmdd') as DT_TIME, NOTE
+    from DD_T_BANK_INFO where 1=1
+    <if test="bankName != null and bankName !='' ">
+        and BANK_NAME like '%${bankName}%'
+    </if> 
+    <if test="bankCode != null and bankCode !=''">
+        and BANK_CODE = #{bankCode}
+    </if> 
+    <if test="beginTime != null and beginTime !=''">
+        and DT_TIME &gt;= #{beginTime}  
+    </if> 
+    <if test="endTime != null and endTime !=''">
+        and DT_TIME &lt;= #{endTime} 
+    </if>    
+    	order by bank_code asc
+	  ) X 
+	   <if test="rowEnd != null" >
+			 WHERE ROWNUM  &lt;= #{rowEnd}
+		</if>
+			) 
+		<if test="rowBegin != null" >
+			WHERE RN &gt;=  #{rowBegin}
+		</if>
+  </select>
+  <select id="getBankInfoListCount" resultType="Integer">
+  	select count(ID) from DD_T_BANK_INFO where 1=1
+    <if test="bankName != null and bankName !='' ">
+        and BANK_NAME like '%${bankName}%'
+    </if> 
+    <if test="bankCode != null and bankCode !=''">
+        and BANK_CODE = #{bankCode}
+    </if> 
+    <if test="beginTime != null and beginTime !=''">
+        and DT_TIME &gt;= #{beginTime}  
+    </if> 
+    <if test="endTime != null and endTime !=''">
+        and DT_TIME &lt;= #{endTime} 
+    </if>    
+  </select>
+ <select id="selectBankInfoByID" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+   ID, BANK_CODE, BANK_NAME,to_date(DT_TIME,'yyyymmdd') as DT_TIME, NOTE
+    from DD_T_BANK_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAllBnkInfo"  resultMap="BaseResultMap">
+  		select  
+  		 ID, BANK_CODE, BANK_NAME,to_date(DT_TIME,'yyyymmdd') as DT_TIME, NOTE
+    	from DD_T_BANK_INFO 
+  </select>
+   <select id="getBnkInfoMap"  resultType="java.lang.String">
+   		select bank_code from DD_T_BANK_INFO
+   </select>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TBankInfo" >
+    <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+       select SEQ_DD_T_BANK_INFO.nextval from dual
+    </selectKey>
+   insert into DD_T_BANK_INFO(id,bank_name,bank_code,dt_time,note)
+   		values(#{id,jdbcType=DECIMAL},#{bankName,jdbcType=VARCHAR},#{bankCode,jdbcType=VARCHAR},
+   				to_char(sysdate,'yyyymmdd'),#{note,jdbcType=VARCHAR}
+   		)
+  </insert>
+   <update id="updateBankInfo" parameterType="com.zdmoney.manager.models.TBankInfo" >
+    update DD_T_BANK_INFO
+    set bank_name = #{bankName,jdbcType=VARCHAR},
+      bank_code = #{bankCode,jdbcType=VARCHAR},
+      dt_time = to_char(sysdate,'yyyymmdd'),
+      note = #{note,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  	<delete id="batchDeleteInfo" parameterType="java.util.List">  
+    	delete from DD_T_BANK_INFO where ID in  
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+       	 #{item}   
+    	</foreach>  
+	</delete>
+	<select id="getBankCodeCount" resultType="integer">
+		select count(ID) from dd_t_bank_info  where BANK_CODE = #{bankCode}
+	</select>
+
+</mapper>

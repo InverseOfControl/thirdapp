@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zendaimoney.thirdpp.route.mapper.SysThirdChannelInfoMapper">
+
+    <select id="findByAll" resultType="SysThirdChannelInfoEntity">
+        SELECT *
+        FROM TPP_SYS_T_THIRD_CHANNEL_INFO
+        where status = #{status}
+    </select>
+</mapper>

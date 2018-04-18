@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.SignMessageInfo">
+    <typeAlias alias="signMessageInfo" type="com.zendaimoney.thirdpp.trade.entity.SignMessageInfo" />
+
+    <resultMap id="signMessageInfoMap" class="signMessageInfo">
+        <result column="ID" property="id" jdbcType="java.lang.Long" />
+        <result column="REQ_ID" property="reqId" jdbcType="java.lang.String" nullValue="" />
+        <result column="trade_flow" property="tradeFlow" jdbcType="java.lang.String" nullValue="" />
+        <result column="biz_sys_no" property="bizSysNo" jdbcType="java.lang.String" nullValue="" />
+        <result column="biz_type" property="bizTypeNo" jdbcType="java.lang.String" nullValue="" />
+        <result column="pay_sys_no" property="paySysNo" jdbcType="java.lang.String" nullValue=""/>
+        <result column="info_category_code" property="infoCategoryCode" jdbcType="java.lang.String" nullValue="" />
+        <result column="bank_code" property="bankCode" jdbcType="java.lang.String" nullValue="" />
+        <result column="account_type" property="accountType" jdbcType="java.lang.String" nullValue="" />
+        <result column="account_no" property="accountNo" jdbcType="java.lang.String" nullValue="" />
+        <result column="account_name" property="accountName" jdbcType="java.lang.String" nullValue="" />
+        <result column="account_prop" property="accountProp" jdbcType="java.lang.String" nullValue=""/>
+        <result column="id_type" property="idType" jdbcType="java.lang.String" nullValue="" />
+        <result column="id_num" property="idNum" jdbcType="java.lang.String" nullValue="" />
+        <result column="tel" property="tel" jdbcType="java.lang.String" nullValue="" />
+        <result column="cvv2" property="cvv2" jdbcType="java.lang.String" nullValue="" />
+        <result column="valid_date" property="validDate" jdbcType="java.lang.String" nullValue="" />
+        <result column="merrem" property="merrem" jdbcType="java.math.BigDecimal" />
+        <result column="remark" property="remark" jdbcType="java.math.BigDecimal" />
+        <result column="status" property="status" jdbcType="java.lang.String" nullValue="" />
+        <result column="fail_reason" property="failReason" jdbcType="java.lang.String" />
+    </resultMap>
+
+    <insert id="insert" parameterClass="signMessageInfo">
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT SEQ_TPP_TRADE_SIGN_MSG_INFO.NEXTVAL FROM DUAL
+        </selectKey>
+        insert into TPP_TRADE_T_SIGN_MESSAGE_INFO (
+            id,
+            req_id,
+            trade_flow,
+            biz_sys_no,
+            biz_type,
+            PAY_SYS_NO,
+            info_category_code,
+            bank_code,
+            bank_name,
+            account_type,
+            account_no,
+            account_name,
+            account_prop,
+            id_type,
+            id_num,
+            tel,
+            cvv2,
+            valid_date,
+            merrem,
+            remark,
+            status,
+            fail_reason
+        ) values (
+            #id#,
+            #reqId#,
+            #tradeFlow#,
+            #bizSysNo#,
+            #bizTypeNo#,
+            #paySysNo#,
+            #infoCategoryCode#,
+            #bankCode#,
+            #bankName#,
+            #accountType#,
+            #accountNo#,
+            #accountName#,
+            #accountProp#,
+            #idType#,
+            #idNum#,
+            #tel#,
+            #cvv2#,
+            #validDate#,
+            #merrem#,
+            #remark#,
+            #status#,
+            #failReason#
+        )
+    </insert>
+
+    <insert id="update" parameterClass="signMessageInfo">
+        update TPP_TRADE_T_SIGN_MESSAGE_INFO set
+        UPDATE_TIME = sysdate
+        <isNotEmpty prepend="," property="bizSysNo">
+            biz_sys_no=#bizSysNo#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="bizTypeNo">
+            biz_type=#bizTypeNo#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="paySysNo">
+            pay_sys_no=#paySysNo#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="infoCategoryCode">
+            info_category_code=#infoCategoryCode#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="bankCode">
+            bank_code=#bankCode#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="bankName">
+            bank_name=#bankName#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="accountType">
+            account_type=#accountType#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="accountNo">
+            account_no=#accountNo#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="accountName">
+            account_name=#accountName#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="accountProp">
+            account_prop=#accountProp#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="idType">
+            id_type=#idType#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="idNum">
+            id_num=#idNum#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="tel">
+            tel=#tel#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="cvv2">
+            cvv2=#cvv2#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="validDate">
+            valid_date=#validDate#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="merrem">
+            merrem=#merrem#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="remark">
+            remark=#remark#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="status">
+            status=#status#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="failReason">
+            fail_reason=#failReason#
+        </isNotEmpty>
+        where trade_flow=#tradeFlow#
+    </insert>
+
+    <!-- 查询协议支付签约短信触发信息 -->
+    <select id="queryByReqId" parameterClass="String" resultMap="signMessageInfoMap">
+        select * from TPP_TRADE_T_SIGN_MESSAGE_INFO t1
+        where t1.req_id = #reqId#
+    </select>
+
+</sqlMap>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TppOperationRequestMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TPPOperationRequest">
+    <result column="REQ_ID" jdbcType="DECIMAL" property="reqId" />
+    <result column="BIZ_TYPE_NO" jdbcType="VARCHAR" property="bizTypeNo" />
+    <result column="BIZ_SYS_NO" jdbcType="VARCHAR" property="bizSysNo" />
+    <result column="BIZ_SYS_NAME	" jdbcType="VARCHAR" property="bizSysName" />
+    <result column="BIZ_SYS_ACCOUNT_NO" jdbcType="VARCHAR" property="bizSysAccountNo" />
+    <result column="ZENGDAI_ACCOUNT_NO" jdbcType="VARCHAR" property="zengDaiAccountNo" />
+    <result column="REAL_NAME" jdbcType="VARCHAR" property="realName" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="NATION" jdbcType="VARCHAR" property="nation" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="RESERVE_MOBILE" jdbcType="VARCHAR" property="reserveMobile" />
+    <result column="BANK_CARD_NO" jdbcType="VARCHAR" property="bankCardNo" />
+    <result column="BANK_CARD_NAME" jdbcType="VARCHAR" property="bankCardName" />
+    <result column="BANK_CARD_TYPE" jdbcType="VARCHAR" property="bankCardBType" />
+    <result column="BANK_CODE" jdbcType="VARCHAR" property="bankCode" />
+    <result column="PAY_SYS_NO" jdbcType="VARCHAR" property="paySysNo" />
+    <result column="PAY_SYS_NAME" jdbcType="VARCHAR" property="paySysName" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="ID_TYPE" jdbcType="VARCHAR" property="idType" />
+    <result column="ID_NO" jdbcType="VARCHAR" property="idNo" />
+    <result column="UPDATE_TIME"   property="updateTime" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="BIZ_FLOW" jdbcType="VARCHAR" property="bizFlow" />
+    <result column="IS_SYNC"  jdbcType="VARCHAR"  property="isSync" />
+    <result column="SPARE1" jdbcType="VARCHAR" property="spare1" />
+    <result column="SPARE2" jdbcType="VARCHAR" property="spare2" />
+    <result column="OPEN_BANK_CODE" jdbcType="VARCHAR" property="openBankCode" />
+    <result column="PAY_TRANS_FLOW" jdbcType="VARCHAR" property="payTransFlow" />
+    <result column="TRANSFER_FLOW"   jdbcType="VARCHAR" property="transferFlow" />
+    <result column="RESP_TIME"   property="respTime" />
+    <result column="RESP_INFO" jdbcType="VARCHAR" property="respInfo" />
+    <result column="RESP_CODE" jdbcType="VARCHAR" property="respCode" />
+    <result column="THIRD_ACCOUNT_NO" jdbcType="VARCHAR" property="thirdAccountNo" />
+    <result column="MAC" jdbcType="VARCHAR" property="mac" />
+    <result column="INFO_CATEGORY_CODE" jdbcType="VARCHAR" property="infoCategoryCode" />
+      <result column="INFO_CATEGORY_NAME" jdbcType="VARCHAR" property="infoCategoryName" />
+  </resultMap>
+  <sql id="base_column">
+  	REQ_ID,
+	BIZ_TYPE_NO,
+	BIZ_SYS_NO,
+	BIZ_SYS_ACCOUNT_NO,
+	ZENGDAI_ACCOUNT_NO,
+	REAL_NAME,
+	GENDER,
+	NATION,
+	MOBILE,
+	RESERVE_MOBILE,
+	BANK_CARD_NO,
+	BANK_CARD_TYPE,
+	BANK_CODE,
+	PAY_SYS_NO,
+	STATUS,
+	ID_TYPE,
+	ID_NO,
+	UPDATE_TIME,
+	IP,
+	CREATER,
+	CREATE_TIME,
+	BIZ_FLOW,
+	IS_SYNC,
+	SPARE1,
+	SPARE2,
+	OPEN_BANK_CODE,
+	PAY_TRANS_FLOW,
+	TRANSFER_FLOW,
+	RESP_TIME,
+	RESP_INFO,
+	RESP_CODE,
+	THIRD_ACCOUNT_NO,
+	MAC,
+	INFO_CATEGORY_CODE
+  </sql>
+  
+  <select id="selectOperationRequestList"  resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN, (select app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME,
+		(select DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=X.pay_sys_no) pay_sys_name,  
+		(select bank_name from dd_t_bank_info t where t.bank_code=x.BANK_CODE) bank_name,
+		(select BANK_ORG_NAME from DD_T_BANK_ORG_INFO t where t.BANK_ORG_NO=x.BANK_CARD_NO) BANK_CARD_NAME,
+		(select INFO_CATEGORY_NAME from TPP_SYS_T_INFO_CATEGORY t where t.INFO_CATEGORY_CODE=x.INFO_CATEGORY_CODE) INFO_CATEGORY_NAME,
+		(select BANK_ORG_NAME from dd_t_bank_org_info t where t.bank_org_no=x.OPEN_BANK_CODE)  OPEN_BANK_NAME 
+		FROM (
+		select * from (
+		 SELECT  <include refid="base_column"/>
+		  FROM TPP_OPERATION_REQUEST  
+		  )
+		  WHERE 1=1 
+
+		 	<if test="beginTime != null and beginTime != ''">
+		        and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss') 
+		    </if> 
+		    <if test="endTime != null and endTime !=''">
+		        and CREATE_TIME &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss') 
+		    </if>
+		  	<if test="mobile != null and mobile != ''">
+		        and MOBILE = #{mobile}
+		    </if> 
+		    <if test="transferFlow != null and transferFlow !=''">
+		        and TRANSFER_FLOW = #{transferFlow}
+		    </if>
+		    <if test="bizSysNo != null and bizSysNo != ''">
+		    	and BIZ_SYS_NO = #{bizSysNo}
+		    </if> 
+		    <if test="bizType != null and bizType != ''">
+		    	and BIZ_TYPE_NO = #{bizType}
+		    </if>
+		    <if test="status != null and status != ''">
+		    	and status = #{status}
+		    </if> 
+		     <if test="bizFlow != null and bizFlow != ''">
+		    	and BIZ_FLOW = #{bizFlow}
+		    </if> 
+		     <if test="bankCardNo != null and bankCardNo != ''">
+		    	and BANK_CARD_NO = #{bankCardNo}
+		    </if> 
+		    <if test="realName != null and realName != ''">
+		    	and REAL_NAME like '%${realName}%'  
+		    </if> 
+		    <if test="infoCategory != null and infoCategory != ''">
+		    	and INFO_CATEGORY_CODE = #{infoCategory}
+		    </if> 
+		    <if test="customerInfo != null and customerInfo != ''">
+		    	and (MOBILE = #{customerInfo} or BANK_CARD_NO = #{customerInfo} or REAL_NAME = #{customerInfo})
+		    </if>
+		    
+		    
+		  order by REQ_ID desc   
+		<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="selectOperationRequestListCount"  resultType="int">
+			SELECT  count(REQ_ID) from (
+			select <include refid="base_column"/>
+		    FROM TPP_OPERATION_REQUEST   
+		    )
+			WHERE 1=1 	
+			<if test="beginTime != null and beginTime != ''">
+		        and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss') 
+		    </if> 
+		    <if test="endTime != null and endTime !=''">
+		        and CREATE_TIME &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss') 
+		    </if>
+		  	<if test="mobile != null and mobile != ''">
+		        and MOBILE = #{mobile}
+		    </if> 
+		    <if test="transferFlow != null and transferFlow !=''">
+		        and TRANSFER_FLOW = #{transferFlow}
+		    </if>
+		    <if test="bizSysNo != null and bizSysNo != ''">
+		    	and BIZ_SYS_NO = #{bizSysNo}
+		    </if> 
+		    <if test="bizType != null and bizType != ''">
+		    	and BIZ_TYPE_NO = #{bizType}
+		    </if>
+		    <if test="status != null and status != ''">
+		    	and status = #{status}
+		    </if> 
+		     <if test="bizFlow != null and bizFlow != ''">
+		    	and BIZ_FLOW = #{bizFlow}
+		    </if> 
+		     <if test="bankCardNo != null and bankCardNo != ''">
+		    	and BANK_CARD_NO = #{bankCardNo}
+		    </if> 
+		    <if test="realName != null and realName != ''">
+		    	and REAL_NAME like '%${realName}%'  
+		    </if> 
+		    <if test="infoCategory != null and infoCategory != ''">
+		    	and INFO_CATEGORY_CODE = #{infoCategory}
+		    </if> 
+		    <if test="customerInfo != null and customerInfo != ''">
+		    	and (MOBILE = #{customerInfo} or BANK_CARD_NO = #{customerInfo} or REAL_NAME = #{customerInfo})
+		    </if>
+		     
+		    
+	 </select>
+	 <select id="selectOperationRequestListById" resultType="java.util.HashMap">
+	 	 
+		SELECT X.*, (select app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME,
+		(select DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=X.pay_sys_no) pay_sys_name,  
+		(select bank_name from dd_t_bank_info t where t.bank_code=x.BANK_CODE) bank_name,
+		(select BANK_ORG_NAME from DD_T_BANK_ORG_INFO t where t.BANK_ORG_NO=x.BANK_CARD_NO) BANK_CARD_NAME,
+		(select INFO_CATEGORY_NAME from TPP_SYS_T_INFO_CATEGORY t where t.INFO_CATEGORY_CODE=x.INFO_CATEGORY_CODE) INFO_CATEGORY_NAME ,
+		(select BANK_ORG_NAME from dd_t_bank_org_info t where t.bank_org_no=x.OPEN_BANK_CODE)  OPEN_BANK_NAME 
+		FROM (
+		select * from (
+		 SELECT  <include refid="base_column"/>
+		  FROM TPP_OPERATION_REQUEST  
+		  )
+		  WHERE 1=1 
+		  <if test="id != null and id != ''">
+		        and REQ_ID = #{id}
+		 </if>
+		  
+			 ) X  
+			 
+	 
+	 </select>
+	 
+</mapper>

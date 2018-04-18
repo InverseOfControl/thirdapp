@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.SysInfoCategoryAPPS">
+	<typeAlias alias="SysInfoCategoryAPPS" type="com.zendaimoney.thirdpp.trade.entity.SysInfoCategoryAPPS" />
+
+	<resultMap id="SysInfoCategoryAPPSMap" class="SysInfoCategoryAPPS">
+	<result property="id" column="ID" jdbcType="java.lang.Long"/>
+	<result property="appCode" column="APP_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="infoCategoryCode" column="INFO_CATEGORY_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="createTime" column="CREATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="creater" column="CREATER" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="updateTime" column="UPDATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="updater" column="UPDATER" jdbcType="java.lang.String" nullValue=""/>
+	</resultMap>
+	
+	<select id="querySysInfoCategoryAPPS" parameterClass="java.util.Map" resultMap="SysInfoCategoryAPPSMap">		 
+		 select * from TPP_SYS_T_INFO_CATEGORY_APPS t
+		  where 1=1
+		 <isNotEmpty prepend="and" property="infoCategoryCode">
+		 t.INFO_CATEGORY_CODE=#infoCategoryCode# 
+		 </isNotEmpty>
+		 <isNotEmpty prepend="and" property="appCode">
+		 t.APP_CODE=#appCode# 
+		 </isNotEmpty>
+	</select>
+
+</sqlMap>

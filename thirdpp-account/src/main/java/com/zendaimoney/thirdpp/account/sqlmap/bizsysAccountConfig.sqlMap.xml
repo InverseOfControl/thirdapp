@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace = "com.zendaimoney.thirdpp.account.entity.BizsysAccountConfig">
+	
+	<typeAlias alias = "BizsysAccountConfig" type = "com.zendaimoney.thirdpp.account.entity.BizsysAccountConfig"/>
+	<resultMap id = "BizsysAccountConfigMap" class = "BizsysAccountConfig">
+		<result column = "ID" property = "id" jdbcType = "java.lang.Long"/>
+		<result column = "APP_NAME" property = "appName" jdbcType = "java.lang.String"/>
+		<result column = "BIZ_SYS_NO" property = "bizSysNo" jdbcType = "java.lang.String"/>
+		<result column = "BIZ_TYPE" property = "bizType" jdbcType = "java.lang.String"/>
+		<result column = "FTP_SERVER" property = "ftpServer" jdbcType = "java.lang.String"/>
+		<result column = "FTP_PORT" property = "ftpPort" jdbcType = "java.lang.String"/>
+		<result column = "FTP_USERNAME" property = "ftpUsername" jdbcType = "java.lang.String"/>
+		<result column = "FTP_PWD" property = "ftpPwd" jdbcType = "java.lang.String"/>
+		<result column = "FTP_PATH" property = "ftpPath" jdbcType = "java.lang.String"/>
+		<result column = "LOCAL_ACCOUNT_ROOT_PATH" property = "localAccountRootPath" jdbcType = "java.lang.String"/>
+		<result column = "ACCOUNT_TIME" property = "accountTime" jdbcType = "java.lang.String"/>
+		<result column = "FILE_NAME_FORMAT" property = "fileNameFormat" jdbcType = "java.lang.String"/>
+		<result column = "FILE_SUFFIX" property = "fileSuffix" jdbcType = "java.lang.String"/>
+		<result column = "FILE_ENCODING" property = "fileEncoding" jdbcType = "java.lang.String"/>
+		<result column = "ATTRS_DEFINITION" property = "attrsDefinition" jdbcType = "java.lang.String"/>
+		<result column = "ATTRS_SPLIT" property = "attrsSplit" jdbcType = "java.lang.String"/>
+		<result column = "MAX_PUSH_FAILED_TIMES" property = "maxPushFailedTimes" jdbcType = "java.lang.Integer"/>
+		<result column = "MAX_LOCALIZE_FAILED_TIMES" property = "maxLocalizeFailedTimes" jdbcType = "java.lang.Integer"/>
+		<result column = "CURRENCY_UNIT" property = "currencyUnit" jdbcType = "java.lang.String"/>
+		<result column = "STATUS" property = "status" jdbcType = "java.lang.Integer"/>
+		<result column = "CREATE_TIME" property = "createTime" jdbcType = "java.util.Date"/>
+	</resultMap>
+	
+	<select id = "queryBizsysAccountConfig" resultMap = "BizsysAccountConfigMap" parameterClass = "java.util.Map">
+		select * from TPP_ACCOUNT_BIZSYS_CONFIG 
+		where BIZ_SYS_NO = #bizSysNo# 
+		and STATUS = 1 
+		<![CDATA[and rownum <= 1]]> 
+	</select>
+	
+	<select id = "queryAvaiableBizsysAccountConfig" resultMap = "BizsysAccountConfigMap">
+		select * from TPP_ACCOUNT_BIZSYS_CONFIG 
+		where STATUS = 1 
+		and APP_NAME = #appName# 
+	</select>
+	
+	<select id = "queryBizsysAccountConfigByConfigId" resultMap = "BizsysAccountConfigMap" parameterClass = "java.util.Map">
+		select * from TPP_ACCOUNT_BIZSYS_CONFIG 
+		where ID = #configId# 
+		and STATUS = 1 
+		<![CDATA[and rownum <= 1]]> 
+	</select>
+	
+</sqlMap>

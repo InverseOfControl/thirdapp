@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"     
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd   
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<dubbo:application name="tpp-trade" />
+	<!-- <dubbo:registry protocol="zookeeper" address="zookeeper://10.100.30.4:2181?backup=10.100.30.5:2181,10.100.30.6:2181"/>-->
+     <dubbo:registry protocol="zookeeper" address="172.16.235.44:2181"/> 
+    <!--<dubbo:registry protocol="zookeeper" address="172.16.250.91:2181"/> -->
+    <dubbo:reference id="brokerTradeConsumer" interface="com.zendaimoney.thirdpp.trade.pub.service.IBrokerTradeService"  check="false"  retries="0" timeout="90000"/>
+</beans>

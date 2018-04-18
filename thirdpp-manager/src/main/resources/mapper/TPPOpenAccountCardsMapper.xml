@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TppOpenAccountCardsMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TPPOpenAccountCards">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="THIRD_ACCOUNT_NO" jdbcType="VARCHAR" property="thirdAccountNo" />
+		<result column="BANK_CARD_NO" jdbcType="VARCHAR" property="bankCardNo" />
+		<result column="BANK_CARD_NAME" jdbcType="VARCHAR" property="bankCardName" />
+		<result column="BANK_CARD_TYPE" jdbcType="VARCHAR" property="bankCardType"/>
+		<result column="BANK_CODE"  jdbcType="VARCHAR" property="bankCode" />
+		<result column="BANK_CODE_NAME"  jdbcType="VARCHAR" property="bankCodeName" />
+		<result column="STATUS" jdbcType="VARCHAR" property="status" />
+		<result column="RESERVE_MOBILE"  jdbcType="VARCHAR" property="reserveMobile" />
+		<result column="PAY_SYS_NO" jdbcType="VARCHAR" property="paySysNo" />
+		<result column="PAY_SYS_NAME" jdbcType="VARCHAR" property="paySysName" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATE_TIME"   property="updateTime" />
+		<result column="REQ_ID"  jdbcType="VARCHAR" property="reqId" />
+		<result column="SPARE1" jdbcType="VARCHAR" property="spare1" />
+		<result column="SPARE2" jdbcType="VARCHAR" property="spare2" />
+		<result column="OPEN_ACCOUNT_ID" jdbcType="VARCHAR" property="openAccountId" />
+		<result column="OPEN_BANK_CODE" jdbcType="VARCHAR" property="openBankCode" />
+		<result column="OPEN_BANK_NAME"  jdbcType="VARCHAR" property="openBankName" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,
+		THIRD_ACCOUNT_NO,
+		BANK_CARD_NO,
+		BANK_CARD_NAME,
+		BANK_CARD_TYPE,
+		BANK_CODE,
+		STATUS,
+		RESERVE_MOBILE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		PAY_SYS_NO,
+		REQ_ID,
+		SPARE1,
+		SPARE2,
+		OPEN_ACCOUNT_ID,
+		OPEN_BANK_CODE
+	</sql>
+	<select id="getOpenAccountCardsList" resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN ,
+				(select t.DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=x.PAY_SYS_NO) PAY_SYS_NAME,
+					(select  BANK_NAME from DD_T_BANK_INFO WHERE DD_T_BANK_INFO.BANK_CODE=x.BANK_CODE
+    			) 	BANK_CODE_NAME,(select  bank_org_name from DD_T_BANK_ORG_INFO WHERE DD_T_BANK_ORG_INFO.bank_org_no=x.OPEN_BANK_CODE
+    			) 	OPEN_BANK_NAME
+				 FROM ( select
+		<include refid="Base_Column_List"></include>
+		from TPP_OPEN_ACCOUNT_CARDS  where 1=1
+		<if test="thirdAccountNo != null and thirdAccountNo !=''">
+			and THIRD_ACCOUNT_NO= #{thirdAccountNo}
+		</if>
+		<if test="bankCardName != null and bankCardName !=''">
+			and BANK_CARD_NAME like '%${bankCardName}%'
+		</if>
+		<if test="bankCardType != null and bankCardType !=''">
+			and BANK_CARD_TYPE = #{bankCardType}
+		</if>
+		<if test="paySysNo != null and paySysNo !=''">
+			and PAY_SYS_NO = #{paySysNo}
+		</if>
+		<if test="status != null and status !=''">
+			and STATUS = #{status}
+		</if>
+		<if test="reserveMobile != null and reserveMobile !=''">
+			and RESERVE_MOBILE = #{reserveMobile}
+		</if>
+		<if test="bankCardNo != null and bankCardNo !=''">
+			and BANK_CARD_NO = #{bankCardNo}
+		</if>
+		<if test="beginTime != null and beginTime!=''">
+			and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss') 
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and CREATE_TIME &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss') 
+		</if> 
+		order by ID desc  
+    <![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+	</select>
+	<select id="getOpenAccountCardsListCount" resultType="Integer">
+		select count(ID) from TPP_OPEN_ACCOUNT_CARDS where 1=1
+		<if test="thirdAccountNo != null and thirdAccountNo !=''">
+			and THIRD_ACCOUNT_NO= #{thirdAccountNo}
+		</if>
+		<if test="bankCardName != null and bankCardName !=''">
+			and BANK_CARD_NAME like '%${bankCardName}%'
+		</if>
+		<if test="bankCardType != null and bankCardType !=''">
+			and BANK_CARD_TYPE = #{bankCardType}
+		</if>
+		<if test="paySysNo != null and paySysNo !=''">
+			and PAY_SYS_NO = #{paySysNo}
+		</if>
+		<if test="status != null and status !=''">
+			and STATUS = #{status}
+		</if>
+		<if test="reserveMobile != null and reserveMobile !=''">
+			and RESERVE_MOBILE = #{reserveMobile}
+		</if>
+		<if test="bankCardNo != null and bankCardNo !=''">
+			and BANK_CARD_NO = #{bankCardNo}
+		</if>
+		<if test="beginTime != null and beginTime!=''">
+			and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss') 
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and CREATE_TIME &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss') 
+		</if> 
+	</select>
+</mapper>

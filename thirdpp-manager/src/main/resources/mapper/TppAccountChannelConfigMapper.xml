@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppAccountChannelConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppAccountChannelConfig" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="APP_NAME" property="appName" jdbcType="VARCHAR" />
+    <result column="CHANNEL_NAME" property="channelName" jdbcType="VARCHAR" />
+    <result column="THIRD_TYPE_NO" property="thirdTypeNo" jdbcType="VARCHAR" />
+    <result column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <result column="FETCH_METHOD" property="fetchMethod" jdbcType="VARCHAR" />
+    <result column="FETCH_TYPE" property="fetchType" jdbcType="DECIMAL" />
+    <result column="DOWNLOAD_URL" property="downloadUrl" jdbcType="VARCHAR" />
+    <result column="SERVER" property="server" jdbcType="VARCHAR" />
+    <result column="PORT" property="port" jdbcType="DECIMAL" />
+    <result column="LOGIN_USERNAME" property="loginUsername" jdbcType="VARCHAR" />
+    <result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+    <result column="FILE_PATH_SUB" property="filePathSub" jdbcType="VARCHAR" />
+    <result column="FILE_NAME_FORMAT" property="fileNameFormat" jdbcType="VARCHAR" />
+    <result column="FILE_SUFFIX" property="fileSuffix" jdbcType="VARCHAR" />
+    <result column="FILE_ENCODING" property="fileEncoding" jdbcType="VARCHAR" />
+    <result column="FILE_START_INDEX" property="fileStartIndex" jdbcType="DECIMAL" />
+    <result column="FILE_HEADER_ATTRS_INDEX" property="fileHeaderAttrsIndex" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_TIME" property="accountTime" jdbcType="VARCHAR" />
+    <result column="ATTR_SPLIT" property="attrSplit" jdbcType="VARCHAR" />
+    <result column="ATTRS_DEFINITION" property="attrsDefinition" jdbcType="VARCHAR" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+    <result column="CURRENCY_UNIT" property="currencyUnit" jdbcType="VARCHAR" />
+    <result column="MAX_DOWNLOAD_FAILED_TIMES" property="maxDownloadFailedTimes" jdbcType="DECIMAL" />
+    <result column="MAX_INSERT_FAILED_TIMES" property="maxInsertFailedTimes" jdbcType="DECIMAL" />
+    <result column="MAX_BACKUP_FAILED_TIMES" property="maxBackupFailedTimes" jdbcType="DECIMAL" />
+    <result column="MAX_ACCOUNT_FAILED_TIMES" property="maxAccountFailedTimes" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+   
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, APP_NAME,CHANNEL_NAME, THIRD_TYPE_NO, MERCHANT_NO, FETCH_METHOD, FETCH_TYPE, DOWNLOAD_URL, 
+    LOGIN_USERNAME, LOGIN_PWD, FILE_PATH, FILE_NAME_FORMAT, FILE_SUFFIX, 
+    FILE_START_INDEX, ACCOUNT_TIME, ATTR_SPLIT, ATTRS_DEFINITION, FILE_HEADER_ATTRS_INDEX, 
+    CURRENCY,CURRENCY_UNIT, MAX_DOWNLOAD_FAILED_TIMES, MAX_INSERT_FAILED_TIMES, STATUS, CREATE_TIME,BIZ_TYPE,FILE_ENCODING,
+    SERVER,PORT,FILE_PATH_SUB,MAX_BACKUP_FAILED_TIMES,MAX_ACCOUNT_FAILED_TIMES
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TPP_ACCOUNT_CHANNEL_CONFIG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from TPP_ACCOUNT_CHANNEL_CONFIG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <!-- 批量删除 -->
+  <delete id="batchDelete" parameterType="java.util.List">  
+    delete from TPP_ACCOUNT_CHANNEL_CONFIG where ID in  
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+        #{item}   
+    </foreach>  
+</delete>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppAccountChannelConfig" >
+  	<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_TPP_ACCOUNT_CHANNEL_CONFIG.nextval from dual
+    </selectKey>
+    insert into TPP_ACCOUNT_CHANNEL_CONFIG (ID, CHANNEL_NAME, THIRD_TYPE_NO, 
+      MERCHANT_NO, FETCH_METHOD, FETCH_TYPE, 
+      DOWNLOAD_URL, LOGIN_USERNAME, LOGIN_PWD, 
+      FILE_PATH, FILE_NAME_FORMAT, 
+      FILE_SUFFIX, FILE_START_INDEX, 
+      ACCOUNT_TIME, ATTR_SPLIT, ATTRS_DEFINITION, 
+      FILE_HEADER_ATTRS_INDEX, CURRENCY, CURRENCY_UNIT, MAX_DOWNLOAD_FAILED_TIMES, 
+      MAX_INSERT_FAILED_TIMES, STATUS, CREATE_TIME,BIZ_TYPE,APP_NAME,FILE_ENCODING,SERVER,PORT,FILE_PATH_SUB,MAX_BACKUP_FAILED_TIMES,MAX_ACCOUNT_FAILED_TIMES
+      )
+    values (#{id,jdbcType=DECIMAL}, #{channelName,jdbcType=VARCHAR}, #{thirdTypeNo,jdbcType=VARCHAR}, 
+      #{merchantNo,jdbcType=VARCHAR}, #{fetchMethod,jdbcType=VARCHAR}, #{fetchType,jdbcType=DECIMAL}, 
+      #{downloadUrl,jdbcType=VARCHAR}, #{loginUsername,jdbcType=VARCHAR}, #{loginPwd,jdbcType=VARCHAR}, 
+      #{filePath,jdbcType=VARCHAR}, #{fileNameFormat,jdbcType=VARCHAR}, 
+      #{fileSuffix,jdbcType=VARCHAR}, #{fileStartIndex,jdbcType=DECIMAL}, 
+      #{accountTime,jdbcType=VARCHAR}, #{attrSplit,jdbcType=VARCHAR}, #{attrsDefinition,jdbcType=VARCHAR}, 
+      #{fileHeaderAttrsIndex,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR},#{currencyUnit,jdbcType=VARCHAR}, #{maxDownloadFailedTimes,jdbcType=DECIMAL}, 
+      #{maxInsertFailedTimes,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, sysdate,#{bizType,jdbcType=VARCHAR},#{appName,jdbcType=VARCHAR},#{fileEncoding,jdbcType=VARCHAR},
+      #{server,jdbcType=VARCHAR},#{port,jdbcType=DECIMAL},#{filePathSub,jdbcType=VARCHAR},#{maxBackupFailedTimes,jdbcType=DECIMAL},#{maxAccountFailedTimes,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppAccountChannelConfig" >
+    insert into TPP_ACCOUNT_CHANNEL_CONFIG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="channelName != null" >
+        CHANNEL_NAME,
+      </if>
+      <if test="thirdTypeNo != null" >
+        THIRD_TYPE_NO,
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO,
+      </if>
+      <if test="fetchMethod != null" >
+        FETCH_METHOD,
+      </if>
+      <if test="fetchType != null" >
+        FETCH_TYPE,
+      </if>
+      <if test="downloadUrl != null" >
+        DOWNLOAD_URL,
+      </if>
+      <if test="loginUsername != null" >
+        LOGIN_USERNAME,
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD,
+      </if>
+      <if test="filePath != null" >
+        FILE_PATH,
+      </if>
+      <if test="fileNameFormat != null" >
+        FILE_NAME_FORMAT,
+      </if>
+      <if test="fileSuffix != null" >
+        FILE_SUFFIX,
+      </if>
+      <if test="fileStartIndex != null" >
+        FILE_START_INDEX,
+      </if>
+      <if test="accountTime != null" >
+        ACCOUNT_TIME,
+      </if>
+      <if test="attrSplit != null" >
+        ATTR_SPLIT,
+      </if>
+      <if test="attrsDefinition != null" >
+        ATTRS_DEFINITION,
+      </if>
+      <if test="fileHeaderAttrsIndex != null" >
+        FILE_HEADER_ATTRS_INDEX,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+      <if test="currencyUnit != null" >
+        CURRENCY_UNIT,
+      </if>
+      <if test="maxDownloadFailedTimes != null" >
+        MAX_DOWNLOAD_FAILED_TIMES,
+      </if>
+      <if test="maxInsertFailedTimes != null" >
+        MAX_INSERT_FAILED_TIMES,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="channelName != null" >
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdTypeNo != null" >
+        #{thirdTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fetchMethod != null" >
+        #{fetchMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="fetchType != null" >
+        #{fetchType,jdbcType=DECIMAL},
+      </if>
+      <if test="downloadUrl != null" >
+        #{downloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="loginUsername != null" >
+        #{loginUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileBackupPath != null" >
+        #{fileBackupPath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNameFormat != null" >
+        #{fileNameFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSuffix != null" >
+        #{fileSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="fileStartIndex != null" >
+        #{fileStartIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="accountTime != null" >
+        #{accountTime,jdbcType=VARCHAR},
+      </if>
+      <if test="attrSplit != null" >
+        #{attrSplit,jdbcType=VARCHAR},
+      </if>
+      <if test="attrsDefinition != null" >
+        #{attrsDefinition,jdbcType=VARCHAR},
+      </if>
+      <if test="headerAttrsDefinition != null" >
+        #{headerAttrsDefinition,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyUnit != null" >
+        #{currencyUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="maxDownloadFailedTimes != null" >
+        #{maxDownloadFailedTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="maxInsertFailedTimes != null" >
+        #{maxInsertFailedTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.manager.models.TppAccountChannelConfig" >
+    update TPP_ACCOUNT_CHANNEL_CONFIG
+    <set >
+      <if test="channelName != null" >
+        CHANNEL_NAME = #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdTypeNo != null" >
+        THIRD_TYPE_NO = #{thirdTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fetchMethod != null" >
+        FETCH_METHOD = #{fetchMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="fetchType != null" >
+        FETCH_TYPE = #{fetchType,jdbcType=DECIMAL},
+      </if>
+      <if test="downloadUrl != null" >
+        DOWNLOAD_URL = #{downloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="loginUsername != null" >
+        LOGIN_USERNAME = #{loginUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNameFormat != null" >
+        FILE_NAME_FORMAT = #{fileNameFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSuffix != null" >
+        FILE_SUFFIX = #{fileSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="fileStartIndex != null" >
+        FILE_START_INDEX = #{fileStartIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="accountTime != null" >
+        ACCOUNT_TIME = #{accountTime,jdbcType=VARCHAR},
+      </if>
+      <if test="attrSplit != null" >
+        ATTR_SPLIT = #{attrSplit,jdbcType=VARCHAR},
+      </if>
+      <if test="attrsDefinition != null" >
+        ATTRS_DEFINITION = #{attrsDefinition,jdbcType=VARCHAR},
+      </if>
+      <if test="fileHeaderAttrsIndex != null" >
+        FILE_HEADER_ATTRS_INDEX = #{fileHeaderAttrsIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyUnit != null" >
+        CURRENCY_UNIT = #{currencyUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="maxDownloadFailedTimes != null" >
+        MAX_DOWNLOAD_FAILED_TIMES = #{maxDownloadFailedTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="maxInsertFailedTimes != null" >
+        MAX_INSERT_FAILED_TIMES = #{maxInsertFailedTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="fileEncoding != null" >
+        FILE_ENCODING = #{fileEncoding,jdbcType=DECIMAL},
+      </if>
+      <if test="server != null" >
+        SERVER = #{server,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null" >
+        PORT = #{port,jdbcType=DECIMAL},
+      </if>
+      <if test="filePathSub != null" >
+        FILE_PATH_SUB = #{filePathSub,jdbcType=VARCHAR},
+      </if>
+      <if test="maxBackupFailedTimes != null" >
+        MAX_BACKUP_FAILED_TIMES = #{maxBackupFailedTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="maxAccountFailedTimes != null" >
+        MAX_ACCOUNT_FAILED_TIMES = #{maxAccountFailedTimes,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.manager.models.TppAccountChannelConfig" >
+    update TPP_ACCOUNT_CHANNEL_CONFIG
+    set CHANNEL_NAME = #{channelName,jdbcType=VARCHAR},
+      THIRD_TYPE_NO = #{thirdTypeNo,jdbcType=VARCHAR},
+      MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR},
+      FETCH_METHOD = #{fetchMethod,jdbcType=VARCHAR},
+      FETCH_TYPE = #{fetchType,jdbcType=DECIMAL},
+      DOWNLOAD_URL = #{downloadUrl,jdbcType=VARCHAR},
+      LOGIN_USERNAME = #{loginUsername,jdbcType=VARCHAR},
+      LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      FILE_NAME_FORMAT = #{fileNameFormat,jdbcType=VARCHAR},
+      FILE_SUFFIX = #{fileSuffix,jdbcType=VARCHAR},
+      FILE_START_INDEX = #{fileStartIndex,jdbcType=DECIMAL},
+      ACCOUNT_TIME = #{accountTime,jdbcType=VARCHAR},
+      ATTR_SPLIT = #{attrSplit,jdbcType=VARCHAR},
+      ATTRS_DEFINITION = #{attrsDefinition,jdbcType=VARCHAR},
+      FILE_HEADER_ATTRS_INDEX = #{fileHeaderAttrsIndex,jdbcType=VARCHAR},
+      CURRENCY = #{currency,jdbcType=VARCHAR},
+      CURRENCY_UNIT = #{currencyUnit,jdbcType=VARCHAR},
+      MAX_DOWNLOAD_FAILED_TIMES = #{maxDownloadFailedTimes,jdbcType=DECIMAL},
+      MAX_INSERT_FAILED_TIMES = #{maxInsertFailedTimes,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      APP_NAME = #{appName,jdbcType=VARCHAR},
+      FILE_ENCODING = #{fileEncoding,jdbcType=DECIMAL},
+      SERVER = #{server,jdbcType=VARCHAR},
+      PORT = #{port,jdbcType=DECIMAL},
+      FILE_PATH_SUB = #{filePathSub,jdbcType=VARCHAR},
+      MAX_BACKUP_FAILED_TIMES = #{maxBackupFailedTimes,jdbcType=DECIMAL},
+      MAX_ACCOUNT_FAILED_TIMES = #{maxAccountFailedTimes,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <sql id="Channel_Config_Column_List" >
+  	ID,CHANNEL_NAME,THIRD_TYPE_NO,MERCHANT_NO,FETCH_METHOD,FETCH_TYPE,DOWNLOAD_URL,LOGIN_USERNAME,LOGIN_PWD,FILE_PATH,FILE_NAME_FORMAT,FILE_SUFFIX,FILE_START_INDEX,ACCOUNT_TIME,ATTR_SPLIT,ATTRS_DEFINITION,FILE_HEADER_ATTRS_INDEX,CURRENCY,CURRENCY_UNIT,MAX_DOWNLOAD_FAILED_TIMES,MAX_INSERT_FAILED_TIMES,STATUS,CREATE_TIME,BIZ_TYPE,APP_NAME,FILE_ENCODING,SERVER,PORT,FILE_PATH_SUB,MAX_BACKUP_FAILED_TIMES,MAX_ACCOUNT_FAILED_TIMES
+  </sql>
+  
+  <select id="select_tppAccountChannelConfigSelective" resultType="java.util.HashMap">
+   	SELECT    <include refid="Channel_Config_Column_List" />
+		FROM TPP_ACCOUNT_CHANNEL_CONFIG
+  			WHERE 1=1  
+  			<if test="SEARCH_CHANNEL_NAME != null and SEARCH_CHANNEL_NAME != ''">
+    			and CHANNEL_NAME = #{SEARCH_CHANNEL_NAME}
+    		</if>
+    		<if test="SEARCH_THIRD_TYPE_NO != null and SEARCH_THIRD_TYPE_NO != ''">
+    			and THIRD_TYPE_NO = #{SEARCH_THIRD_TYPE_NO}
+    		</if>
+    		<if test="SEARCH_MERCHANT_NO != null and SEARCH_MERCHANT_NO != ''">
+    			and MERCHANT_NO = #{SEARCH_MERCHANT_NO}
+    		</if>
+    		<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+    			and BIZ_TYPE like '%'||(#{SEARCH_BIZ_TYPE})||'%'
+    		</if>
+    		<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+    			and STATUS = #{SEARCH_STATUS}
+    		</if>
+    		<if test="SEARCH_APP_NAME != null and SEARCH_APP_NAME != ''">
+    			and APP_NAME = #{SEARCH_APP_NAME}
+    		</if>
+    		
+  </select>
+  <select id="select_tppAccountChannelConfigForUpdateSelective" resultType="java.util.HashMap">
+   	SELECT    <include refid="Channel_Config_Column_List" />
+		FROM TPP_ACCOUNT_CHANNEL_CONFIG
+  			WHERE 1=1  and id != #{SEARCH_ID}
+  			<if test="SEARCH_CHANNEL_NAME != null and SEARCH_CHANNEL_NAME != ''">
+    			and CHANNEL_NAME = #{SEARCH_CHANNEL_NAME}
+    		</if>
+    		<if test="SEARCH_THIRD_TYPE_NO != null and SEARCH_THIRD_TYPE_NO != ''">
+    			and THIRD_TYPE_NO = #{SEARCH_THIRD_TYPE_NO}
+    		</if>
+    		<if test="SEARCH_MERCHANT_NO != null and SEARCH_MERCHANT_NO != ''">
+    			and MERCHANT_NO = #{SEARCH_MERCHANT_NO}
+    		</if>
+    		<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+    			and BIZ_TYPE like '%'||(#{SEARCH_BIZ_TYPE})||'%'
+    		</if>
+    		<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+    			and STATUS = #{SEARCH_STATUS}
+    		</if>
+    		<if test="SEARCH_APP_NAME != null and SEARCH_APP_NAME != ''">
+    			and APP_NAME = #{SEARCH_APP_NAME}
+    		</if>
+  </select>
+  
+  <!--用于模糊查询-->
+  <select id="select_tppAccountChannelConfigList" resultType="java.util.HashMap">
+	SELECT * FROM (
+		SELECT X.*,ROWNUM RN
+			FROM (
+				select * from (
+        			SELECT    <include refid="Channel_Config_Column_List" />
+  					FROM TPP_ACCOUNT_CHANNEL_CONFIG) 
+  			WHERE 1=1  
+    		<if test="SEARCH_CHANNEL_NAME != null and SEARCH_CHANNEL_NAME != ''">
+    			and CHANNEL_NAME like '%'||(#{SEARCH_CHANNEL_NAME})||'%'
+    		</if>
+    		<if test="SEARCH_THIRD_TYPE_NO != null and SEARCH_THIRD_TYPE_NO != ''">
+    			and THIRD_TYPE_NO like '%'||(#{SEARCH_THIRD_TYPE_NO})||'%'
+    		</if>
+    		<if test="SEARCH_MERCHANT_NO != null and SEARCH_MERCHANT_NO != ''">
+    			and MERCHANT_NO like '%'||(#{SEARCH_MERCHANT_NO})||'%'
+    		</if>
+    		<!-- <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+    			and BIZ_TYPE = #{SEARCH_BIZ_TYPE}
+    		</if> -->
+    		<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+		    	<foreach item="item" index="index" collection="SEARCH_BIZ_TYPE">
+                       and BIZ_TYPE like '%'||(#{item})||'%'
+                </foreach>
+		    </if>
+    		<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+    			and STATUS = #{SEARCH_STATUS}
+    		</if>
+    		<if test="SEARCH_APP_NAME != null and SEARCH_APP_NAME != ''">
+    			and APP_NAME = #{SEARCH_APP_NAME}
+    		</if>
+  			<if test="orderStr != null">
+		  		${orderStr} 
+		  	</if>
+  			<![CDATA[
+ 		) X WHERE ROWNUM  <= #{rowEnd}
+	) WHERE RN >= #{rowBegin}
+	
+	]]>
+	
+  </select>
+     
+	<!--用于查询总数-->
+	<select id="select_tppAccountChannelConfigList_count" resultType="int">
+		SELECT  count(ID) FROM TPP_ACCOUNT_CHANNEL_CONFIG WHERE 1=1 
+		<if test="SEARCH_CHANNEL_NAME != null and SEARCH_CHANNEL_NAME != ''">
+   			and CHANNEL_NAME like '%'||(#{SEARCH_CHANNEL_NAME})||'%'
+   		</if>
+   		<if test="SEARCH_THIRD_TYPE_NO != null and SEARCH_THIRD_TYPE_NO != ''">
+   			and THIRD_TYPE_NO like '%'||(#{SEARCH_THIRD_TYPE_NO})||'%'
+   		</if>
+   		<if test="SEARCH_MERCHANT_NO != null and SEARCH_MERCHANT_NO != ''">
+   			and MERCHANT_NO like '%'||(#{SEARCH_MERCHANT_NO})||'%'
+   		</if>
+   		<!-- <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+   			and BIZ_TYPE = #{SEARCH_BIZ_TYPE}
+   		</if> -->
+   		<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+	    	<foreach item="item" index="index" collection="SEARCH_BIZ_TYPE">
+                      and BIZ_TYPE like '%'||(#{item})||'%'
+               </foreach>
+	    </if>
+   		<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+   			and STATUS = #{SEARCH_STATUS}
+   		</if>
+   		<if test="SEARCH_APP_NAME != null and SEARCH_APP_NAME != ''">
+   			and APP_NAME = #{SEARCH_APP_NAME}
+   		</if>
+	</select>
+</mapper>

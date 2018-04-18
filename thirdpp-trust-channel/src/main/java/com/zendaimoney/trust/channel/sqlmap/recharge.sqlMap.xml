@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.trust.channel.entity.Recharge">
+	<typeAlias alias="Recharge" type="com.zendaimoney.trust.channel.entity.Recharge" />
+
+	<resultMap id="RechargeMap" class="Recharge">
+		<result property="isNeedPush" column="is_need_push" jdbcType="java.lang.String" nullValue=""/>
+		<result property="isBatch" column="is_batch" jdbcType="java.lang.String" nullValue=""/>
+		<result property="batchNo" column="batch_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="tradeFlow" column="trade_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="tradeType" column="trade_type" jdbcType="java.lang.String" nullValue=""/>
+		<result property="status" column="status" jdbcType="java.lang.Integer" nullValue=""/>
+		<result property="fromBankCardNo" column="from_bank_card_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="fromBankCardType" column="from_bank_card_type" jdbcType="java.lang.String" nullValue=""/>
+		<result property="fromBankCode" column="from_bank_code" jdbcType="java.lang.String" nullValue=""/>
+		<result property="fromBankName" column="from_bank_name" jdbcType="java.lang.String" nullValue=""/>
+		<result property="toAccountNo" column="to_account_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="toClientNo" column="to_client_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="amount" column="amount" jdbcType="java.math.BigDecimal" nullValue=""/>
+		<result property="redPacketAmount" column="red_packet_amount" jdbcType="java.math.BigDecimal" nullValue=""/>
+		<result property="actualAmount" column="actual_amount" jdbcType="java.math.BigDecimal" nullValue=""/>
+		<result property="currency" column="currency" jdbcType="java.lang.String" nullValue=""/>
+		<result property="createTime" column="create_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="creater" column="creater" jdbcType="java.lang.String" nullValue=""/>
+		<result property="payType" column="pay_type" jdbcType="java.lang.String" nullValue=""/>
+		<result property="ip" column="ip" jdbcType="java.lang.String" nullValue=""/>
+		<result property="mac" column="mac" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respTime" column="resp_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respTimeExt" column="resp_time_ext" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respFlow" column="resp_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="failReason" column="fail_reason" jdbcType="java.lang.String" nullValue=""/>
+		<result property="payTransFlow" column="pay_trans_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="bizFlow" column="biz_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="paySysNo" column="pay_sys_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="bizSysNo" column="biz_sys_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="infoCategoryCode" column="info_category_code" jdbcType="java.lang.String" nullValue=""/>
+		<result property="notifyUrl" column="notify_url" jdbcType="java.lang.String" nullValue=""/>
+		<result property="settleDate" column="settle_date" jdbcType="java.lang.String" nullValue=""/>
+		<result property="note" column="note" jdbcType="java.lang.String" nullValue=""/>
+		<result property="spare1" column="spare1" jdbcType="java.lang.String" nullValue=""/>
+		<result property="spare2" column="spare2" jdbcType="java.lang.String" nullValue=""/>
+	</resultMap>
+	
+	<!-- 更新批量文件请求 -->
+	<insert id="update" parameterClass="Recharge">
+		update TPP_TRADE_CASH_RECHARGE set
+		RESP_TIME = sysdate
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="failReason">
+			fail_reason=#failReason#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend="," property="settleDate">
+			settle_date=#settleDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respTimeExt">
+			resp_time_ext=#respTimeExt#
+		</isNotEmpty>
+		where trade_flow=#tradeFlow#
+	 </insert>
+
+</sqlMap>

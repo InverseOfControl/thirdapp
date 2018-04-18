@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TSysAppMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TSysApp">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="APP_NAME" jdbcType="VARCHAR" property="appName" />
+		<result column="APP_CODE" jdbcType="VARCHAR" property="appCode" />
+		<result column="IS_FLAG" jdbcType="VARCHAR" property="isFlag" />
+		<result column="CONTACT_NAME" jdbcType="VARCHAR" property="contactName" />
+		<result column="CONTACT_MOBILE" jdbcType="VARCHAR" property="contactMobile" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="CREATER" jdbcType="VARCHAR" property="creater" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+		<result column="SPARE1" jdbcType="VARCHAR" property="spare1" />
+		<result column="SPARE2" jdbcType="VARCHAR" property="spare2" />
+		<result column="COLLECT_NOTIFY_URL" jdbcType="VARCHAR" property="collectNotifyUrl" />
+		<result column="PAY_NOTIFY_URL" jdbcType="VARCHAR" property="payNotifyUrl" />
+		<result column="CASH_BACK_NOTIFY_URL" jdbcType="VARCHAR" property="cashBackNotifyUrl" />
+		<result column="CASH_DRAW_NOTIFY_URL" jdbcType="VARCHAR" property="cashDrawNotifyUrl" />
+		<result column="ORDER_PAY_NOTIFY_URL" jdbcType="VARCHAR" property="orderPayNotifyUrl" />
+	   
+	
+		<!-- <collection property="permissions" resultMap="com.zdmoney.manager.mapper.TSysPermissionMapper.BaseResultMap"/> -->
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,
+		APP_NAME,
+		APP_CODE,
+		IS_FLAG,
+		CONTACT_NAME,
+		CONTACT_MOBILE,
+		REMARK,
+		CREATE_TIME,
+		CREATER,
+		UPDATE_TIME,
+		UPDATER,
+		SPARE1,
+		SPARE2,
+	COLLECT_NOTIFY_URL,
+	PAY_NOTIFY_URL,
+	CASH_BACK_NOTIFY_URL,
+	CASH_DRAW_NOTIFY_URL,
+	ORDER_PAY_NOTIFY_URL
+	</sql>
+	<select id="getSysAppList"  resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN ,
+		(select t1.USER_NAME from T_SYS_USER t1 where t1.LOGIN_USER_NAME =x.CREATER) CREATER_NAME,
+		(select t2.USER_NAME from T_SYS_USER t2 where t2.LOGIN_USER_NAME =x.UPDATER) UPDATER_NAME FROM (select
+		<include refid="Base_Column_List"></include>
+		from TPP_SYS_APP where 1=1
+		<if test="id != null and id !=''">
+			and ID = #{id}
+		</if>
+		<if test="appName != null and appName!=''">
+			and APP_NAME like '${appName}%'
+		</if>
+		<if test="appCode != null and appCode != ''">
+			and APP_CODE = #{appCode}
+		</if>
+		<if test="isFlag != null and isFlag !=''">
+			and IS_FLAG = #{isFlag}
+		</if>
+		<if test="contactName != null and contactName!= ''">
+			and CONTACT_NAME = #{contactName}
+		</if>
+		<if test="contactMobile != null  and contactMobile!= ''">
+			and CONTACT_MOBILE = #{contactMobile}
+		</if>
+		<if test="beginTime != null and beginTime !=''">
+			and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss')  
+		</if>
+		<if test="endTime != null and endTime !=''">
+			and CREATE_TIME &lt;=  to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss')  
+		</if>    order by CREATE_TIME desc  
+		<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]> 
+	</select>
+	
+	<select id="getSysAppMeanu"  resultType="java.util.HashMap">
+			select * from TPP_SYS_APP where 1=1
+	</select>
+	<select id="getSysAppName"  resultType="java.lang.String">
+			select app_name from TPP_SYS_APP where 1=1 and APP_CODE =#{appCode}
+	</select>
+	<select id="getSysAppListCount" resultType="Integer">
+		select count(ID) from TPP_SYS_APP where 1=1
+		<if test="appName != null and appName!= ''">
+			and APP_NAME like '${appName}%'
+		</if>
+		<if test="appCode != null and appCode!= ''">
+			and APP_CODE = #{appCode}
+		</if>
+		<if test="isFlag != null and isFlag!= ''">
+			and IS_FLAG = #{isFlag}
+		</if>
+		<if test="contactName != null and contactName!=''">
+			and CONTACT_NAME = #{contactName}
+		</if>
+		<if test="contactMobile != null  and contactMobile!= ''">
+			and CONTACT_MOBILE = #{contactMobile}
+		</if>
+		<if test="beginTime != null and beginTime !=''">
+			and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss')  
+		</if>
+		<if test="endTime != null and endTime !=''">
+			and CREATE_TIME &lt;=  to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss')  
+		</if>
+	</select>
+	<select id="selectSysAppByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+	<include refid="Base_Column_List"></include>
+		from
+		TPP_SYS_APP
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TSysApp">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_SYS_APP.nextval from dual
+		</selectKey>
+		insert into TPP_SYS_APP(ID,
+		APP_NAME,
+		APP_CODE,
+		IS_FLAG,
+		CONTACT_NAME,
+		CONTACT_MOBILE,
+		REMARK,
+		CREATE_TIME,
+		CREATER,
+			COLLECT_NOTIFY_URL,
+			PAY_NOTIFY_URL,
+			CASH_BACK_NOTIFY_URL,
+			CASH_DRAW_NOTIFY_URL,
+			ORDER_PAY_NOTIFY_URL	
+		)
+		values(#{id,jdbcType=DECIMAL},#{appName,jdbcType=VARCHAR},#{appCode,jdbcType=VARCHAR},
+		#{isFlag,jdbcType=VARCHAR},#{contactName,jdbcType=VARCHAR},#{contactMobile,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},
+		sysdate,#{creater,jdbcType=VARCHAR},#{collectNotifyUrl,jdbcType=VARCHAR},
+		#{payNotifyUrl,jdbcType=VARCHAR},
+		#{cashBackNotifyUrl,jdbcType=VARCHAR},
+		#{cashDrawNotifyUrl,jdbcType=VARCHAR},
+		#{orderPayNotifyUrl,jdbcType=VARCHAR}
+		
+	 
+	
+		)
+	</insert>
+	<update id="updateSysApp" parameterType="com.zdmoney.manager.models.TSysApp">
+		update TPP_SYS_APP		
+		set 
+			 APP_NAME  =  #{appName,jdbcType=VARCHAR},
+	 
+			 APP_CODE  =  #{appCode,jdbcType=VARCHAR},
+		 
+	 
+			 IS_FLAG  =  #{isFlag,jdbcType=VARCHAR},
+		 
+	 
+			 REMARK  =  #{remark,jdbcType=VARCHAR},
+	 
+	  
+			 CONTACT_NAME  =  #{contactName,jdbcType=VARCHAR},
+	 
+		 
+			 CONTACT_MOBILE  =  #{contactMobile,jdbcType=VARCHAR},
+		 
+	 
+			 COLLECT_NOTIFY_URL  =  #{collectNotifyUrl,jdbcType=VARCHAR},
+	 
+	  
+			 PAY_NOTIFY_URL  =  #{payNotifyUrl,jdbcType=VARCHAR},
+		 
+		  
+			 CASH_BACK_NOTIFY_URL  =  #{cashBackNotifyUrl,jdbcType=VARCHAR},
+	 
+		 
+			 CASH_DRAW_NOTIFY_URL  =  #{cashDrawNotifyUrl,jdbcType=VARCHAR},
+		 
+			 ORDER_PAY_NOTIFY_URL  =  #{orderPayNotifyUrl,jdbcType=VARCHAR},
+		 
+	 
+						 
+		UPDATE_TIME = sysdate,
+		UPDATER = #{updater,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="updateSysAppFlag" parameterType="com.zdmoney.manager.models.TSysApp">
+		update TPP_SYS_APP		
+			set  IS_FLAG  =  #{isFlag,jdbcType=VARCHAR},
+			UPDATE_TIME = sysdate,
+			UPDATER = #{updater,jdbcType=VARCHAR} 
+		
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<delete id="batchDeleteInfo" parameterType="java.util.List">  
+    	delete from TPP_SYS_APP where ID in  
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+       	 #{item}   
+    	</foreach>  
+	</delete>
+	<select id="getAppCodeCount" resultType="integer">
+		select count(ID) from TPP_SYS_APP  where APP_CODE = #{code}
+	</select>
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.channel.entity.SignInfo">
+    <typeAlias alias="signInfo" type="com.zendaimoney.thirdpp.channel.entity.SignInfo" />
+
+    <resultMap id="signInfoMap" class="signInfo">
+        <result column="ID" property="id" jdbcType="java.lang.Long" />
+        <result column="REQ_ID" property="reqId" jdbcType="java.lang.String" nullValue="" />
+        <result column="trade_flow" property="tradeFlow" jdbcType="java.lang.String" nullValue="" />
+        <result column="biz_sys_no" property="bizSysNo" jdbcType="java.lang.String" nullValue="" />
+        <result column="biz_type" property="bizTypeNo" jdbcType="java.lang.String" nullValue="" />
+        <result column="pay_sys_no" property="paySysNo" jdbcType="java.lang.String" nullValue=""/>
+        <result column="info_category_code" property="infoCategoryCode" jdbcType="java.lang.String" nullValue="" />
+        <result column="src_req_sn" property="srcReqSn" jdbcType="java.lang.String" nullValue="" />
+        <result column="ver_code" property="verCode" jdbcType="java.lang.String" nullValue="" />
+        <result column="agrm_no" property="agrmNo" jdbcType="java.lang.String" nullValue="" />
+        <result column="status" property="status" jdbcType="java.lang.String" nullValue="" />
+        <result column="fail_reason" property="failReason" jdbcType="java.lang.String" nullValue="" />
+    </resultMap>
+
+    <insert id="insert" parameterClass="signInfo">
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT SEQ_TPP_TRADE_SIGN_INFO.NEXTVAL FROM DUAL
+        </selectKey>
+        insert into TPP_TRADE_T_SIGN_INFO (
+            id,
+            req_id,
+            trade_flow,
+            biz_sys_no,
+            biz_type,
+            info_category_code,
+            src_req_sn,
+            ver_code,
+            status,
+            fail_reason,
+            agrm_no,
+            update_time
+        ) values (
+            #id#,
+            #reqId#,
+            #tradeFlow#,
+            #bizSysNo#,
+            #bizTypeNo#,
+            #infoCategoryCode#,
+            #srcReqSn#,
+            #verCode#,
+            #status#,
+            #failReason#,
+            #agrmNo#,
+            sysdate
+        )
+    </insert>
+
+    <insert id="update" parameterClass="signInfo">
+        update TPP_TRADE_T_SIGN_INFO set
+        UPDATE_TIME = sysdate
+        <isNotEmpty prepend="," property="bizSysNo">
+            biz_sys_no=#bizSysNo#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="bizTypeNo">
+            biz_type=#bizTypeNo#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="paySysNo">
+            pay_sys_no=#paySysNo#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="infoCategoryCode">
+            info_category_code=#infoCategoryCode#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="srcReqSn">
+            src_req_sn=#srcReqSn#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="verCode">
+            ver_code=#verCode#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="status">
+            status=#status#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="failReason">
+            fail_reason=#failReason#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="agrmNo">
+            agrm_no=#agrmNo#
+        </isNotEmpty>
+        where trade_flow=#tradeFlow#
+    </insert>
+
+    <!-- 查询协议支付签约信息 -->
+    <select id="queryByReqId" parameterClass="String" resultMap="signInfoMap">
+        select * from TPP_TRADE_T_SIGN_INFO t1
+        where t1.req_id = #reqId#
+    </select>
+
+</sqlMap>

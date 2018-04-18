@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TCategoryAppsMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TCategoryApps">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="INFO_CATEGORY_CODE" jdbcType="VARCHAR" property="infoCateGoryCode" />
+		<result column="APP_CODE" jdbcType="VARCHAR" property="appCode" />
+		<result column="APP_NAME" jdbcType="VARCHAR" property="appName" />
+		<result column="INFO_CATEGORY_NAME" jdbcType="VARCHAR" property="infoCateGoryName" />		 
+		<result column="PRIORITY" jdbcType="VARCHAR" property="priority" />
+		<result column="MERCHANT_TYPE" jdbcType="VARCHAR" property="merchantType" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="CREATER" jdbcType="VARCHAR" property="creater" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+		<result column="NOTE" jdbcType="VARCHAR" property="note" />
+		<result column="CHANNEL_RULES" jdbcType="VARCHAR" property="channelRule" />
+		<result column="PAYMENT_CHANNEL" jdbcType="VARCHAR" property="paymentChannel" />
+			<result column="PAYMENT_CHANNEL_NAME" jdbcType="VARCHAR" property="paymentChannelName" />
+		<!-- <collection property="permissions" resultMap="com.zdmoney.manager.mapper.TSysPermissionMapper.BaseResultMap"/> -->
+	</resultMap>
+	<sql id="Base_Column_List">
+		tic.ID,
+		tic.INFO_CATEGORY_CODE,
+		tic.INFO_CATEGORY_NAME,
+		tic.PRIORITY,
+		tic.MERCHANT_TYPE,
+		tic.CREATE_TIME,
+		tic.CREATER,
+		tic.UPDATE_TIME,
+		tic.UPDATER	,
+		tic.NOTE,
+		tic.PAYMENT_CHANNEL,
+		tic.CHANNEL_RULES
+	</sql>
+	<select id="getInfoCatefoList" resultType="java.util.HashMap">  
+	SELECT * FROM (
+		SELECT X.*,ROWNUM RN,
+		(select t1.USER_NAME from T_SYS_USER t1 where t1.LOGIN_USER_NAME =x.CREATER) CREATER_NAME,
+		(select t.DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=x.PAYMENT_CHANNEL) PAYMENT_CHANNEL_NAME,  
+				(select t2.USER_NAME from T_SYS_USER t2 where t2.LOGIN_USER_NAME =x.UPDATER) UPDATER_NAME  
+		 FROM (
+		select <include refid="Base_Column_List"></include> from TPP_SYS_T_INFO_CATEGORY tic
+	 	where 1=1  
+		<if test="infoCateGoryName != null and infoCateGoryName !=''" >
+			and INFO_CATEGORY_NAME like '%${infoCateGoryName}%'
+		</if>
+		 <if test="paymentChannel != null and paymentChannel !=''" >
+			and PAYMENT_CHANNEL= #{paymentChannel}
+		</if>
+		<if test="priority != null and priority !=''">
+			and PRIORITY = #{priority}
+		</if>
+		<if test="contactName != null and contactName !=''">
+			and CONTACT_NAME = #{contactName}
+		</if>
+		<if test="contactMobile != null and contactMobile !=''">
+			and CONTACT_MOBILE = #{contactMobile}
+		</if>
+		<if test="beginTime != null and beginTime !=''">
+			and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-MM-dd')  
+		</if>
+		<if test="endTime != null and endTime !=''">
+			and CREATE_TIME &lt;=  to_date(#{endTime},'yyyy-MM-dd')  
+		</if>
+		<if test="search_biz_sys_no != null and search_biz_sys_no !=''">
+			and info_category_code in (select t1.info_category_code from TPP_SYS_T_INFO_CATEGORY_APPS t1 where t1.app_code=#{search_biz_sys_no} ) 
+		</if>
+		 order by CREATE_TIME desc  
+		  <![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]> 
+	</select>
+	  <select id="getInfoCatefoListCount" resultType="Integer">
+ 		 select count(ID) from TPP_SYS_T_INFO_CATEGORY  
+		 
+	 	where 1=1  
+	<if test="infoCateGoryName != null and infoCateGoryName !=''" >
+			and INFO_CATEGORY_NAME like '%${infoCateGoryName}%'
+		</if>
+		 <if test="paymentChannel != null and paymentChannel !=''" >
+			and PAYMENT_CHANNEL= #{paymentChannel}
+		</if>
+		<if test="priority != null and priority !=''">
+			and PRIORITY = #{priority}
+		</if>
+		<if test="contactName != null and contactName !=''">
+			and CONTACT_NAME = #{contactName}
+		</if>
+		<if test="contactMobile != null and contactMobile !=''">
+			and CONTACT_MOBILE = #{contactMobile}
+		</if>
+		<if test="beginTime != null and beginTime !=''">
+			and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-MM-dd')  
+		</if>
+		<if test="endTime != null and endTime !=''">
+			and CREATE_TIME &lt;=  to_date(#{endTime},'yyyy-MM-dd')  
+		</if>
+		<if test="search_biz_sys_no != null and search_biz_sys_no !=''">
+			and info_category_code in (select t1.info_category_code from TPP_SYS_T_INFO_CATEGORY_APPS t1 where t1.app_code=#{search_biz_sys_no} ) 
+		</if>
+  </select>
+	<select id="selectSysAppByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+	<include refid="Base_Column_List"></include>
+		from
+		TPP_SYS_APP
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<insert id="insertInfoCategory" parameterType="com.zdmoney.manager.models.TCategoryApps">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_SYS_T_INFO_CATEGORY.nextval from dual
+		</selectKey>
+		insert into TPP_SYS_T_INFO_CATEGORY( 
+		ID,
+		INFO_CATEGORY_CODE,
+		INFO_CATEGORY_NAME,
+		PRIORITY,
+		CREATER,
+		CREATE_TIME,
+		UPDATER,
+		MERCHANT_TYPE,
+		PAYMENT_CHANNEL,
+		CHANNEL_RULES,
+		note
+		)
+		values(#{id,jdbcType=DECIMAL},#{infoCateGoryCode,jdbcType=VARCHAR},#{infoCateGoryName,jdbcType=VARCHAR},
+		#{priority,jdbcType=VARCHAR},#{creater,jdbcType=VARCHAR},sysdate,#{updater,jdbcType=VARCHAR},#{merchantType,jdbcType=VARCHAR},
+		#{paymentChannel,jdbcType=VARCHAR},
+		#{channelRule,jdbcType=VARCHAR},
+		#{note,jdbcType=VARCHAR}
+		 
+		)
+	</insert>
+	<insert id="insertInfoCategoryApps" parameterType="com.zdmoney.manager.models.TCategoryApps">
+		 <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_T_NFO_CATEGORY_APPS.nextval from dual
+		</selectKey>  
+		insert into TPP_SYS_T_INFO_CATEGORY_APPS( 
+		ID,
+		INFO_CATEGORY_CODE,
+		APP_CODE,
+	
+		CREATE_TIME,
+		CREATER,
+		UPDATE_TIME,
+		UPDATER
+		)values(#{id,jdbcType=DECIMAL},#{infoCateGoryCode,jdbcType=VARCHAR},#{appCode,jdbcType=VARCHAR},
+			 
+				sysdate, #{creater,jdbcType=VARCHAR},sysdate,#{updater,jdbcType=VARCHAR})	
+	</insert>
+	 <!-- 批量删除 -->
+  	<delete id="batchDeleteInfo" parameterType="java.util.List">  
+    	delete from TPP_SYS_T_INFO_CATEGORY where ID in  
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+       	 #{item}   
+    	</foreach>  
+	</delete>
+	<delete id="batchDeleteCode" parameterType="java.util.List">  
+    	delete from TPP_SYS_T_INFO_CATEGORY_APPS where INFO_CATEGORY_CODE in  
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+       	 #{item}   
+    	</foreach>  
+	</delete>
+	<delete id="batchDeleteInfoApps" parameterType="java.lang.String">  
+    	delete from TPP_SYS_T_INFO_CATEGORY_APPS where INFO_CATEGORY_CODE =  #{code}     
+    	
+	</delete>
+	<select id="infoAppsIDList" resultMap="BaseResultMap" parameterType="java.util.List">
+		select tica.id from   TPP_SYS_T_INFO_CATEGORY_APPS   tica  inner join TPP_SYS_T_INFO_CATEGORY tic on tica.INFO_CATEGORY_CODE=tic.INFO_CATEGORY_CODE
+     		 where tic.id in 
+     		 <foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+       			 #{item}   
+     		</foreach>  
+	
+	</select>
+	<update id="updateCategory" parameterType="com.zdmoney.manager.models.TCategoryApps">
+		update TPP_SYS_T_INFO_CATEGORY		
+		set 
+		 
+			 INFO_CATEGORY_CODE  =  #{infoCateGoryCode,jdbcType=VARCHAR},
+	 
+		 
+			 INFO_CATEGORY_NAME  =  #{infoCateGoryName,jdbcType=VARCHAR},
+		 
+		 
+			 PRIORITY  =  #{priority,jdbcType=VARCHAR},
+		 
+	 	 
+			 MERCHANT_TYPE  =  #{merchantType,jdbcType=VARCHAR},
+	 
+		 
+			 	PAYMENT_CHANNEL  =  #{paymentChannel,jdbcType=VARCHAR},
+			 	
+			 	CHANNEL_RULES  =  #{channelRule,jdbcType=VARCHAR},
+		 
+		 
+			 NOTE  =  #{note,jdbcType=VARCHAR},
+		 
+		UPDATE_TIME = sysdate,
+		UPDATER = #{updater,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<select id="getMerchantTypeList" resultType="java.util.HashMap" >
+		select dic_code,dic_name from dd_t_dictionary where dic_type='6'
+	</select>
+	<select id="selectCategoryByID" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+   	 *
+    from TPP_SYS_T_INFO_CATEGORY
+    where ID = #{id,jdbcType=DECIMAL}
+ 	 </select>
+	<select id="selectCategoryCodeStr" resultMap="BaseResultMap"   >
+		select  APP_CODE from TPP_SYS_T_INFO_CATEGORY_APPS WHERE INFO_CATEGORY_CODE= #{code,jdbcType=DECIMAL}
+ 	 </select>
+	<select id="selectAppNameStr" resultMap="BaseResultMap"   >
+		select app_name from   TPP_SYS_T_INFO_CATEGORY_APPS c left join TPP_SYS_APP a on c.app_code=a.app_code where c.info_category_code= #{code,jdbcType=DECIMAL}
+ 	 </select>
+	<select id="getCategoryCodeCount" resultType="integer">
+		select count(ID) from TPP_SYS_T_INFO_CATEGORY  where INFO_CATEGORY_CODE = #{code}  
+	</select> 
+	
+	<select id="selectCategoryBanksByCategoryCode" resultType="com.zdmoney.manager.models.TCategoryBanks" parameterType="String">
+		select ID as id ,INFO_CATEGORY_CODE as infoCategoryCode,
+		BANK_CODE as bankCode,PAY_SYS_NO as paySysNo,
+		CREATE_TIME as createTime,CREATER as creater,
+		UPDATE_TIME as updateTime,UPDATER as updater
+		from  TPP_SYS_T_INFO_CATEGORY_BANKS
+		where INFO_CATEGORY_CODE = #{infoCategoryCode,jdbcType=VARCHAR}
+	</select> 
+	
+	<insert id="commonConfigure" parameterType="com.zdmoney.manager.models.TCategoryBanks">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_T_INFO_CATEGORY_BANKS.nextval from dual
+		</selectKey>  
+		MERGE INTO TPP_SYS_T_INFO_CATEGORY_BANKS  T
+		USING DUAL
+		ON(T.INFO_CATEGORY_CODE = #{infoCategoryCode,jdbcType=VARCHAR} and T.BANK_CODE = #{bankCode,jdbcType=VARCHAR})
+		WHEN not MATCHED THEN
+	    	insert (ID,INFO_CATEGORY_CODE,BANK_CODE,PAY_SYS_NO,CREATE_TIME,CREATER)
+	    	values (#{id,jdbcType=DECIMAL}, #{infoCategoryCode,jdbcType=VARCHAR}, 
+	    		#{bankCode,jdbcType=VARCHAR}, #{paySysNo,jdbcType=VARCHAR}, 
+	      		sysdate,#{creater,jdbcType=VARCHAR})
+     	WHEN MATCHED THEN  
+     		update set 
+     		PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR}, 
+     		UPDATE_TIME =SYSDATE,
+     		UPDATER = #{updater,jdbcType=VARCHAR}
+     		where T.INFO_CATEGORY_CODE = #{infoCategoryCode,jdbcType=VARCHAR} 
+     		and T.BANK_CODE = #{bankCode,jdbcType=VARCHAR}
+	</insert>
+	
+</mapper>

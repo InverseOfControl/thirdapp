@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.channel.entity.AccountAgreement">
+    <typeAlias alias="accountAgreement" type="com.zendaimoney.thirdpp.channel.entity.AccountAgreement" />
+
+    <resultMap id="accountAgreementMap" class="AccountAgreement">
+        <result column="id" property="id" jdbcType="java.lang.Long" />
+        <result column="name" property="name" jdbcType="java.lang.String" nullValue="" />
+        <result column="id_type" property="idType" jdbcType="java.lang.String" nullValue="" />
+        <result column="id_num" property="idNum" jdbcType="java.lang.String" nullValue="" />
+        <result column="create_time" property="createTime" jdbcType="java.util.Date" />
+        <result column="update_time" property="updateTime" jdbcType="java.util.Date" nullValue="" />
+    </resultMap>
+
+    <insert id="insert" parameterClass="accountAgreement">
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT SEQ_TPP_ACCOUNT_AGREEMENT.NEXTVAL FROM DUAL
+        </selectKey>
+        insert into TPP_ACCOUNT_AGREEMENT (
+            id,
+            name,
+            id_type,
+            id_num,
+            create_time,
+            update_time
+        ) values (
+            #id#,
+            #name#,
+            #idType#,
+            #idNum#,
+            sysdate,
+            sysdate
+        )
+    </insert>
+
+    <insert id="update" parameterClass="signMessageInfo">
+        update TPP_ACCOUNT_AGREEMENT set
+        update_time = sysdate
+        <isNotEmpty prepend="," property="name">
+            name=#name#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="idType">
+            id_type=#idType#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="idNum">
+            id_num=#idNum#
+        </isNotEmpty>
+        where name=#name# and id_num = #idNum#
+    </insert>
+
+    <select id="queryByNameAndIdNum" parameterClass="HashMap" resultMap="accountAgreementMap">
+        select * from TPP_ACCOUNT_AGREEMENT t1
+        where t1.name = #name#
+        and t1.id_num = #idNum#
+    </select>
+
+</sqlMap>

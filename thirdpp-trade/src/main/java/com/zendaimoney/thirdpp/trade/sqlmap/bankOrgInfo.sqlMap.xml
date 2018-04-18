@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace = "com.zendaimoney.thirdpp.trade.entity.BankOrgInfo">
+
+	<typeAlias alias="BankOrgInfo" type="com.zendaimoney.thirdpp.trade.entity.BankOrgInfo"/>
+	
+	<resultMap class="BankOrgInfo" id="BankOrgInfoMap">
+		<result property="id" column="ID" jdbcType="java.lang.Integer"/>
+		<result property="bankOrgNo" column = "BANK_ORG_NO" jdbcType="java.lang.String"/>
+		<result property="bankOrgName" column = "BANK_ORG_NAME" jdbcType = "java.lang.String"/>
+		<result property="bankCode" column = "BANK_CODE" jdbcType = "java.lang.String"/>
+		<result property="bankOrgProvinceNo" column = "BANK_ORG_PROVINCE_NO" jdbcType = "java.lang.String"/>
+		<result property="bankOrgProvinceCityNo" column = "BANK_ORG_PROVINCE_CITY_NO" jdbcType = "java.lang.String"/>
+		<result property="bankLineNo" column = "BANK_LINE_NO" jdbcType = "java.lang.String"/>
+	</resultMap>
+	
+	<select id="selectBankOrgByBankCodeAndBankArea" parameterClass="java.util.Map" resultMap="BankOrgInfoMap">
+		select ID, BANK_ORG_NO, BANK_ORG_NAME, BANK_CODE, BANK_ORG_PROVINCE_NO, BANK_ORG_PROVINCE_CITY_NO, BANK_LINE_NO 
+		from dd_t_bank_org_info 
+		where BANK_CODE = #bankCode# 
+		and BANK_ORG_PROVINCE_NO = #bankOrgProvinceNo# 
+		and BANK_ORG_PROVINCE_CITY_NO = #bankOrgProvinceCityNo# 
+		 <!-- 按照中文拼音字母升序排列 -->
+		order by NLSSORT(BANK_ORG_NAME,'NLS_SORT=SCHINESE_PINYIN_M')
+	</select>
+	
+</sqlMap>

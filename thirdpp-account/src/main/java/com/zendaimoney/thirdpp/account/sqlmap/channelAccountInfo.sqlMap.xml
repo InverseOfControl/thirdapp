@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace = "com.zendaimoney.thirdpp.account.entity.AccountInfo">
+	<typeAlias alias = "AccountInfo" type = "com.zendaimoney.thirdpp.account.entity.AccountInfo"/>
+	<resultMap id = "AccountInfoMap" class = "AccountInfo">
+		<result column = "ID" property = "id" jdbcType = "java.lang.Long"/>
+		<result column = "THIRD_TYPE_NO" property = "thirdTypeNo" jdbcType = "java.lang.String"/>
+		<result column = "MERCHANT_NO" property = "merchantNo" jdbcType = "java.lang.String"/>
+		<result column = "BIZ_TYPE" property = "bizType" jdbcType = "java.lang.String"/>
+		<result column = "THIRD_PARTY_ACCOUNT_REQ_ID" property = "thirdPartyAccountReqId" jdbcType = "java.lang.String"/>
+		<result column = "BIZSYS_ACCOUNT_REQ_ID" property = "bizsysAccountReqId" jdbcType = "java.lang.String"/>
+		<result column = "ACCOUNT_DAY" property = "accountDay" jdbcType = "java.lang.String"/>
+		<result column = "TASK_ID" property = "taskId" jdbcType = "java.lang.Long"/>
+		<result column = "TASK_AMOUNT" property = "taskAmount" jdbcType = "java.math.BigDecimal"/>
+		<result column = "IS_SEPARATE" property = "isSeparate" jdbcType = "java.lang.Integer"/>
+		<result column = "SEPARATE_COUNT" property = "separateCount" jdbcType = "java.lang.Integer"/>
+		<result column = "BIZ_SYS_NO" property = "bizSysNo" jdbcType = "java.lang.String"/>
+		<result column = "TRADE_FLOW" property = "tradeFlow" jdbcType = "java.lang.String"/>
+		<result column = "BIZ_FLOW" property = "bizFlow" jdbcType = "java.lang.String"/>
+		<result column = "AMOUNT" property = "amount" jdbcType = "java.lang.String"/>
+		<result column = "ORIGINAL_AMOUNT" property = "originalAmount" jdbcType = "java.lang.String"/>
+		<result column = "THIRD_PARTY_TRADE_FLOW" property = "thirdPartyTradeFlow" jdbcType = "java.lang.String"/>
+		<result column = "TRADE_TIME" property = "tradeTime" jdbcType = "java.lang.String"/>
+		<result column = "CURRENT_INDEX" property = "currentIndex" jdbcType = "java.lang.Integer"/>
+		<result column = "ACCOUNT_STATUS" property = "accountStatus" jdbcType = "java.lang.Integer"/>
+		<result column = "BIZSYS_ACCOUNT_STATUS" property = "bizsysAccountStatus" jdbcType = "java.lang.Integer"/>
+		<result column = "FAILED_REASON" property = "failedReason" jdbcType = "java.lang.String"/>
+		<result column = "CREATE_TIME" property = "createDate" jdbcType = "java.util.Date"/>
+	</resultMap>
+	
+	<insert id = "insert" parameterClass = "AccountInfo">
+		insert into TPP_ACCOUNT_INFO (ID, THIRD_TYPE_NO, MERCHANT_NO, BIZ_TYPE, THIRD_PARTY_ACCOUNT_REQ_ID, BIZSYS_ACCOUNT_REQ_ID, ACCOUNT_DAY, TASK_ID, TASK_AMOUNT, IS_SEPARATE, 
+			SEPARATE_COUNT, BIZ_SYS_NO, TRADE_FLOW, BIZ_FLOW, AMOUNT, ORIGINAL_AMOUNT, THIRD_PARTY_TRADE_FLOW, TRADE_TIME
+			, CURRENT_INDEX, ACCOUNT_STATUS, BIZSYS_ACCOUNT_STATUS, FAILED_REASON, CREATE_TIME)
+		values(SEQ_TPP_ACCOUNT_INFO.Nextval, #thirdTypeNo#, #merchantNo#, #bizType#, #thirdPartyAccountReqId#, #bizsysAccountReqId#, #accountDay#, #taskId#, #taskAmount#, 
+		#isSeparate#, #separateCount#, #bizSysNo#, #tradeFlow#, #bizFlow#, #amount#, #originalAmount#, #thirdPartyTradeFlow#, #tradeTime#, 
+		#currentIndex#, #accountStatus#, #bizsysAccountStatus#, #failedReason#, sysdate)
+	</insert>
+	
+	<statement id = "mergeIntoAccountInfo" parameterClass = "AccountInfo">
+		merge into TPP_ACCOUNT_INFO tai using dual 
+		on(tai.TRADE_FLOW = #tradeFlow#) 
+		when not matched then 
+			insert (tai.ID, tai.THIRD_TYPE_NO, tai.MERCHANT_NO, tai.BIZ_TYPE, tai.THIRD_PARTY_ACCOUNT_REQ_ID, tai.BIZSYS_ACCOUNT_REQ_ID, tai.ACCOUNT_DAY, tai.TASK_ID, tai.TASK_AMOUNT, tai.IS_SEPARATE, 
+					tai.SEPARATE_COUNT, tai.BIZ_SYS_NO, tai.TRADE_FLOW, tai.BIZ_FLOW, tai.AMOUNT, tai.ORIGINAL_AMOUNT, tai.THIRD_PARTY_TRADE_FLOW, tai.TRADE_TIME
+					, tai.CURRENT_INDEX, tai.ACCOUNT_STATUS, tai.BIZSYS_ACCOUNT_STATUS, tai.FAILED_REASON, tai.CREATE_TIME)
+			values(SEQ_TPP_ACCOUNT_INFO.Nextval, #thirdTypeNo#, #merchantNo#, #bizType#, #thirdPartyAccountReqId#, #bizsysAccountReqId#, #accountDay#, #taskId#, #taskAmount#, 
+					#isSeparate#, #separateCount#, #bizSysNo#, #tradeFlow#, #bizFlow#, #amount#, #originalAmount#, #thirdPartyTradeFlow#, #tradeTime#, 
+					#currentIndex#, #accountStatus#, #bizsysAccountStatus#, #failedReason#, sysdate) 
+			
+	</statement>
+	
+	<select id = "queryCurrentRowIndex" parameterClass = "java.util.Map" resultMap = "AccountInfoMap">
+		select * from TPP_ACCOUNT_INFO 
+		where THIRD_PARTY_ACCOUNT_REQ_ID = #reqId# 
+		<![CDATA[and rownum <= 1]]> 
+		order by ID desc
+	</select>
+	
+	<select id = "queryAccountInfoByTaskId" parameterClass = "java.util.Map" resultMap = "AccountInfoMap">
+		select * from TPP_ACCOUNT_INFO 
+		where TASK_ID = #taskId# 
+	</select>
+	
+	<select id = "queryRelatedBizsysNoByReqId" parameterClass = "java.util.Map" resultClass = "java.lang.String">
+		select distinct(BIZ_SYS_NO) from TPP_ACCOUNT_INFO where THIRD_PARTY_ACCOUNT_REQ_ID = #reqId# 
+	</select>
+	
+	<select id = "queryLastSuccess" parameterClass = "java.util.Map" resultMap = "AccountInfoMap">
+		select * from TPP_ACCOUNT_INFO 
+		where THIRD_PARTY_ACCOUNT_REQ_ID = #reqId# 
+		and ACCOUNT_STATUS != 0 
+		<![CDATA[and rownum <= 1]]> 
+		order by ID desc
+	</select>
+	
+	<select id = "queryLastSuccessByBizsysReqID" parameterClass = "java.util.Map" resultMap = "AccountInfoMap">
+		select * from TPP_ACCOUNT_INFO 
+		where BIZSYS_ACCOUNT_REQ_ID = #bizsysReqId# 
+		and BIZSYS_ACCOUNT_STATUS = 1 
+		<![CDATA[and rownum <= 1]]> 
+		order by ID desc
+	</select>
+	
+	<select id = "queryNotAccount" parameterClass = "java.util.Map" resultMap = "AccountInfoMap">
+		select * from TPP_ACCOUNT_INFO 
+		where THIRD_PARTY_ACCOUNT_REQ_ID = #reqId# 
+		and BIZ_TYPE = #bizType# 
+		and ACCOUNT_STATUS = 0 
+	</select>
+	
+	<update id = "update" parameterClass = "AccountInfo">
+		update TPP_ACCOUNT_INFO set 
+		ID=#id# 
+		<isNotEmpty prepend="," property="accountStatus">
+			ACCOUNT_STATUS=#accountStatus# 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="bizsysAccountStatus">
+			BIZSYS_ACCOUNT_STATUS=#bizsysAccountStatus# 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="taskId">
+			TASK_ID=#taskId# 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="taskAmount">
+			TASK_AMOUNT= #taskAmount# 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="isSeparate">
+			IS_SEPARATE= #isSeparate# 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="separateCount">
+			SEPARATE_COUNT= #separateCount# 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="bizFlow">
+			BIZ_FLOW= #bizFlow# 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="bizSysNo">
+			BIZ_SYS_NO= #bizSysNo# 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="failedReason">
+			FAILED_REASON= #failedReason# 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="bizsysAccountReqId">
+			BIZSYS_ACCOUNT_REQ_ID= #bizsysAccountReqId# 
+		</isNotEmpty>
+		where ID=#id#
+	</update>
+</sqlMap>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TThreadPoolMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TThreadPool">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="BIZ_TYPE" jdbcType="VARCHAR" property="bizType" />
+		<result column="INF_TYPE" jdbcType="VARCHAR" property="infType" />
+		<result column="PAY_SYS_NO" jdbcType="VARCHAR" property="paySysNo" />
+		<result column="IS_ACTIVE" jdbcType="VARCHAR" property="isActive" />
+		 <result column="SLEEP_TIME" jdbcType="VARCHAR" property="sleepTime" />
+		<result column="APP_NAME" jdbcType="VARCHAR" property="appName" />
+
+		<result column="CREAT_TIME" property="createTime" />
+		<result column="CREATOR" jdbcType="VARCHAR" property="creater" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATOR" jdbcType="VARCHAR" property="updater" />
+		<result column="BIZ_TYPE_NAME" jdbcType="VARCHAR" property="bizTypeName" />
+		<result column="PAY_SYS_NAME" jdbcType="VARCHAR" property="paySysName" />
+		<!-- <collection property="permissions" resultMap="com.zdmoney.manager.mapper.TSysPermissionMapper.BaseResultMap"/> -->
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,
+		BIZ_TYPE,
+		 
+		PAY_SYS_NO,
+		 SLEEP_TIME,
+		 APP_NAME,
+		CREAT_TIME,
+		CREATOR,
+		UPDATE_TIME,
+		UPDATOR,
+		IS_ACTIVE
+	</sql>
+	<select id="getThreadPoolList" resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN
+		,(select t1.USER_NAME from T_SYS_USER t1 where t1.LOGIN_USER_NAME =x.CREATOR) CREATER_NAME,
+		(select t.DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=x.PAY_SYS_NO) PAY_SYS_NAME,  
+		(select DIC_NAME from dd_t_dictionary t where t.dic_type='4' and t.dic_code=X.BIZ_TYPE) BIZ_TYPE_NAME, 
+		 (select t2.USER_NAME from T_SYS_USER t2 where t2.LOGIN_USER_NAME =x.CREATOR) UPDATER_NAME
+		 FROM (select
+		<include refid="Base_Column_List"></include>
+		from tpp_sys_t_query_info where 1=1
+
+		<if test="bizType != null and bizType!=''">
+			and BIZ_TYPE = #{bizType}
+		</if>
+		 
+		<if test="paySysNo != null and paySysNo!=''">
+			and PAY_SYS_NO = #{paySysNo}
+		</if>
+		<if test="isActive != null and isActive!=''">
+			and IS_ACTIVE = #{isActive}
+		</if>
+		<if test="beginTime != null and beginTime!=''">
+			and CREAT_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and CREAT_TIME &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss')
+		</if>   order by CREAT_TIME desc  
+		<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+	</select>
+	<select id="getThreadPoolListCount" resultType="Integer">
+
+		select count(ID) from tpp_sys_t_query_info where 1=1
+			<if test="bizType != null and bizType!=''">
+			and BIZ_TYPE = #{bizType}
+		</if>
+		 
+		<if test="paySysNo != null and paySysNo!=''">
+			and PAY_SYS_NO = #{paySysNo}
+		</if>
+		<if test="isActive != null and isActive!=''">
+			and IS_ACTIVE = #{isActive}
+		</if>
+		<if test="beginTime != null and beginTime!=''">
+			and CREAT_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and CREAT_TIME &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+	</select>
+	<select id="getThreadPoolCount" resultType="java.lang.String">
+
+		select ID from tpp_sys_t_query_info where 1=1
+			<if test="bizType != null and bizType!=''">
+			and BIZ_TYPE = #{bizType}
+		</if>
+		 
+		<if test="paySysNo != null and paySysNo!=''">
+			and PAY_SYS_NO = #{paySysNo}
+		</if>
+		<if test="appName != null and appName!=''">
+			and app_name = #{appName}
+		</if>
+		 
+	</select>
+	<select id="selectThreadPoolByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List"></include>
+		from tpp_sys_t_query_info
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TThreadPool">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_SYS_T_QUERY_INFO.nextval from dual
+		</selectKey>
+		insert into tpp_sys_t_query_info(ID,BIZ_TYPE,
+
+		PAY_SYS_NO,
+		APP_NAME,
+		SLEEP_TIME,
+		CREAT_TIME,
+		CREATOR,
+		IS_ACTIVE)
+		values(#{id,jdbcType=DECIMAL},#{bizType,jdbcType=VARCHAR},#{paySysNo,jdbcType=VARCHAR} ,#{appName,jdbcType=VARCHAR},#{sleepTime,jdbcType=VARCHAR},sysdate,
+		#{creater,jdbcType=VARCHAR},#{isActive,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateThreadPool" parameterType="com.zdmoney.manager.models.TThreadPool">
+		update tpp_sys_t_query_info
+		set
+		
+	 
+			PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+		 
+	 
+			BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+	 
+ 		 
+			APP_NAME = #{appName,jdbcType=VARCHAR},
+	 
+			SLEEP_TIME = #{sleepTime,jdbcType=VARCHAR},
+		 
+			IS_ACTIVE = #{isActive,jdbcType=VARCHAR},
+	 
+		UPDATE_TIME =SYSDATE,
+		UPDATOR = #{updater,jdbcType=VARCHAR}
+		where ID =
+		#{id,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="updateThreadPoolActive" parameterType="com.zdmoney.manager.models.TThreadPool">
+		update tpp_sys_t_query_info 
+		set 
+		IS_ACTIVE = #{isActive,jdbcType=VARCHAR}, 
+	 
+		UPDATE_TIME =SYSDATE,
+		UPDATOR = #{updater,jdbcType=VARCHAR}
+		where ID =#{id,jdbcType=DECIMAL}
+	</update>
+<delete id="batchDeleteInfo" parameterType="java.util.List">  
+    	delete from tpp_sys_t_query_info where ID in  
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+       	 #{item}   
+    	</foreach>  
+	</delete>
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace = "com.zendaimoney.thirdpp.account.entity.BizsysAccountRequest">
+	
+	<typeAlias alias = "BizsysAccountRequest" type = "com.zendaimoney.thirdpp.account.entity.BizsysAccountRequest"/>
+	<resultMap id = "BizsysAccountRequestMap" class = "BizsysAccountRequest">
+		<result column = "REQ_ID" property = "reqId" jdbcType = "java.lang.String"/>
+		<result column = "APP_NAME" property = "appName" jdbcType = "java.lang.String"/>
+		<result column = "BIZ_SYS_NO" property = "bizSysNo" jdbcType = "java.lang.String"/>
+		<result column = "BIZ_TYPE" property = "bizType" jdbcType = "java.lang.String"/>
+		<result column = "CONFIG_ID" property = "configId" jdbcType = "java.lang.Long"/>
+		<result column = "ACCOUNT_DAY" property = "accountDay" jdbcType = "java.lang.String"/>
+		<result column = "STATUS" property = "status" jdbcType = "java.lang.Integer"/>
+		<result column = "HANDLE_ACCOUNT_STATUS" property = "handleAccountStatus" jdbcType = "java.lang.Integer" nullValue="0"/>
+		<result column = "LOCALIZE_START_TIME" property = "localizeStartTime" jdbcType = "java.util.Date"/>
+		<result column = "LOCALIZE_PATH" property = "localizePath" jdbcType = "java.lang.String"/>
+		<result column = "LOCALIZE_FILE_NAME" property = "localizeFileName" jdbcType = "java.lang.String"/>
+		<result column = "LOCALIZE_END_TIME" property = "localizeEndTime" jdbcType = "java.util.Date"/>
+		<result column = "LOCALIZE_FAILED_TIMES" property = "localizeFailedTimes" jdbcType = "java.lang.Integer" nullValue="0"/>
+		<result column = "PUSH_START_TIME" property = "pushStartTime" jdbcType = "java.util.Date"/>
+		<result column = "PUSH_FILE_NAME" property = "pushFileName" jdbcType = "java.lang.String"/>
+		<result column = "PUSH_FILE_SIZE" property = "pushFileSize" jdbcType = "java.lang.Long"/>
+		<result column = "PUSH_FILE_PATH" property = "pushFilePath" jdbcType = "java.lang.String"/>
+		<result column = "PUSH_END_TIME" property = "pushEndTime" jdbcType = "java.util.Date"/>
+		<result column = "PUSH_FAILED_TIMES" property = "pushFailedTimes" jdbcType = "java.lang.Integer" nullValue="0"/>
+		<result column = "FAILED_REASON" property = "failedReason" jdbcType = "java.lang.String"/>
+		<result column = "SPARE1" property = "spare1" jdbcType = "java.lang.String"/>
+		<result column = "SPARE2" property = "spare2" jdbcType = "java.lang.String"/>
+		<result column = "CREATE_TIME" property = "createTime" jdbcType = "java.util.Date"/>
+		<result column = "UPDATE_TIME" property = "updateTime" jdbcType = "java.util.Date"/>
+	</resultMap>
+	
+	<select id = "queryBizsysAccountRequestByConfig" parameterClass = "java.util.Map" resultMap = "BizsysAccountRequestMap">
+		select * from TPP_ACCOUNT_BIZSYS_REQUEST 
+		where CONFIG_ID = #configId# 
+		and ACCOUNT_DAY = #accountDay# 
+		and APP_NAME = #appName# 
+		<![CDATA[and rownum <= 1]]> 
+	</select>
+	
+	<select id = "queryBizsysAccountRequestByConfigAndAccountDay" parameterClass = "java.util.Map" resultMap = "BizsysAccountRequestMap">
+		select * from TPP_ACCOUNT_BIZSYS_REQUEST 
+		where CONFIG_ID = #configId# 
+		and ACCOUNT_DAY = #accountDay# 
+		<![CDATA[and rownum <= 1]]> 
+	</select>
+	
+	<select id = "queryBizsysAccountRequestByRequest" parameterClass = "java.util.Map" resultMap = "BizsysAccountRequestMap">
+		select * from TPP_ACCOUNT_BIZSYS_REQUEST 
+		where REQ_ID = #requestId# 
+		<![CDATA[and rownum <= 1]]> 
+	</select>
+	
+	<insert id = "insert" parameterClass = "BizsysAccountRequest">
+		insert into TPP_ACCOUNT_BIZSYS_REQUEST(REQ_ID, BIZ_SYS_NO, BIZ_TYPE, CONFIG_ID, 
+		ACCOUNT_DAY, STATUS, HANDLE_ACCOUNT_STATUS, LOCALIZE_START_TIME, LOCALIZE_PATH, LOCALIZE_FILE_NAME, LOCALIZE_END_TIME, LOCALIZE_FAILED_TIMES, 
+		PUSH_START_TIME, PUSH_FILE_NAME, PUSH_FILE_SIZE, PUSH_FILE_PATH, PUSH_END_TIME, PUSH_FAILED_TIMES, FAILED_REASON, 
+		SPARE1, SPARE2, CREATE_TIME, UPDATE_TIME, APP_NAME) 
+		values (#reqId#, #bizSysNo#, #bizType#, #configId#, #accountDay#, #status#, #handleAccountStatus#, 
+		#localizeStartTime#, #localizePath#, #localizeFileName#, #localizeEndTime#, #localizeFailedTimes#, #pushStartTime#, #pushFileName#, 
+		#pushFileSize#, #pushFilePath#, #pushEndTime#, #pushFailedTimes#, #failedReason#, #spare1#, #spare2#, sysdate, #updateTime#, #appName#)
+	</insert>
+	
+	<update id = "update" parameterClass = "BizsysAccountRequest">
+		update TPP_ACCOUNT_BIZSYS_REQUEST set 
+		UPDATE_TIME = sysdate 
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="handleAccountStatus">
+			HANDLE_ACCOUNT_STATUS=#handleAccountStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="localizeStartTime">
+			LOCALIZE_START_TIME=#localizeStartTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="localizePath">
+			LOCALIZE_PATH=#localizePath#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="localizeFileName">
+			LOCALIZE_FILE_NAME=#localizeFileName#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="localizeEndTime">
+			LOCALIZE_END_TIME=#localizeEndTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="localizeFailedTimes">
+			LOCALIZE_FAILED_TIMES=#localizeFailedTimes#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="pushStartTime">
+			PUSH_START_TIME=#pushStartTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="pushFileName">
+			PUSH_FILE_NAME=#pushFileName#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="pushFileSize">
+			PUSH_FILE_SIZE=#pushFileSize#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend="," property="pushFilePath">
+			PUSH_FILE_PATH=#pushFilePath#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="pushEndTime">
+			PUSH_END_TIME=#pushEndTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="pushFailedTimes">
+			PUSH_FAILED_TIMES=#pushFailedTimes#
+		</isNotEmpty>
+		
+		<isNotNull prepend="," property="failedReason">
+			FAILED_REASON=#failedReason#
+		</isNotNull>
+		
+		<isNotEmpty prepend="," property="spare1">
+			SPARE1=#spare1#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="spare2">
+			SPARE2=#spare2#
+		</isNotEmpty>
+		 where REQ_ID = #reqId#
+	</update>
+	
+	<update id = "updateHandleAccountStatus" parameterClass = "BizsysAccountRequest">
+		update TPP_ACCOUNT_BIZSYS_REQUEST 
+		set UPDATE_TIME = sysdate 
+		<isNotEmpty prepend="," property="handleAccountStatus">
+			HANDLE_ACCOUNT_STATUS=#handleAccountStatus#
+		</isNotEmpty>
+		where REQ_ID = #reqId# 
+		and (HANDLE_ACCOUNT_STATUS = 0 or HANDLE_ACCOUNT_STATUS = 2)
+	</update>
+</sqlMap>

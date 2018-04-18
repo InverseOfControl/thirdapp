@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.SysAppIPS">
+	<typeAlias alias="SysAppIPS" type="com.zendaimoney.thirdpp.trade.entity.SysAppIPS" />
+
+	<resultMap id="SysAppIPSMap" class="SysAppIPS">
+	<result property="id" column="ID" jdbcType="java.lang.Long"/>
+	<result property="appCode" column="APP_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="ip" column="IP" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="createTime" column="CREATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="creater" column="CREATER" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="updateTime" column="UPDATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="updater" column="UPDATER" jdbcType="java.lang.String" nullValue=""/>
+	</resultMap>
+	
+	<select id="querySysAppIPS" parameterClass="java.util.Map" resultMap="SysAppIPSMap">		 
+		 select * from tpp_sys_app_ips t
+		 where 1=1
+		 <isNotEmpty prepend="and" property="appCode">
+		  t.app_code=#appCode#
+		 </isNotEmpty>
+		 <isNotEmpty prepend="and" property="ip">
+		  t.ip=#ip#
+		 </isNotEmpty>
+		 
+	</select>
+
+</sqlMap>

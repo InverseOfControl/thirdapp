@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.trust.channel.entity.AcctCommand">
+	<typeAlias alias="AcctCommand" type="com.zendaimoney.trust.channel.entity.AcctCommand" />
+
+	<resultMap id="AcctCommandMap" class="AcctCommand">
+		<result property="tradeFlow" column="trade_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="clientNo" column="client_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="accountNo" column="account_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="amount" column="amount" jdbcType="java.lang.String" nullValue=""/>
+		<result property="tradeType" column="trade_type" jdbcType="java.lang.String" nullValue=""/>
+		<result property="bizSysNo" column="biz_sys_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="paySysNo" column="pay_sys_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="status" column="status" jdbcType="java.lang.String" nullValue=""/>
+		<result property="updateTime" column="update_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="ip" column="ip" jdbcType="java.lang.String" nullValue=""/>
+		<result property="mac" column="mac" jdbcType="java.lang.String" nullValue=""/>
+		<result property="creater" column="creater" jdbcType="java.lang.String" nullValue=""/>
+		<result property="createTime" column="create_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="bizFlow" column="biz_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respFlow" column="resp_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respTime" column="resp_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respInfo" column="resp_info" jdbcType="java.lang.String" nullValue=""/>
+		<result property="infoCategoryCode" column="info_category_code" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respTimeExt" column="resp_time_ext" jdbcType="java.lang.String" nullValue=""/>
+		<result property="oldTradeFlow" column="old_trade_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="remainFrozAmount" column="remain_froz_amount" jdbcType="java.lang.String" nullValue=""/>
+		<result property="accountSymbol" column="account_symbol" jdbcType="java.lang.String" nullValue=""/>
+		<result property="note" column="note" jdbcType="java.lang.String" nullValue=""/>
+		<result property="spare1" column="spare1" jdbcType="java.lang.String" nullValue=""/>
+		<result property="spare2" column="spare2" jdbcType="java.lang.String" nullValue=""/>
+		<result property="settleDate" column="settle_date" jdbcType="java.lang.String" nullValue=""/>
+		<result property="batchNo" column="batch_no" jdbcType="java.lang.String" nullValue=""/>
+	</resultMap>
+	
+	<!-- 更新 -->
+	<insert id="update" parameterClass="AcctCommand">
+		update TPP_TRUST_ACCT_COMMAND set
+		UPDATE_TIME = sysdate
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respTime">
+			RESP_TIME=to_date(#respTime#,'yyyy-mm-dd,hh24:mi:ss')
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respInfo">
+			RESP_INFO=#respInfo#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respTimeExt">
+			resp_time_ext=#respTimeExt#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="settleDate">
+			settle_date=#settleDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="remainFrozAmount">
+			remain_froz_amount=#remainFrozAmount#
+		</isNotEmpty>
+		where TRADE_FLOW=#tradeFlow#
+	 </insert>
+
+</sqlMap>

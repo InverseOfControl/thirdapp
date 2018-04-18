@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings
+			cacheModelsEnabled="true"
+			enhancementEnabled="true"
+			lazyLoadingEnabled="true"
+			maxRequests="200"
+			maxSessions="100"
+			maxTransactions="50"
+			useStatementNamespaces="true"
+			/>
+		
+    <sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/collectInfo.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/collectTask.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/request.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/thirdFieldMapper.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/sysAppIPS.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/sysInfoCategory.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/sysInfoCategoryAPPS.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/sysQueryInfo.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/sysApp.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/areaInfo.sqlMap.xml"/>
+  	<sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/bankInfo.sqlMap.xml"/>
+  	<sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/bankOrgInfo.sqlMap.xml"/>
+  	<sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/operationRequest.sqlMap.xml"/>
+  	<sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/dictionary.sqlMap.xml"/>
+  	<sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/payInfo.sqlMap.xml"/>
+  	<sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/payTask.sqlMap.xml"/>
+  	<sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/tppWhitelist.sqlMap.xml"/>
+  	<sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/sysInfoCategoryBanks.sqlMap.xml"/>
+  	<sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/signMessageInfo.sqlMap.xml"/>
+  	<sqlMap resource="com/zendaimoney/thirdpp/trade/sqlmap/signInfo.sqlMap.xml"/>
+
+</sqlMapConfig>

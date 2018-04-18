@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.SysInfoCategory">
+	<typeAlias alias="SysInfoCategory" type="com.zendaimoney.thirdpp.trade.entity.SysInfoCategory" />
+
+	<resultMap id="SysInfoCategoryMap" class="SysInfoCategory">
+	<result property="id" column="ID" jdbcType="java.lang.Long"/>
+	<result property="infoCategoryCode" column="INFO_CATEGORY_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="infoCategoryName" column="INFO_CATEGORY_NAME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="priority" column="PRIORITY" jdbcType="java.lang.Integer"/>
+	<result property="createTime" column="CREATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="creater" column="CREATER" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="updateTime" column="UPDATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="updater" column="UPDATER" jdbcType="java.lang.String" nullValue=""/>
+	<result property="paymentChannel" column = "PAYMENT_CHANNEL" jdbcType = "java.lang.String" nullValue = ""/>
+	<result property="channelRules" column = "CHANNEL_RULES" jdbcType = "java.lang.String" nullValue = ""/>
+	</resultMap>
+	
+	<select id="querySysInfoCategoryByCode" parameterClass="java.lang.String" resultMap="SysInfoCategoryMap">		 
+		 select * from TPP_SYS_T_INFO_CATEGORY
+		 where INFO_CATEGORY_CODE=#infoCategoryCode# and rownum =1
+	</select>
+
+</sqlMap>
+

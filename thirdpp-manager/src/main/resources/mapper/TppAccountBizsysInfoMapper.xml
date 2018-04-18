@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppAccountBizsysInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppAccountBizsysInfo" >
+    <id column="TASK_ID" property="taskId" jdbcType="DECIMAL" />
+    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR" />
+    <result column="BIZ_FLOW" property="bizFlow" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <result column="PAY_SYS_NO" property="paySysNo" jdbcType="VARCHAR" />
+    <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="SUCCESS_AMOUNT" property="successAmount" jdbcType="DECIMAL" />
+    <result column="ACCOUNT_DAY" property="accountDay" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TASK_ID, BIZ_SYS_NO, BIZ_FLOW, BIZ_TYPE, PAY_SYS_NO, TOTAL_AMOUNT, SUCCESS_AMOUNT, 
+    ACCOUNT_DAY, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from TPP_ACCOUNT_BIZSYS_INFO
+    where TASK_ID = #{taskId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from TPP_ACCOUNT_BIZSYS_INFO
+    where TASK_ID = #{taskId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppAccountBizsysInfo" >
+    insert into TPP_ACCOUNT_BIZSYS_INFO (TASK_ID, BIZ_SYS_NO, BIZ_FLOW, 
+      BIZ_TYPE, PAY_SYS_NO, TOTAL_AMOUNT, 
+      SUCCESS_AMOUNT, ACCOUNT_DAY, CREATE_TIME
+      )
+    values (#{taskId,jdbcType=DECIMAL}, #{bizSysNo,jdbcType=VARCHAR}, #{bizFlow,jdbcType=VARCHAR}, 
+      #{bizType,jdbcType=VARCHAR}, #{paySysNo,jdbcType=VARCHAR}, #{totalAmount,jdbcType=DECIMAL}, 
+      #{successAmount,jdbcType=DECIMAL}, #{accountDay,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppAccountBizsysInfo" >
+    insert into TPP_ACCOUNT_BIZSYS_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        TASK_ID,
+      </if>
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO,
+      </if>
+      <if test="bizFlow != null" >
+        BIZ_FLOW,
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE,
+      </if>
+      <if test="paySysNo != null" >
+        PAY_SYS_NO,
+      </if>
+      <if test="totalAmount != null" >
+        TOTAL_AMOUNT,
+      </if>
+      <if test="successAmount != null" >
+        SUCCESS_AMOUNT,
+      </if>
+      <if test="accountDay != null" >
+        ACCOUNT_DAY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=DECIMAL},
+      </if>
+      <if test="bizSysNo != null" >
+        #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizFlow != null" >
+        #{bizFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="paySysNo != null" >
+        #{paySysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmount != null" >
+        #{totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="successAmount != null" >
+        #{successAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="accountDay != null" >
+        #{accountDay,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.manager.models.TppAccountBizsysInfo" >
+    update TPP_ACCOUNT_BIZSYS_INFO
+    <set >
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizFlow != null" >
+        BIZ_FLOW = #{bizFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="paySysNo != null" >
+        PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmount != null" >
+        TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="successAmount != null" >
+        SUCCESS_AMOUNT = #{successAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="accountDay != null" >
+        ACCOUNT_DAY = #{accountDay,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where TASK_ID = #{taskId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.manager.models.TppAccountBizsysInfo" >
+    update TPP_ACCOUNT_BIZSYS_INFO
+    set BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+      BIZ_FLOW = #{bizFlow,jdbcType=VARCHAR},
+      BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+      TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
+      SUCCESS_AMOUNT = #{successAmount,jdbcType=DECIMAL},
+      ACCOUNT_DAY = #{accountDay,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where TASK_ID = #{taskId,jdbcType=DECIMAL}
+  </update>
+  
+  <sql id="Bizsys_Info_Column_List">
+  	TASK_ID  <!--任务Id-->
+	,BIZ_SYS_NO  <!--业务系统号-->
+	,BIZ_FLOW  <!--业务流水号-->
+	,BIZ_TYPE  <!--业务类型-->
+	,PAY_SYS_NO  <!--通道编码-->
+	,TOTAL_AMOUNT  <!--任务总金额-->
+	,SUCCESS_AMOUNT  <!--对账成功金额-->
+	,ACCOUNT_DAY  <!--对账日期-->
+	,CREATE_TIME  <!--创建时间-->
+  </sql>
+  
+  <!--用于模糊查询-->
+     <select id="select_tppAccountBizsysInfoList" resultType="java.util.HashMap">
+     	SELECT * FROM (
+     		SELECT X.*,ROWNUM RN,  (select app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME,
+     			(select DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=X.pay_sys_no) pay_sys_name 
+     			FROM (
+     			select * from (
+		          SELECT  
+				 		<include refid="Bizsys_Info_Column_List" />
+				  FROM TPP_ACCOUNT_BIZSYS_INFO
+				) WHERE 1=1 
+				<if test="SEARCH_BIZ_FLOW != null and SEARCH_BIZ_FLOW != ''">
+			    	and BIZ_FLOW = #{SEARCH_BIZ_FLOW}
+			    </if>
+			    <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+			    	and BIZ_TYPE = #{SEARCH_BIZ_TYPE}
+			    </if>
+			    <if test="SEARCH_TASK_ID != null and SEARCH_TASK_ID != ''">
+			    	and TASK_ID = #{SEARCH_TASK_ID}
+			    </if>
+			    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+			    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+			    </if>
+			    <if test="SEARCH_PAY_SYS_NO != null and SEARCH_PAY_SYS_NO != ''">
+			    	and PAY_SYS_NO = #{SEARCH_PAY_SYS_NO}
+			    </if>
+			    <if test="SEARCH_ACCOUNT_BEGIN_DATE != null and SEARCH_ACCOUNT_BEGIN_DATE != ''">
+			    	and account_day >= #{SEARCH_ACCOUNT_BEGIN_DATE}
+			    </if>
+			    <if test="SEARCH_ACCOUNT_END_DATE != null and SEARCH_ACCOUNT_END_DATE != ''">
+			    	and account_day <![CDATA[<=]]> #{SEARCH_ACCOUNT_END_DATE} 
+			    </if>
+			    <if test="orderStr != null">
+			  		${orderStr} 
+			  	</if>
+	  	<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+		
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppAccountBizsysInfoList_count" resultType="int">
+			SELECT  count(TASK_ID)
+		    FROM TPP_ACCOUNT_BIZSYS_INFO
+			WHERE 1=1 
+			<if test="SEARCH_BIZ_FLOW != null and SEARCH_BIZ_FLOW != ''">
+		    	and BIZ_FLOW = #{SEARCH_BIZ_FLOW}
+		    </if>
+		    <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+		    	and BIZ_TYPE = #{SEARCH_BIZ_TYPE}
+		    </if>
+		    <if test="SEARCH_TASK_ID != null and SEARCH_TASK_ID != ''">
+		    	and TASK_ID = #{SEARCH_TASK_ID}
+		    </if>
+		    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+		    </if>
+		    <if test="SEARCH_PAY_SYS_NO != null and SEARCH_PAY_SYS_NO != ''">
+		    	and PAY_SYS_NO = #{SEARCH_PAY_SYS_NO}
+		    </if>
+		    <if test="SEARCH_ACCOUNT_BEGIN_DATE != null and SEARCH_ACCOUNT_BEGIN_DATE != ''">
+		    	and account_day >= #{SEARCH_ACCOUNT_BEGIN_DATE}
+		    </if>
+		    <if test="SEARCH_ACCOUNT_END_DATE != null and SEARCH_ACCOUNT_END_DATE != ''">
+		    	and account_day <![CDATA[<=]]> #{SEARCH_ACCOUNT_END_DATE} 
+		    </if>
+	 </select>
+</mapper>

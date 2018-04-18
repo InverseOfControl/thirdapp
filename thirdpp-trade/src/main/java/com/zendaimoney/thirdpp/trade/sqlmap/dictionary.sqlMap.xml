@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.Dictionary">
+
+	<typeAlias alias="Dictionary" type="com.zendaimoney.thirdpp.trade.entity.Dictionary"/>
+	
+	<resultMap class="Dictionary" id="DictionaryMap">
+		<result property = "id" column = "ID" jdbcType = "java.lang.Long"/>
+		<result property = "dicCode" column = "DIC_CODE" jdbcType = "java.lang.String"/>
+		<result property = "dicName" column = "DIC_NAME" jdbcType = "java.lang.String"/>
+		<result property = "dicType" column = "DIC_TYPE" jdbcType = "java.lang.String"/>
+		<result property = "parentId" column = "PARENT_ID" jdbcType = "java.lang.Long"/>
+		<result property = "dicDesc" column = "DIC_DESC" jdbcType = "java.lang.String"/>
+	</resultMap>
+	
+	<select id="select" resultMap="DictionaryMap" parameterClass="java.util.Map"> 
+		select ID, DIC_CODE, DIC_NAME, DIC_TYPE, PARENT_ID, DIC_DESC
+		from dd_t_dictionary 
+		where DIC_TYPE = #dicType# 
+		and PARENT_ID = (select id from dd_t_dictionary where DIC_CODE = '3' and DIC_TYPE = '3') 
+		order by NLSSORT(DIC_NAME,'NLS_SORT=SCHINESE_PINYIN_M')
+	</select>
+	
+	<select id="selectByDicCode" resultMap="DictionaryMap" parameterClass="java.util.Map"> 
+		select ID, DIC_CODE, DIC_NAME, DIC_TYPE, PARENT_ID, DIC_DESC
+		from dd_t_dictionary 
+		where DIC_CODE = #dicCode# 
+		and DIC_TYPE = '3' 
+		and PARENT_ID = (select id from dd_t_dictionary where DIC_CODE = '3' and DIC_TYPE = '3') 
+	</select>
+</sqlMap>

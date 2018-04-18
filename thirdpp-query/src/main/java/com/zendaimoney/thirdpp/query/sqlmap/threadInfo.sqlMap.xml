@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.query.entity.ThreadPoolInfo">
+	<typeAlias alias="ThreadPoolInfo" type="com.zendaimoney.thirdpp.query.entity.ThreadPoolInfo" />
+	<resultMap id="ThreadPoolInfoMap" class="ThreadPoolInfo">
+		<result column="ID" property="id" jdbcType="java.lang.Long" nullValue=""/>
+		<result column="BIZ_TYPE" property="bizType" jdbcType="java.lang.String" nullValue=""/>
+		<result column="INF_TYPE" property="infType" jdbcType="java.lang.String" nullValue="" />
+		<result column="PAY_SYS_NO" property="paySysNo" jdbcType="java.lang.String" nullValue="" />
+		<result column="MIN_SIZE" property="minSize" jdbcType="java.lang.Integer" nullValue="0" />
+		<result column="MAX_SIZE" property="maxSize" jdbcType="java.lang.Integer" nullValue="0" />
+		<result column="QUEUE_SIZE" property="queueSize" jdbcType="java.lang.Integer" nullValue="0" />
+		<result column="IS_ACTIVE" property="isActive" jdbcType="java.lang.String" nullValue="" />
+	</resultMap>
+
+	<select id="queryThreadPoolInfos" parameterClass="java.util.Map" resultMap="ThreadPoolInfoMap">
+		select t.id,t.biz_type,t.inf_type,t.pay_sys_no,t.min_size,t.max_size,t.queue_size,t.is_active 
+		from tpp_sys_t_thread_pool t
+		where 1=1 
+		<isNotEmpty prepend="and" property="bizType">
+			t.biz_type=#bizType#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend="and" property="infType">
+			t.inf_type=#infType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paySysNo">
+			t.pay_sys_no=#paySysNo#
+		</isNotEmpty>
+	</select>
+	
+</sqlMap>

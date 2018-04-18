@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.OperationRequest">
+				   
+	<typeAlias alias="OperationRequest" type="com.zendaimoney.thirdpp.trade.entity.OperationRequest"/>
+	
+	<resultMap class="OperationRequest" id="OperationRequestMap">
+		<result property="reqId" column="REQ_ID" jdbcType="java.lang.String"/>
+		<result property="bizTypeNo" column = "BIZ_TYPE_NO" jdbcType = "java.lang.String"/>
+		<result property="bizSysNo" column = "BIZ_SYS_NO" jdbcType = "java.lang.String"/>
+		<result property="bizSysAccountNo" column = "BIZ_SYS_ACCOUNT_NO" jdbcType = "java.lang.String"/>
+		<result property="zengdaiAccountNo" column = "ZENGDAI_ACCOUNT_NO" jdbcType = "java.lang.String"/>
+		<result property="realName" column = "REAL_NAME" jdbcType = "java.lang.String"/>
+		<result property="gender" column = "GENDER" jdbcType = "java.lang.String"/>
+		<result property="nation" column = "NATION" jdbcType = "java.lang.String"/>
+		<result property="mobile" column = "MOBILE" jdbcType = "java.lang.String"/>
+		<result property="reserveMobile" column = "RESERVE_MOBILE" jdbcType = "java.lang.String"/>
+		<result property="bankCardNo" column = "BANK_CARD_NO" jdbcType = "java.lang.String"/>
+		<result property="bankCardType" column = "BANK_CARD_TYPE" jdbcType = "java.lang.String"/>
+		<result property="bankCode" column = "BANK_CODE" jdbcType = "java.lang.String"/>
+		<result property="paySysNo" column = "PAY_SYS_NO" jdbcType = "java.lang.String"/>
+		<result property="status" column = "STATUS" jdbcType = "java.lang.String"/>
+		<result property="idType" column = "ID_TYPE" jdbcType = "java.lang.String"/>
+		<result property="idNo" column = "ID_NO" jdbcType = "java.lang.String"/>
+		<result property="ip" column = "IP" jdbcType = "java.lang.String"/>
+		<result property="bizFlow" column = "BIZ_FLOW" jdbcType = "java.lang.String"/>
+		<result property="isSync" column = "IS_SYNC" jdbcType = "java.lang.String"/>
+		<result property="openBankCode" column = "OPEN_BANK_CODE" jdbcType = "java.lang.String"/>
+		<result property="payTransFlow" column = "PAY_TRANS_FLOW" jdbcType = "java.lang.String"/>
+		<result property="transferFlow" column = "TRANSFER_FLOW" jdbcType = "java.lang.String"/>
+		<result property="respTime" column = "RESP_TIME" jdbcType = "java.util.Date"/>
+		<result property="respInfo" column = "RESP_INFO" jdbcType = "java.lang.String"/>
+		<result property="respCode" column = "RESP_CODE" jdbcType = "java.lang.String"/>
+		<result property="thirdAccountNo" column = "THIRD_ACCOUNT_NO" jdbcType = "java.lang.String"/>
+		<result property="mac" column = "MAC" jdbcType = "java.lang.String"/>
+		<result property="creater" column = "CREATER" jdbcType = "java.lang.String"/>
+		<result property="createTime" column = "CREATE_TIME" jdbcType = "java.util.Date"/>
+		<result property="updateTime" column = "UPDATE_TIME" jdbcType = "java.util.Date"/>
+		<result property="spare1" column = "SPARE1" jdbcType = "java.lang.String"/>
+		<result property="spare2" column = "SPARE2" jdbcType = "java.lang.String"/>
+		<result property="infoCategoryCode" column = "INFO_CATEGORY_CODE" jdbcType = "java.lang.String"/>
+	</resultMap>
+
+	<insert id="insert" parameterClass="OperationRequest">
+		insert into tpp_operation_request(REQ_ID, BIZ_TYPE_NO, BIZ_SYS_NO, BIZ_SYS_ACCOUNT_NO, ZENGDAI_ACCOUNT_NO, REAL_NAME, 
+		GENDER, NATION, MOBILE, RESERVE_MOBILE, BANK_CARD_NO, BANK_CARD_TYPE, BANK_CODE, PAY_SYS_NO, STATUS, ID_TYPE, ID_NO, 
+		IP, BIZ_FLOW, IS_SYNC, OPEN_BANK_CODE, PAY_TRANS_FLOW, TRANSFER_FLOW, RESP_TIME, RESP_INFO, RESP_CODE, THIRD_ACCOUNT_NO, 
+		MAC, CREATER, CREATE_TIME, SPARE1, SPARE2, INFO_CATEGORY_CODE)
+		values(#reqId#, #bizTypeNo#, #bizSysNo#, #bizSysAccountNo#, #zengdaiAccountNo#, #realName#, #gender#, #nation#, #mobile#, 
+		#reserveMobile#, #bankCardNo#, #bankCardType#, #bankCode#, #paySysNo#, #status#, #idType#, #idNo#, #ip#, #bizFlow#, 
+		#isSync#, #openBankCode#, #payTransFlow#, #transferFlow#, #respTime#, #respInfo#, #respCode#, #thirdAccountNo#, #mac#, 
+		#creater#, sysdate, #spare1#, #spare2#, #infoCategoryCode#)
+	</insert>
+	
+	<insert id="update" parameterClass="OperationRequest">
+		update tpp_operation_request set 
+		UPDATE_TIME = sysdate
+		<isNotEmpty prepend="," property="respTime">
+		RESP_TIME = sysdate
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respInfo">
+		RESP_INFO = #respInfo#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respCode">
+		RESP_CODE = #respCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="status">
+		STATUS = #status#
+		</isNotEmpty>
+		
+		where REQ_ID = #reqId#
+	</insert>
+	
+</sqlMap>

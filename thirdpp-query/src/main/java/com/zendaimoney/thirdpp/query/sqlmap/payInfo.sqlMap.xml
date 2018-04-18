@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.query.entity.PayInfo">
+	<typeAlias alias="PayInfo" type="com.zendaimoney.thirdpp.query.entity.PayInfo" />
+	<resultMap id="PayInfoMap" class="PayInfo">
+		<result column="ID" property="id" jdbcType="java.lang.Long" nullValue=""/>
+		<result column="TASK_ID" property="taskId" jdbcType="java.lang.Long" nullValue=""/>
+		<result column="REQ_ID" property="reqId" jdbcType="java.lang.String" nullValue=""/>
+		<result column="PAY_SYS_NO" property="paySysNo" jdbcType="java.lang.String" nullValue=""/>
+		<result column="AMOUNT" property="amount" jdbcType="java.math.BigDecimal" nullValue=""/>
+		<result column="BIZ_FLOW" property="bizFlow" jdbcType="java.lang.String" nullValue=""/>
+		<result column="STATUS" property="status" jdbcType="java.lang.String" nullValue=""/>
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="java.lang.String" nullValue=""/>
+		<result column="TRADE_FLOW" property="tradeFlow" jdbcType="java.lang.String" nullValue=""/>
+		<result column="BIZ_TYPE" property="bizType" jdbcType="java.lang.String" nullValue=""/>
+		<result column="FAIL_REASON" property="failReason" jdbcType="java.lang.String" nullValue="" />
+		<result column="TRANS_REP_CODE" property="transRepCode" jdbcType="java.lang.String" nullValue=""/>
+	</resultMap>
+
+	<update id="update" parameterClass="PayInfo"> 
+		update TPP_TRADE_T_PAY_INFO set
+		UPDATE_TIME = sysdate
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="failReason">
+			FAIL_REASON=#failReason#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="transRepCode">
+			TRANS_REP_CODE=#transRepCode#
+		</isNotEmpty>
+		where TRADE_FLOW=#tradeFlow#
+	</update>
+	
+	<select id="queryPayInfoByReqId" parameterClass="java.util.Map" resultMap="PayInfoMap">
+		select ID,TASK_ID,REQ_ID,PAY_SYS_NO,AMOUNT,BIZ_FLOW,STATUS,UPDATE_TIME,TRADE_FLOW,BIZ_TYPE,FAIL_REASON,TRANS_REP_CODE
+		from TPP_TRADE_T_PAY_INFO t where t.trade_flow=#tradeFlow#
+	</select>
+	
+	<!-- 更新条件加入 STATUS 为中间状态 -->
+	<update id="updateByStatus" parameterClass="PayInfo"> 
+		update TPP_TRADE_T_PAY_INFO set
+		UPDATE_TIME = sysdate
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="failReason">
+			FAIL_REASON=#failReason#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="transRepCode">
+			TRANS_REP_CODE=#transRepCode#
+		</isNotEmpty>
+		where TRADE_FLOW=#tradeFlow#
+			and STATUS='222222'
+	</update>
+	
+</sqlMap>

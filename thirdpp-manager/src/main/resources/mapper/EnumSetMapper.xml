@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.EnumSetMapper">
+	 <select id="select_sysAppList" resultType="java.util.HashMap">
+	 		 	select * from tpp_sys_app
+	 </select>
+	 <select id="select_allSysAppList" resultType="java.util.HashMap">
+	 		 	select * from tpp_sys_app where is_flag!=0 
+	 </select>
+	 
+	 <select id="select_dictionaryByType" resultType="java.util.HashMap">
+	 	select * from dd_t_dictionary where 1=1 
+	 		and dic_type = #{dicType} and parent_id!=0
+	 </select>
+	 
+	  <select id="select_areaInfoParent" resultType="java.util.HashMap">
+	 	select * from DD_T_AREA_INFO where parent_id= #{parentId}  
+	 	 
+	 </select>
+	  <select id="select_merType" resultType="java.util.HashMap">
+	 	select dic_code,dic_name from dd_t_dictionary where dic_type='6' and parent_id !=0
+	 </select>
+	 
+	 <select id="select_infoCategory" resultType="java.util.HashMap">
+	 	select * from TPP_SYS_T_INFO_CATEGORY
+	 </select>
+	 <select id="select_bizType" resultType="java.util.HashMap">
+	 	select * from DD_T_DICTIONARY where dic_type='4' and parent_id!=0
+	 </select>
+	 
+	  <select id="select_infoCategoryByApp" resultType="java.util.HashMap">
+	 	select b.INFO_CATEGORY_CODE, b.INFO_CATEGORY_NAME from TPP_SYS_T_INFO_CATEGORY_APPS a left join TPP_SYS_T_INFO_CATEGORY b 
+		on a.INFO_CATEGORY_CODE = b.INFO_CATEGORY_CODE where a.app_code = #{appCode} 
+	 </select>
+</mapper>

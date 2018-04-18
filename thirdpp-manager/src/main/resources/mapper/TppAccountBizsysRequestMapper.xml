@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppAccountBizsysRequestMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppAccountBizsysRequest" >
+    <result column="REQ_ID" property="reqId" jdbcType="VARCHAR" />
+    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <result column="CONFIG_ID" property="configId" jdbcType="DECIMAL" />
+    <result column="ACCOUNT_DAY" property="accountDay" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="LOCALIZE_START_TIME" property="localizeStartTime" jdbcType="TIMESTAMP" />
+    <result column="LOCALIZE_PATH" property="localizePath" jdbcType="VARCHAR" />
+    <result column="LOCALIZE_FILE_NAME" property="localizeFileName" jdbcType="VARCHAR" />
+    <result column="LOCALIZE_END_TIME" property="localizeEndTime" jdbcType="TIMESTAMP" />
+    <result column="PUSH_START_TIME" property="pushStartTime" jdbcType="TIMESTAMP" />
+    <result column="PUSH_FILE_NAME" property="pushFileName" jdbcType="VARCHAR" />
+    <result column="PUSH_FILE_SIZE" property="pushFileSize" jdbcType="DECIMAL" />
+    <result column="PUSH_FILE_PATH" property="pushFilePath" jdbcType="VARCHAR" />
+    <result column="PUSH_END_TIME" property="pushEndTime" jdbcType="TIMESTAMP" />
+    <result column="PUSH_FAILED_TIMES" property="pushFailedTimes" jdbcType="DECIMAL" />
+    <result column="FAILED_REASON" property="failedReason" jdbcType="VARCHAR" />
+    <result column="SPARE1" property="spare1" jdbcType="VARCHAR" />
+    <result column="SPARE2" property="spare2" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="APP_NAME" property="appName" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppAccountBizsysRequest" >
+    insert into TPP_ACCOUNT_BIZSYS_REQUEST (REQ_ID, BIZ_SYS_NO, 
+      CONFIG_ID, ACCOUNT_DAY, 
+      STATUS, LOCALIZE_START_TIME, LOCALIZE_PATH, 
+      LOCALIZE_FILE_NAME, LOCALIZE_END_TIME, PUSH_START_TIME, 
+      PUSH_FILE_NAME, PUSH_FILE_SIZE, PUSH_FILE_PATH, 
+      PUSH_END_TIME, PUSH_FAILED_TIMES, FAILED_REASON, 
+      SPARE1, SPARE2, CREATE_TIME, 
+      UPDATE_TIME,BIZ_TYPE,APP_NAME)
+    values (#{reqId,jdbcType=VARCHAR}, #{bizSysNo,jdbcType=VARCHAR}, 
+      #{configId,jdbcType=DECIMAL}, #{accountDay,jdbcType=VARCHAR}, 
+      #{status,jdbcType=DECIMAL}, #{localizeStartTime,jdbcType=TIMESTAMP}, #{localizePath,jdbcType=VARCHAR}, 
+      #{localizeFileName,jdbcType=VARCHAR}, #{localizeEndTime,jdbcType=TIMESTAMP}, #{pushStartTime,jdbcType=TIMESTAMP}, 
+      #{pushFileName,jdbcType=VARCHAR}, #{pushFileSize,jdbcType=DECIMAL}, #{pushFilePath,jdbcType=VARCHAR}, 
+      #{pushEndTime,jdbcType=TIMESTAMP}, #{pushFailedTimes,jdbcType=DECIMAL}, #{failedReason,jdbcType=VARCHAR}, 
+      #{spare1,jdbcType=VARCHAR}, #{spare2,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP},#{bizType,jdbcType=VARCHAR},#{appName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppAccountBizsysRequest" >
+    insert into TPP_ACCOUNT_BIZSYS_REQUEST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reqId != null" >
+        REQ_ID,
+      </if>
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO,
+      </if>
+      <if test="configId != null" >
+        CONFIG_ID,
+      </if>
+      <if test="accountDay != null" >
+        ACCOUNT_DAY,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="localizeStartTime != null" >
+        LOCALIZE_START_TIME,
+      </if>
+      <if test="localizePath != null" >
+        LOCALIZE_PATH,
+      </if>
+      <if test="localizeFileName != null" >
+        LOCALIZE_FILE_NAME,
+      </if>
+      <if test="localizeEndTime != null" >
+        LOCALIZE_END_TIME,
+      </if>
+      <if test="pushStartTime != null" >
+        PUSH_START_TIME,
+      </if>
+      <if test="pushFileName != null" >
+        PUSH_FILE_NAME,
+      </if>
+      <if test="pushFileSize != null" >
+        PUSH_FILE_SIZE,
+      </if>
+      <if test="pushFilePath != null" >
+        PUSH_FILE_PATH,
+      </if>
+      <if test="pushEndTime != null" >
+        PUSH_END_TIME,
+      </if>
+      <if test="pushFailedTimes != null" >
+        PUSH_FAILED_TIMES,
+      </if>
+      <if test="failedReason != null" >
+        FAILED_REASON,
+      </if>
+      <if test="spare1 != null" >
+        SPARE1,
+      </if>
+      <if test="spare2 != null" >
+        SPARE2,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reqId != null" >
+        #{reqId,jdbcType=VARCHAR},
+      </if>
+      <if test="bizSysNo != null" >
+        #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="configId != null" >
+        #{configId,jdbcType=DECIMAL},
+      </if>
+      <if test="accountDay != null" >
+        #{accountDay,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="localizeStartTime != null" >
+        #{localizeStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="localizePath != null" >
+        #{localizePath,jdbcType=VARCHAR},
+      </if>
+      <if test="localizeFileName != null" >
+        #{localizeFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="localizeEndTime != null" >
+        #{localizeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushStartTime != null" >
+        #{pushStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushFileName != null" >
+        #{pushFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="pushFileSize != null" >
+        #{pushFileSize,jdbcType=DECIMAL},
+      </if>
+      <if test="pushFilePath != null" >
+        #{pushFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="pushEndTime != null" >
+        #{pushEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushFailedTimes != null" >
+        #{pushFailedTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="failedReason != null" >
+        #{failedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="spare1 != null" >
+        #{spare1,jdbcType=VARCHAR},
+      </if>
+      <if test="spare2 != null" >
+        #{spare2,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <!--用于模糊查询-->
+     <select id="select_tppAccountBizsysRequestList" resultType="java.util.HashMap">
+	     SELECT * FROM (
+			SELECT X.*,ROWNUM RN,(select app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME
+				FROM (
+					select * from (
+	          SELECT  *
+			  FROM TPP_ACCOUNT_BIZSYS_REQUEST)
+			  WHERE 1=1 
+			  	<if test="SEARCH_ACCOUNT_BEGIN_DATE != null and SEARCH_ACCOUNT_BEGIN_DATE != ''">
+			    	and account_day >= #{SEARCH_ACCOUNT_BEGIN_DATE}
+			    </if>
+			    <if test="SEARCH_ACCOUNT_END_DATE != null and SEARCH_ACCOUNT_END_DATE != ''">
+			    	and account_day <![CDATA[<=]]> #{SEARCH_ACCOUNT_END_DATE} 
+			    </if>
+			  	<if test="SEARCH_REQ_ID != null and SEARCH_REQ_ID != ''">
+		    		and REQ_ID = #{SEARCH_REQ_ID}
+		      	</if> 
+		      	<if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		    		and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+		      	</if> 
+		      	<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+		    		and STATUS = #{SEARCH_STATUS}
+		      	</if> 
+		      	<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+			    	<foreach item="item" index="index" collection="SEARCH_BIZ_TYPE">
+		                      and BIZ_TYPE like '%'||(#{item})||'%'
+		               </foreach>
+			    </if>
+			    <if test="orderStr != null">
+			  		${orderStr} 
+			  	 </if>
+		 <![CDATA[
+	 		) X WHERE ROWNUM  <= #{rowEnd}
+		 ) WHERE RN >= #{rowBegin}
+		
+		 ]]>
+		 
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppAccountBizsysRequestList_count" resultType="int">
+			SELECT  count(1)
+		    FROM TPP_ACCOUNT_BIZSYS_REQUEST
+			WHERE 1=1 
+				<if test="SEARCH_ACCOUNT_BEGIN_DATE != null and SEARCH_ACCOUNT_BEGIN_DATE != ''">
+			    	and account_day >= #{SEARCH_ACCOUNT_BEGIN_DATE}
+			    </if>
+			    <if test="SEARCH_ACCOUNT_END_DATE != null and SEARCH_ACCOUNT_END_DATE != ''">
+			    	and account_day <![CDATA[<=]]> #{SEARCH_ACCOUNT_END_DATE} 
+			    </if>
+				<if test="SEARCH_REQ_ID != null and SEARCH_REQ_ID != ''">
+		    		and REQ_ID = #{SEARCH_REQ_ID}
+		      	</if> 
+		      	<if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		    		and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+		      	</if> 
+		      	<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+		    		and STATUS = #{SEARCH_STATUS}
+		      	</if> 
+		      	<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+			    	<foreach item="item" index="index" collection="SEARCH_BIZ_TYPE">
+		                      and BIZ_TYPE like '%'||(#{item})||'%'
+		               </foreach>
+			    </if>
+	 </select>
+</mapper>

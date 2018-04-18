@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TThirdFieldMapperMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TThirdFieldMapper">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="THIRD_PARTY_TYPE" jdbcType="VARCHAR" property="thirdPartyType" />
+		<result column="TPP_FIELD_CODE" jdbcType="VARCHAR" property="tppFieldCode" />
+		<result column="THIRD_FIELD_CODE" jdbcType="VARCHAR" property="thirdFieldCode" />
+		<result column="FIELD_NAME" jdbcType="VARCHAR" property="fieldName" />
+		<result column="FIELD_TYPE" jdbcType="VARCHAR" property="fieldType" />
+		<result column="COLLECT_MAX_MONEY" jdbcType="DECIMAL" property="collectMaxMoney1" />
+		<result column="PAY_MAX_MONEY" jdbcType="DECIMAL" property="payMaxMoney1" />
+		<result column="QUICK_PAY_MAX_MONEY" jdbcType="DECIMAL" property="quickPayMaxMoney1" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="DT_TIME" property="dtTime" jdbcType="VARCHAR"/>
+		<!-- <collection property="permissions" resultMap="com.zdmoney.manager.mapper.TSysPermissionMapper.BaseResultMap"/> -->
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,THIRD_PARTY_TYPE,TPP_FIELD_CODE,THIRD_FIELD_CODE,FIELD_NAME,DT_TIME,FIELD_TYPE,
+		COLLECT_MAX_MONEY,PAY_MAX_MONEY,QUICK_PAY_MAX_MONEY
+	</sql>
+	<select id="getThirdFieldList" resultType="java.util.HashMap">
+	 SELECT * FROM (
+		SELECT X.*,ROWNUM RN FROM (
+		select
+		fm.ID,fm.THIRD_PARTY_TYPE,fm.TPP_FIELD_CODE,fm.THIRD_FIELD_CODE,fm.FIELD_NAME,to_date(fm.DT_TIME,'yyyymmdd')
+		as DT_TIME,fm.FIELD_TYPE,fm.STATUS,
+		fm.COLLECT_MAX_MONEY,fm.PAY_MAX_MONEY,fm.QUICK_PAY_MAX_MONEY
+		from DD_T_THIRD_FIELD_MAPPER fm   where 1=1
+		<if test="thirdPartyType != null and thirdPartyType !=''">
+			and fm.THIRD_PARTY_TYPE = #{thirdPartyType}
+		</if>
+		<if test="tppFieldCode != null and tppFieldCode !=''">
+			and fm.TPP_FIELD_CODE = #{tppFieldCode}
+		</if>
+		<if test="thirdFieldCode != null and thirdFieldCode !=''">
+			and fm.THIRD_FIELD_CODE = #{thirdFieldCode}
+		</if>
+		<if test="fieldName != null and fieldName !=''">
+			and fm.FIELD_NAME  like  '%${fieldName}%'
+		</if>
+		<if test="fieldType != null and fieldType !=''">
+			and fm.FIELD_TYPE = #{fieldType}
+		</if>
+		<if test="beginTime != null and beginTime !=''">
+			and fm.DT_TIME &gt;= #{beginTime}
+		</if>
+		<if test="endTime != null and endTime !=''">
+			and fm.DT_TIME &lt;= #{endTime}
+		</if> order by ID desc  
+		<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]> 
+	</select>
+	
+	<select id="getThirdFieldListCount" resultType="Integer">
+		select count(fm.ID) from DD_T_THIRD_FIELD_MAPPER fm   where 1=1
+		<if test="thirdPartyType != null and thirdPartyType !=''">
+			and fm.THIRD_PARTY_TYPE = #{thirdPartyType}
+		</if>
+		<if test="tppFieldCode != null and tppFieldCode !=''">
+			and fm.TPP_FIELD_CODE = #{tppFieldCode}
+		</if>
+		<if test="thirdFieldCode != null and thirdFieldCode !=''">
+			and fm.THIRD_FIELD_CODE = #{thirdFieldCode}
+		</if>
+		<if test="fieldName != null and fieldName !=''">
+				and fm.FIELD_NAME  like  '%${fieldName}%'
+		 
+		</if>
+		<if test="fieldType != null and fieldType !=''">
+			and fm.FIELD_TYPE = #{fieldType}
+		</if>
+		<if test="beginTime != null and beginTime !=''">
+			and fm.DT_TIME &gt;= #{beginTime}
+		</if>
+		<if test="endTime != null and endTime !=''">
+			and fm.DT_TIME &lt;= #{endTime}
+		</if>
+			
+	</select>
+	<select id="selectThirdFieldByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+	select
+		ID,THIRD_PARTY_TYPE,TPP_FIELD_CODE,THIRD_FIELD_CODE,FIELD_NAME,to_date(DT_TIME,'yyyymmdd')
+		as DT_TIME,FIELD_TYPE,
+		COLLECT_MAX_MONEY,PAY_MAX_MONEY,QUICK_PAY_MAX_MONEY,STATUS
+		from DD_T_THIRD_FIELD_MAPPER
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TThirdFieldMapper">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_DD_T_THIRD_FIELD_MAPPER.nextval from dual
+		</selectKey>
+		merge into DD_T_THIRD_FIELD_MAPPER t using dual on ( t.THIRD_PARTY_TYPE =#{thirdPartyType,jdbcType=VARCHAR} and t.TPP_FIELD_CODE=#{tppFieldCode,jdbcType=VARCHAR} and t.THIRD_FIELD_CODE=#{thirdFieldCode,jdbcType=VARCHAR} and t.FIELD_TYPE=#{fieldType,jdbcType=VARCHAR}) 
+		when not matched then 
+		insert(ID,THIRD_PARTY_TYPE,TPP_FIELD_CODE,THIRD_FIELD_CODE,FIELD_NAME, 
+		  DT_TIME,FIELD_TYPE,
+		COLLECT_MAX_MONEY,PAY_MAX_MONEY,QUICK_PAY_MAX_MONEY,STATUS)
+		values(#{id,jdbcType=DECIMAL},#{thirdPartyType,jdbcType=VARCHAR},#{tppFieldCode,jdbcType=VARCHAR},
+		#{thirdFieldCode,jdbcType=VARCHAR},
+		#{fieldName,jdbcType=VARCHAR},
+		to_char(sysdate,'yyyymmdd'),
+		#{fieldType,jdbcType=VARCHAR},
+		#{collectMaxMoney1,jdbcType=DECIMAL},
+		#{payMaxMoney1,jdbcType=DECIMAL},
+		#{quickPayMaxMoney1,jdbcType=DECIMAL},
+		#{status,jdbcType=VARCHAR}
+		
+		)
+	</insert>
+	
+	<select id="getThirdField" resultMap="BaseResultMap" parameterType="com.zdmoney.manager.models.TThirdFieldMapper">
+		select * from DD_T_THIRD_FIELD_MAPPER t where 1=1 
+		<if test="thirdPartyType != null and thirdPartyType !=''">
+			and t.THIRD_PARTY_TYPE =#{thirdPartyType,jdbcType=VARCHAR} 
+		</if>
+		<if test="tppFieldCode != null and tppFieldCode !=''">
+			and t.TPP_FIELD_CODE=#{tppFieldCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="thirdFieldCode != null and thirdFieldCode !=''">
+			and t.THIRD_FIELD_CODE=#{thirdFieldCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="fieldType != null and fieldType !=''">
+			and t.FIELD_TYPE=#{fieldType,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<update id="updateThirdField" parameterType="com.zdmoney.manager.models.TThirdFieldMapper">
+		update DD_T_THIRD_FIELD_MAPPER
+		set 
+		
+		THIRD_PARTY_TYPE = #{thirdPartyType,jdbcType=VARCHAR},
+		TPP_FIELD_CODE = #{tppFieldCode,jdbcType=VARCHAR},
+		THIRD_FIELD_CODE = #{thirdFieldCode,jdbcType=VARCHAR},
+		FIELD_NAME = #{fieldName,jdbcType=VARCHAR},
+		FIELD_TYPE = #{fieldType,jdbcType=VARCHAR},
+		COLLECT_MAX_MONEY = #{collectMaxMoney1,jdbcType=DECIMAL},
+		PAY_MAX_MONEY = #{payMaxMoney1,jdbcType=DECIMAL},
+		QUICK_PAY_MAX_MONEY = #{quickPayMaxMoney1,jdbcType=DECIMAL},
+	
+		dt_time = to_char(sysdate,'yyyymmdd')
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<delete id="batchDeleteInfo" parameterType="java.util.List">  
+    	delete from DD_T_THIRD_FIELD_MAPPER where ID in  
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+       	 #{item}   
+    	</foreach>  
+	</delete>
+	<update id="updateStatus">
+		update DD_T_THIRD_FIELD_MAPPER
+		set STATUS= #{status,jdbcType=VARCHAR}
+			where ID = #{id,jdbcType=DECIMAL}
+	 </update>
+</mapper>

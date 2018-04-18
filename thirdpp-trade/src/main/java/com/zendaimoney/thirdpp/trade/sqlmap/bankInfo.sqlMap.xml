@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.BankInfo" >
+ <typeAlias alias="BankInfo" type="com.zendaimoney.thirdpp.trade.entity.BankInfo" />
+  <resultMap id="BankInfoMap" class="BankInfo">
+    <result column="ID" jdbcType="java.lang.Integer" property="id" />
+    <result column="BANK_CODE" jdbcType="java.lang.String" property="bankCode" />
+    <result column="BANK_NAME" jdbcType="java.lang.String" property="bankName" />
+  </resultMap>
+  
+  <select id="queryBankInfoByCode" parameterClass="java.lang.String" resultMap="BankInfoMap">		 
+		 select ID,BANK_CODE,BANK_NAME from DD_T_BANK_INFO
+		 where BANK_CODE=#bankCode# and rownum =1
+  </select>
+  
+  <select id="queryBankInfos"  resultMap="BankInfoMap">		 
+		 select ID,BANK_CODE,BANK_NAME from DD_T_BANK_INFO 
+		 order by BANK_CODE ASC
+  </select>
+  
+  <select id="queryBankInfosCount"  resultClass="java.lang.Integer">
+  	select count(*) from DD_T_BANK_INFO
+  </select>
+</sqlMap>

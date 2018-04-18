@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.transfer.entity.ThirdFieldMapper">
+	<typeAlias alias="ThirdFieldMapper" type="com.zendaimoney.thirdpp.transfer.entity.ThirdFieldMapper" />
+
+	<resultMap id="ThirdFieldMapperMap" class="ThirdFieldMapper">
+	<result property="id" column="ID" jdbcType="java.lang.Long"/>
+	<result property="thirdPartyType" column="THIRD_PARTY_TYPE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="tppFieldCode" column="TPP_FIELD_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="thirdFieldCode" column="THIRD_FIELD_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="fieldName" column="FIELD_NAME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="fieldType" column="FIELD_TYPE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="collectMaxMoney" column="COLLECT_MAX_MONEY" jdbcType="java.math.BigDecimal" />
+	<result property="payMaxMoney" column="PAY_MAX_MONEY" jdbcType="java.math.BigDecimal" />
+	<result property="quickPayMaxMoney" column="QUICK_PAY_MAX_MONEY" jdbcType="java.math.BigDecimal" />
+	</resultMap>
+	
+	<select id="queryThirdFieldMappersByFieldType" parameterClass="java.lang.String" resultMap="ThirdFieldMapperMap">
+		select t.id,t.third_party_type,t.third_field_code,t.tpp_field_code,t.field_name,t.field_type,t.COLLECT_MAX_MONEY,t.PAY_MAX_MONEY,t.QUICK_PAY_MAX_MONEY from dd_t_third_field_mapper t
+		 where t.field_type =#value#
+	</select>
+
+</sqlMap>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppTradeTRequestMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppTradeTRequest" >
+    <result column="REQ_ID" property="reqId" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR" />
+    <result column="PAY_SYS_NO" property="paySysNo" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="IS_SYNC" property="isSync" jdbcType="VARCHAR" />
+    <result column="IS_HAND_ADD" property="isHandAdd" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="SPARE1" property="spare1" jdbcType="VARCHAR" />
+    <result column="SPARE2" property="spare2" jdbcType="VARCHAR" />
+    <result column="INFO_CATEGORY_CODE" property="infoCategoryCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppTradeTRequest" >
+    insert into TPP_TRADE_T_REQUEST (REQ_ID, BIZ_TYPE, BIZ_SYS_NO, 
+      PAY_SYS_NO, IP, IS_SYNC, 
+      IS_HAND_ADD, REMARK, CREATER, 
+      CREATE_TIME, SPARE1, SPARE2, 
+      INFO_CATEGORY_CODE)
+    values (#{reqId,jdbcType=VARCHAR}, #{bizType,jdbcType=VARCHAR}, #{bizSysNo,jdbcType=VARCHAR}, 
+      #{paySysNo,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{isSync,jdbcType=VARCHAR}, 
+      #{isHandAdd,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{spare1,jdbcType=VARCHAR}, #{spare2,jdbcType=VARCHAR}, 
+      #{infoCategoryCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppTradeTRequest" >
+    insert into TPP_TRADE_T_REQUEST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reqId != null" >
+        REQ_ID,
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE,
+      </if>
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO,
+      </if>
+      <if test="paySysNo != null" >
+        PAY_SYS_NO,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="isSync != null" >
+        IS_SYNC,
+      </if>
+      <if test="isHandAdd != null" >
+        IS_HAND_ADD,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="creater != null" >
+        CREATER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="spare1 != null" >
+        SPARE1,
+      </if>
+      <if test="spare2 != null" >
+        SPARE2,
+      </if>
+      <if test="infoCategoryCode != null" >
+        INFO_CATEGORY_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reqId != null" >
+        #{reqId,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="bizSysNo != null" >
+        #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="paySysNo != null" >
+        #{paySysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="isSync != null" >
+        #{isSync,jdbcType=VARCHAR},
+      </if>
+      <if test="isHandAdd != null" >
+        #{isHandAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spare1 != null" >
+        #{spare1,jdbcType=VARCHAR},
+      </if>
+      <if test="spare2 != null" >
+        #{spare2,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCategoryCode != null" >
+        #{infoCategoryCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="getRequestList" resultMap="BaseResultMap">
+  	select * from TPP_TRADE_T_REQUEST
+  </select>
+  
+  <sql id="Request_Column_List" >
+  	REQ_ID,BIZ_TYPE,BIZ_SYS_NO,PAY_SYS_NO,IP,IS_SYNC,IS_HAND_ADD,REMARK,CREATER,CREATE_TIME,SPARE1,SPARE2,INFO_CATEGORY_CODE
+  </sql>
+  
+  <!--用于模糊查询-->
+     <select id="select_tppTradeTRequestList"  resultType="java.util.HashMap">
+     SELECT * FROM (
+		SELECT X.*,ROWNUM RN, 
+		(select app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME, 
+		(select DIC_NAME from dd_t_dictionary t where t.dic_type='4' and t.dic_code=X.BIZ_TYPE) BIZ_NAME, 
+		(select DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=X.pay_sys_no) pay_sys_name,
+		(select INFO_CATEGORY_NAME from TPP_SYS_T_INFO_CATEGORY t where t.INFO_CATEGORY_CODE=x.INFO_CATEGORY_CODE) INFO_CATEGORY_NAME 
+		FROM (
+			select * from (
+	          SELECT  <include refid="Request_Column_List" /> 
+			  FROM TPP_TRADE_T_REQUEST 
+			  union all select <include refid="Request_Column_List" />  from TPP_TRADE_T_REQUEST_HIS 
+			) 
+		  WHERE 1=1 
+			<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+			 	and create_time >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+			</if>
+			<if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+			 	and create_time <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+			</if>
+			<if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+		    </if>
+		    <if test="SEARCH_PAY_SYS_NO != null and SEARCH_PAY_SYS_NO != ''">
+		    	and PAY_SYS_NO = #{SEARCH_PAY_SYS_NO}
+		    </if>
+		    <if test="SEARCH_REQ_ID != null and SEARCH_REQ_ID != ''">
+		    	and req_id = #{SEARCH_REQ_ID}
+		    </if>
+		    <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+		    	and BIZ_TYPE = #{SEARCH_BIZ_TYPE}
+		    </if>
+		    <if test="APPIDS != null and APPIDS != ''">
+		    	and biz_sys_no in 
+		    	<foreach item="item" index="index" collection="APPIDS" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+		    </if>
+			  <if test="orderStr != null and orderStr != ''">
+			  	 	 ${orderStr} 
+			  </if>
+		  <![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppTradeTRequestList_count" resultType="int">
+			select count(REQ_ID) from (
+				SELECT  <include refid="Request_Column_List" />  
+		    	FROM TPP_TRADE_T_REQUEST union all select <include refid="Request_Column_List" />  from TPP_TRADE_T_REQUEST_HIS 
+		    	)
+			WHERE 1=1 
+			<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+			 	and create_time >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+			</if>
+			<if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+			 	and create_time <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+			</if>
+			<if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+		    </if>
+		    <if test="SEARCH_PAY_SYS_NO != null and SEARCH_PAY_SYS_NO != ''">
+		    	and PAY_SYS_NO = #{SEARCH_PAY_SYS_NO}
+		    </if>
+		    <if test="SEARCH_REQ_ID != null and SEARCH_REQ_ID != ''">
+		    	and req_id = #{SEARCH_REQ_ID}
+		    </if>
+		    <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+		    	and BIZ_TYPE = #{SEARCH_BIZ_TYPE}
+		    </if>
+		    <if test="APPIDS != null and APPIDS != ''">
+		    	and biz_sys_no in 
+		    	<foreach item="item" index="index" collection="APPIDS" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+		    </if>
+	 </select>
+</mapper>

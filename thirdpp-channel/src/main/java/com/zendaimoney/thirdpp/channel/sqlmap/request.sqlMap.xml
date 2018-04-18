@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.channel.entity.Request">
+	<typeAlias alias="Request" type="com.zendaimoney.thirdpp.channel.entity.Request" />
+
+	<resultMap id="RequestMap" class="Request">
+	<result property="reqId" column="REQ_ID" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="transferFlow" column="TRANSFER_FLOW" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="payTransFlow" column="PAY_TRANS_FLOW" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="createTime" column="CREATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="updateTime" column="UPDATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="status" column="STATUS" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="paySysNo" column="PAY_SYS_NO" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="bizType" column="BIZ_TYPE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="bizSysNo" column="BIZ_SYS_NO" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="spare1" column="SPARE1" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="spare2" column="SPARE2" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="failReason" column="FAIL_REASON" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="infoCategoryCode" column="INFO_CATEGORY_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	</resultMap>
+	
+	<insert id="insert" parameterClass="Request">
+		INSERT INTO
+		TPP_CHANNEL_T_REQUEST(REQ_ID,TRANSFER_FLOW,PAY_TRANS_FLOW,CREATE_TIME,STATUS,PAY_SYS_NO,BIZ_TYPE,BIZ_SYS_NO,SPARE1,SPARE2,INFO_CATEGORY_CODE)
+		VALUES
+		(#reqId#,#transferFlow#,#payTransFlow#,sysdate,#status#,#paySysNo#,#bizType#,#bizSysNo#,#spare1#,#spare2#,#infoCategoryCode#)
+	</insert>
+	
+	<insert id="update" parameterClass="Request">
+		update TPP_CHANNEL_T_REQUEST set
+		UPDATE_TIME = sysdate
+		<isNotEmpty prepend="," property="transferFlow">
+			TRANSFER_FLOW=#transferFlow#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="payTransFlow">
+			PAY_TRANS_FLOW=#payTransFlow#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="paySysNo">
+			PAY_SYS_NO=#paySysNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="bizType">
+			BIZ_TYPE=#bizType#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="bizSysNo">
+			BIZ_SYS_NO=#bizSysNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="spare1">
+			SPARE1=#spare1#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="spare2">
+			SPARE2=#spare2#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="failReason">
+			FAIL_REASON=#failReason#
+		</isNotEmpty>
+		where REQ_ID=#reqId#
+	 </insert>
+	 
+	 <select id="queryRequestByReqId" parameterClass="java.lang.String" resultMap="RequestMap">
+		select * from TPP_CHANNEL_T_REQUEST t where t.REQ_ID=#value# and rownum &lt;= 1
+	</select>
+
+</sqlMap>

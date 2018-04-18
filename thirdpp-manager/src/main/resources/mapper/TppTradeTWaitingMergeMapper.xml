@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppTradeTWaitingMergeMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppTradeTWaitingMerge" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TRADE_FLOW" property="tradeFlow" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE_NO" property="bizTypeNo" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="MERGE_MODULE_NAME" property="mergeModuleName" jdbcType="VARCHAR" />
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TRADE_FLOW, BIZ_TYPE_NO, CREATE_TIME, UPDATE_TIME, STATUS, MERGE_MODULE_NAME, 
+    CREATER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TPP_TRADE_T_WAITING_MERGE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TPP_TRADE_T_WAITING_MERGE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppTradeTWaitingMerge" >
+	  <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+	     select SEQ_TRADE_T_WAITING_MERGE.nextval from dual
+	  </selectKey>
+    insert into TPP_TRADE_T_WAITING_MERGE (ID, TRADE_FLOW, BIZ_TYPE_NO, 
+      CREATE_TIME, UPDATE_TIME, STATUS, 
+      MERGE_MODULE_NAME, CREATER)
+    values (#{id,jdbcType=DECIMAL}, #{tradeFlow,jdbcType=VARCHAR}, #{bizTypeNo,jdbcType=VARCHAR}, 
+      sysdate, sysdate, #{status,jdbcType=VARCHAR}, 
+      #{mergeModuleName,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppTradeTWaitingMerge" >
+    insert into TPP_TRADE_T_WAITING_MERGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="tradeFlow != null" >
+        TRADE_FLOW,
+      </if>
+      <if test="bizTypeNo != null" >
+        BIZ_TYPE_NO,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="mergeModuleName != null" >
+        MERGE_MODULE_NAME,
+      </if>
+      <if test="creater != null" >
+        CREATER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeFlow != null" >
+        #{tradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="bizTypeNo != null" >
+        #{bizTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        sysdate,
+      </if>
+      <if test="updateTime != null" >
+        sysdate,
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="mergeModuleName != null" >
+        #{mergeModuleName,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.manager.models.TppTradeTWaitingMerge" >
+    update TPP_TRADE_T_WAITING_MERGE
+    <set >
+      <if test="tradeFlow != null" >
+        TRADE_FLOW = #{tradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="bizTypeNo != null" >
+        BIZ_TYPE_NO = #{bizTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="mergeModuleName != null" >
+        MERGE_MODULE_NAME = #{mergeModuleName,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.manager.models.TppTradeTWaitingMerge" >
+    update TPP_TRADE_T_WAITING_MERGE
+    set TRADE_FLOW = #{tradeFlow,jdbcType=VARCHAR},
+      BIZ_TYPE_NO = #{bizTypeNo,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      MERGE_MODULE_NAME = #{mergeModuleName,jdbcType=VARCHAR},
+      CREATER = #{creater,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+	
+	<sql id="waiting_merge_column">
+  		ID,TRADE_FLOW,BIZ_TYPE_NO,CREATE_TIME,UPDATE_TIME,STATUS,MERGE_MODULE_NAME,CREATER
+  	</sql>
+  
+  <!--用于模糊查询-->
+     <select id="select_tppTradeTWaitingMergeList" resultType="java.util.HashMap">
+        SELECT * FROM (
+			SELECT X.*,ROWNUM RN FROM (
+				select * from (
+					SELECT  <include refid="waiting_merge_column"/>
+					FROM TPP_TRADE_T_WAITING_MERGE union all select <include refid="waiting_merge_column"/> from TPP_TRADE_T_WAITING_MERGE_his
+				)
+				WHERE 1=1 
+				
+				<if test="tradeFlow != null and tradeFlow !=''">
+			        and TRADE_FLOW = #{tradeFlow}
+			    </if>
+			    <if test="orderStr != null">
+			  		${orderStr} 
+			  	</if>
+			<![CDATA[
+			) X WHERE ROWNUM  <= #{rowEnd}
+		) WHERE RN >= #{rowBegin}
+		]]>
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppTradeTWaitingMergeList_count" resultType="int">
+		select count(id) from (
+			SELECT  <include refid="waiting_merge_column"/>
+			FROM TPP_TRADE_T_WAITING_MERGE union all select <include refid="waiting_merge_column"/> from TPP_TRADE_T_WAITING_MERGE_his
+		)
+		WHERE 1=1 
+		
+		<if test="tradeFlow != null and tradeFlow !=''">
+	        and TRADE_FLOW = #{tradeFlow}
+	    </if>
+	 </select>
+</mapper>

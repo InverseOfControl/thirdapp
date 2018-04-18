@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TppRouteThirdChannelMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppRouteThirdChannel">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="THIRD_TYPE_NO" jdbcType="VARCHAR" property="thirdTypeNo" />
+		<result column="THIRD_TYPE_NAME" jdbcType="VARCHAR" property="thirdTypeName" />
+		<result column="IS_AVAILABLE" jdbcType="VARCHAR" property="isAvailable" />
+		<result column="PRIORITY" jdbcType="DECIMAL" property="priority" />
+		<result column="FAIL_TIMES" jdbcType="DECIMAL" property="failTimes" />
+		<result column="TRANSFER_TIMES" jdbcType="DECIMAL" property="transferTimes" />
+		<result column="PRECIPITATION" jdbcType="DECIMAL" property="precipitation" />
+	</resultMap>
+	
+	
+	<select id="getRouteChannelInfoList" resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN FROM (
+		select 
+			c.id,
+			c.precipitation,
+			c.third_type_no,
+			c.is_available,
+			c.priority,
+			c.fail_times,
+			c.transfer_times,
+			d.dic_name third_type_name
+  			from tpp_route_third_channel c
+  			inner join dd_t_dictionary d
+    		on d.dic_code = c.third_type_no
+    		and d.dic_type='3'
+    		where 1=1
+   			<if test="thirdTypeNo != null" > 
+   				and c.third_type_no = #{thirdTypeNo,jdbcType=VARCHAR}
+   			</if>
+   			<if test="isAvailable != null" > 
+   				and c.is_available = #{isAvailable,jdbcType=VARCHAR}
+   			</if>
+			 order by c.priority asc  
+    
+			 ) X 
+			 <if test="rowEnd != null" >
+			 WHERE ROWNUM  &lt;= #{rowEnd}
+			 </if>
+			) 
+			<if test="rowBegin != null" >
+			WHERE RN &gt;=  #{rowBegin}
+			 </if>
+	</select>
+	
+	<select id="getRouteChannelInfoListCount" resultType="Integer">
+		select count(*) from tpp_route_third_channel   where 1=1 c.third_type_no = #{thirdTypeNo,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<select id="selectChannelInfoByThirdTypeNo" resultMap="BaseResultMap">
+	select 
+			c.id,
+			c.precipitation,
+			c.third_type_no,
+			c.is_available,
+			c.priority,
+			c.fail_times,
+			c.transfer_times,
+			d.dic_name third_type_name
+  			from tpp_route_third_channel c
+  			inner join dd_t_dictionary d
+    		on d.dic_code = c.third_type_no
+    		and d.dic_type='3'
+		    where   c.third_type_no = #{thirdTypeNo,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectChannelInfoByID" resultMap="BaseResultMap">
+	select 
+			c.id,
+			c.precipitation,
+			c.third_type_no,
+			c.is_available,
+			c.priority,
+			c.fail_times,
+			c.transfer_times,
+			d.dic_name third_type_name
+  			from tpp_route_third_channel c
+  			inner join dd_t_dictionary d
+    		on d.dic_code = c.third_type_no
+    		and d.dic_type='3'
+		    where   c.id = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getChannelByThirdTypeNo" resultMap="BaseResultMap">
+	select 
+			c.id,
+			c.precipitation,
+			c.third_type_no,
+			c.is_available,
+			c.priority,
+			c.fail_times,
+			c.transfer_times,
+			d.dic_name third_type_name
+  			from tpp_route_third_channel c
+  			inner join dd_t_dictionary d
+    		on d.dic_code = c.third_type_no
+    		and d.dic_type='3'
+		    where   c.third_type_no = #{thirdTypeNo,jdbcType=VARCHAR}
+	</select>
+
+	<update id="update" parameterType="com.zdmoney.manager.models.TppRouteThirdChannel">
+		update tpp_route_third_channel
+		<trim prefix="set" suffixOverrides=",">
+			<if test="thirdTypeNo!=null">THIRD_TYPE_NO=#{thirdTypeNo,jdbcType=VARCHAR},</if>
+			<if test="isAvailable!=null">IS_AVAILABLE=#{isAvailable,jdbcType=VARCHAR},</if>
+			<if test="priority!=null">PRIORITY=#{priority,jdbcType=DECIMAL},</if>
+			<if test="failTimes!=null">FAIL_TIMES=#{failTimes,jdbcType=DECIMAL},</if>
+			<if test="transferTimes!=null">TRANSFER_TIMES=#{transferTimes,jdbcType=DECIMAL},</if>
+			<if test="precipitation!=null">PRECIPITATION=#{precipitation,jdbcType=DECIMAL}</if>
+		</trim>
+		WHERE id=#{id,jdbcType=VARCHAR}
+	</update>
+	
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TppRouteThirdChannel">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_ROUTE.nextval from dual
+		</selectKey>
+		insert into  tpp_route_third_channel (<include refid="key"/>) values(<include refid="value"/>)
+	</insert>
+    
+    <!-- sql片段对应字段名,id属性值任意 -->
+    <sql id="key">
+        <!-- 去掉最后一个, -->
+        <trim suffixOverrides=",">
+                id,
+            <if test="thirdTypeNo!=null">
+                third_type_no,
+            </if>
+            <if test="isAvailable!=null">
+                is_available,
+            </if>
+            <if test="priority!=null">
+                priority,
+            </if>
+            <if test="failTimes!=null">
+                fail_times,
+            </if>
+            <if test="transferTimes!=null">
+                transfer_times,
+            </if>
+            <if test="precipitation!=null">
+                precipitation
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- sql片段对应?,id属性值任意 -->
+    <sql id="value">
+        <!-- 去掉最后一个, -->
+        <trim suffixOverrides=",">
+               #{id,jdbcType=DECIMAL},
+             <if test="thirdTypeNo!=null">
+                #{thirdTypeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="isAvailable!=null">
+                #{isAvailable,jdbcType=VARCHAR},
+            </if>
+            <if test="priority!=null">
+                #{priority,jdbcType=DECIMAL},
+            </if>
+            <if test="failTimes!=null">
+                #{failTimes,jdbcType=DECIMAL},
+            </if>
+            <if test="transferTimes!=null">
+                #{transferTimes,jdbcType=DECIMAL},
+            </if>
+            <if test="precipitation!=null">
+                #{precipitation,jdbcType=DECIMAL}
+            </if>
+        </trim>
+    </sql>
+	
+</mapper>

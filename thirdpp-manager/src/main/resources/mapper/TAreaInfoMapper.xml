@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TAreaInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TAreaInfo">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="AREA_CODE" jdbcType="VARCHAR" property="areaCode" />
+		<result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
+		<result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+	 
+		<!-- <collection property="permissions" resultMap="com.zdmoney.manager.mapper.TSysPermissionMapper.BaseResultMap"/> -->
+	</resultMap>
+	<sql id="Base_Column_List">
+		 ID,
+		 AREA_CODE,
+		 AREA_NAME,
+		 PARENT_ID
+	</sql>
+	<select id="getAreaInfoList" resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN FROM ( select
+		<include refid="Base_Column_List"></include>
+		from DD_T_AREA_INFO  where 1=1
+		<if test="parentId != null and parentId !=''">
+			and PARENT_ID = #{parentId}
+		</if>
+		<if test="areaName != null and areaName !=''">
+			and AREA_NAME like '%'||(#{areaName})||'%'
+		</if>
+		 
+		   order by AREA_CODE asc  
+	 
+    <![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+	</select>
+	<select id="getAreaListCount" resultType="Integer">
+		select count(ID) from DD_T_AREA_INFO  
+	 			 where 1=1
+		 	<if test="parentId != null and parentId !=''">
+			and PARENT_ID = #{parentId}
+		</if>
+		<if test="areaName != null and areaName !=''">
+			and AREA_NAME like '%'||(#{areaName})||'%'
+		</if>
+		 
+
+	</select>
+	<select id="getAreaListMap"  resultMap="BaseResultMap"  >
+		select area_code,PARENT_ID from DD_T_AREA_INFO  
+	</select>
+	<select id="selectAreaByID" resultMap="BaseResultMap"  
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List"></include>
+		from DD_T_AREA_INFO 
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<select id="selectAreaByCode" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List"></include>
+		from DD_T_AREA_INFO 
+		where AREA_CODE = #{code}
+	</select>
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TAreaInfo">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_DD_T_AREA_INFO.nextval from dual
+		</selectKey>
+		insert into DD_T_AREA_INFO(id,AREA_CODE,AREA_NAME,PARENT_ID)
+		values(#{id,jdbcType=DECIMAL},#{areaCode,jdbcType=VARCHAR},#{areaName,jdbcType=VARCHAR},
+		#{parentId,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateArea" parameterType="com.zdmoney.manager.models.TAreaInfo">
+		update DD_T_AREA_INFO
+		set  
+		AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+		AREA_NAME =#{areaName,jdbcType=VARCHAR}
+		<if test="parentId != null and parentId !=''">
+			 ,PARENT_ID = #{parentId,jdbcType=VARCHAR}
+		</if>
+		
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<!-- 批量删除 -->
+	<delete id="batchDeleteArea" parameterType="java.util.List">
+		delete from DD_T_AREA_INFO where ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+		<update id="updateSonAreaCode" parameterType="com.zdmoney.manager.models.TAreaInfo">
+			update DD_T_AREA_INFO set  	PARENT_ID = #{areaCode,jdbcType=VARCHAR} where PARENT_ID = #{noteNo,jdbcType=DECIMAL}
+		</update>
+	<select id="getAreaCodeCount" resultType="integer">
+		select count(ID) from DD_T_AREA_INFO  where AREA_CODE = #{code}
+	</select>
+	<select id="getAreaCodeObj" resultType="integer"  parameterType="com.zdmoney.manager.models.TAreaInfo">
+		select count(ID) from DD_T_AREA_INFO  where AREA_CODE = #{areaCode} and PARENT_ID = #{parentId}
+	</select>
+</mapper>

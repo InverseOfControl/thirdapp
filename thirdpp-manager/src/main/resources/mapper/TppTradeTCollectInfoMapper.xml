@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TppTradeTCollectInfoMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppTradeTCollectInfo">
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="TASK_ID" jdbcType="DECIMAL" property="taskId" />
+    <result column="REQ_ID" jdbcType="VARCHAR" property="reqId" />
+    <result column="PAY_SYS_NO" jdbcType="VARCHAR" property="paySysNo" />
+    <result column="BIZ_SYS_ACCOUNT_NO" jdbcType="VARCHAR" property="bizSysAccountNo" />
+    <result column="ZENGDAI_ACCOUNT_NO" jdbcType="VARCHAR" property="zengdaiAccountNo" />
+    <result column="BIZ_SYS_NO" jdbcType="VARCHAR" property="bizSysNo" />
+    <result column="RECEIVER_ACCOUNT_NO" jdbcType="VARCHAR" property="receiverAccountNo" />
+    <result column="REVEIVER_ACCOUNT_NAME" jdbcType="VARCHAR" property="reveiverAccountName" />
+    <result column="PAYER_NAME" jdbcType="VARCHAR" property="payerName" />
+    <result column="PAYER_BANK_CARD_NO" jdbcType="VARCHAR" property="payerBankCardNo" />
+    <result column="PAYER_BANK_CARD_TYPE" jdbcType="VARCHAR" property="payerBankCardType" />
+    <result column="PAYER_ID_TYPE" jdbcType="VARCHAR" property="payerIdType" />
+    <result column="PAYER_ID" jdbcType="VARCHAR" property="payerId" />
+    <result column="PAYER_BANK_CODE" jdbcType="VARCHAR" property="payerBankCode" />
+    <result column="PAYER_SUB_BANK_CODE" jdbcType="VARCHAR" property="payerSubBankCode" />
+    <result column="CURRENCY" jdbcType="VARCHAR" property="currency" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="FEE" jdbcType="DECIMAL" property="fee" />
+    <result column="BIZ_REMARK" jdbcType="VARCHAR" property="bizRemark" />
+    <result column="BIZ_FLOW" jdbcType="VARCHAR" property="bizFlow" />
+    <result column="PRIORITY" jdbcType="DECIMAL" property="priority" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="SPARE1" jdbcType="VARCHAR" property="spare1" />
+    <result column="SPARE2" jdbcType="VARCHAR" property="spare2" />
+    <result column="TRADE_FLOW" jdbcType="VARCHAR" property="tradeFlow" />
+    <result column="PAY_TRANS_FLOW" jdbcType="VARCHAR" property="payTransFlow" />
+    <result column="FAIL_REASON" jdbcType="VARCHAR" property="failReason" />
+    <result column="PAYER_ACCOUNT_NO" jdbcType="VARCHAR" property="payerAccountNo" />
+    <result column="BIZ_TYPE" jdbcType="VARCHAR" property="bizType" />
+    <result column="IS_NEED_PUSH" jdbcType="DECIMAL" property="isNeedPush" />
+    <result column="INFO_CATEGORY_CODE" jdbcType="VARCHAR" property="infoCategoryCode" />
+    <result column="TRANS_REP_CODE" jdbcType="VARCHAR" property="transRepCode" />
+    <result column="IS_NEED_SPILT" jdbcType="DECIMAL" property="isNeedSpilt" />
+    <result column="THIRD_RETURN_TIME" jdbcType="TIMESTAMP" property="thirdReturnTime" />
+    <result column="NOTIFY_QUERY_STATUS" jdbcType="DECIMAL" property="notifyQueryStatus" />
+    <result column="NOTIFY_MERGE_STATUS" jdbcType="DECIMAL" property="notifyMergeStatus" />
+    <result column="PAYER_MOBILE" jdbcType="VARCHAR" property="payerMobile" />
+    <result column="SETTLE_DATE" jdbcType="VARCHAR" property="settleDate" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppTradeTCollectInfo">
+    insert into TPP_TRADE_T_COLLECT_INFO (ID, TASK_ID, REQ_ID, 
+      PAY_SYS_NO, BIZ_SYS_ACCOUNT_NO, ZENGDAI_ACCOUNT_NO, 
+      BIZ_SYS_NO, RECEIVER_ACCOUNT_NO, REVEIVER_ACCOUNT_NAME, 
+      PAYER_NAME, PAYER_BANK_CARD_NO, PAYER_BANK_CARD_TYPE, 
+      PAYER_ID_TYPE, PAYER_ID, PAYER_BANK_CODE, 
+      PAYER_SUB_BANK_CODE, CURRENCY, AMOUNT, 
+      FEE, BIZ_REMARK, BIZ_FLOW, 
+      PRIORITY, STATUS, REMARK, 
+      CREATER, CREATE_TIME, UPDATE_TIME, 
+      SPARE1, SPARE2, TRADE_FLOW, 
+      PAY_TRANS_FLOW, FAIL_REASON, PAYER_ACCOUNT_NO, 
+      BIZ_TYPE, IS_NEED_PUSH, INFO_CATEGORY_CODE, 
+      TRANS_REP_CODE)
+    values (#{id,jdbcType=DECIMAL}, #{taskId,jdbcType=DECIMAL}, #{reqId,jdbcType=VARCHAR}, 
+      #{paySysNo,jdbcType=VARCHAR}, #{bizSysAccountNo,jdbcType=VARCHAR}, #{zengdaiAccountNo,jdbcType=VARCHAR}, 
+      #{bizSysNo,jdbcType=VARCHAR}, #{receiverAccountNo,jdbcType=VARCHAR}, #{reveiverAccountName,jdbcType=VARCHAR}, 
+      #{payerName,jdbcType=VARCHAR}, #{payerBankCardNo,jdbcType=VARCHAR}, #{payerBankCardType,jdbcType=VARCHAR}, 
+      #{payerIdType,jdbcType=VARCHAR}, #{payerId,jdbcType=VARCHAR}, #{payerBankCode,jdbcType=VARCHAR}, 
+      #{payerSubBankCode,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{fee,jdbcType=DECIMAL}, #{bizRemark,jdbcType=VARCHAR}, #{bizFlow,jdbcType=VARCHAR}, 
+      #{priority,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{spare1,jdbcType=VARCHAR}, #{spare2,jdbcType=VARCHAR}, #{tradeFlow,jdbcType=VARCHAR}, 
+      #{payTransFlow,jdbcType=VARCHAR}, #{failReason,jdbcType=VARCHAR}, #{payerAccountNo,jdbcType=VARCHAR}, 
+      #{bizType,jdbcType=VARCHAR}, #{isNeedPush,jdbcType=DECIMAL}, #{infoCategoryCode,jdbcType=VARCHAR}, 
+      #{transRepCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppTradeTCollectInfo">
+    insert into TPP_TRADE_T_COLLECT_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+      <if test="reqId != null">
+        REQ_ID,
+      </if>
+      <if test="paySysNo != null">
+        PAY_SYS_NO,
+      </if>
+      <if test="bizSysAccountNo != null">
+        BIZ_SYS_ACCOUNT_NO,
+      </if>
+      <if test="zengdaiAccountNo != null">
+        ZENGDAI_ACCOUNT_NO,
+      </if>
+      <if test="bizSysNo != null">
+        BIZ_SYS_NO,
+      </if>
+      <if test="receiverAccountNo != null">
+        RECEIVER_ACCOUNT_NO,
+      </if>
+      <if test="reveiverAccountName != null">
+        REVEIVER_ACCOUNT_NAME,
+      </if>
+      <if test="payerName != null">
+        PAYER_NAME,
+      </if>
+      <if test="payerBankCardNo != null">
+        PAYER_BANK_CARD_NO,
+      </if>
+      <if test="payerBankCardType != null">
+        PAYER_BANK_CARD_TYPE,
+      </if>
+      <if test="payerIdType != null">
+        PAYER_ID_TYPE,
+      </if>
+      <if test="payerId != null">
+        PAYER_ID,
+      </if>
+      <if test="payerBankCode != null">
+        PAYER_BANK_CODE,
+      </if>
+      <if test="payerSubBankCode != null">
+        PAYER_SUB_BANK_CODE,
+      </if>
+      <if test="currency != null">
+        CURRENCY,
+      </if>
+      <if test="amount != null">
+        AMOUNT,
+      </if>
+      <if test="fee != null">
+        FEE,
+      </if>
+      <if test="bizRemark != null">
+        BIZ_REMARK,
+      </if>
+      <if test="bizFlow != null">
+        BIZ_FLOW,
+      </if>
+      <if test="priority != null">
+        PRIORITY,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="spare1 != null">
+        SPARE1,
+      </if>
+      <if test="spare2 != null">
+        SPARE2,
+      </if>
+      <if test="tradeFlow != null">
+        TRADE_FLOW,
+      </if>
+      <if test="payTransFlow != null">
+        PAY_TRANS_FLOW,
+      </if>
+      <if test="failReason != null">
+        FAIL_REASON,
+      </if>
+      <if test="payerAccountNo != null">
+        PAYER_ACCOUNT_NO,
+      </if>
+      <if test="bizType != null">
+        BIZ_TYPE,
+      </if>
+      <if test="isNeedPush != null">
+        IS_NEED_PUSH,
+      </if>
+      <if test="infoCategoryCode != null">
+        INFO_CATEGORY_CODE,
+      </if>
+      <if test="transRepCode != null">
+        TRANS_REP_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=DECIMAL},
+      </if>
+      <if test="reqId != null">
+        #{reqId,jdbcType=VARCHAR},
+      </if>
+      <if test="paySysNo != null">
+        #{paySysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizSysAccountNo != null">
+        #{bizSysAccountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="zengdaiAccountNo != null">
+        #{zengdaiAccountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizSysNo != null">
+        #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverAccountNo != null">
+        #{receiverAccountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="reveiverAccountName != null">
+        #{reveiverAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="payerName != null">
+        #{payerName,jdbcType=VARCHAR},
+      </if>
+      <if test="payerBankCardNo != null">
+        #{payerBankCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payerBankCardType != null">
+        #{payerBankCardType,jdbcType=VARCHAR},
+      </if>
+      <if test="payerIdType != null">
+        #{payerIdType,jdbcType=VARCHAR},
+      </if>
+      <if test="payerId != null">
+        #{payerId,jdbcType=VARCHAR},
+      </if>
+      <if test="payerBankCode != null">
+        #{payerBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payerSubBankCode != null">
+        #{payerSubBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null">
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null">
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="bizRemark != null">
+        #{bizRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="bizFlow != null">
+        #{bizFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spare1 != null">
+        #{spare1,jdbcType=VARCHAR},
+      </if>
+      <if test="spare2 != null">
+        #{spare2,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeFlow != null">
+        #{tradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="payTransFlow != null">
+        #{payTransFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="failReason != null">
+        #{failReason,jdbcType=VARCHAR},
+      </if>
+      <if test="payerAccountNo != null">
+        #{payerAccountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null">
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="isNeedPush != null">
+        #{isNeedPush,jdbcType=DECIMAL},
+      </if>
+      <if test="infoCategoryCode != null">
+        #{infoCategoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transRepCode != null">
+        #{transRepCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <select id="getInfoList" resultMap="BaseResultMap">
+  	SELECT  <include refid="Collect_info_column"/>  FROM TPP_TRADE_T_COLLECT_INFO union all select <include refid="Collect_info_column"/> from TPP_TRADE_T_COLLECT_INFO_his
+  </select>
+  <select id="getCollectInfoByTradeFlow" resultMap="BaseResultMap" parameterType="String">
+  	select * from (SELECT  <include refid="Collect_info_column"/>  FROM TPP_TRADE_T_COLLECT_INFO union all select <include refid="Collect_info_column"/> from TPP_TRADE_T_COLLECT_INFO_his) where TRADE_FLOW = #{tradeFlow}
+  </select>
+  
+  <sql id="Collect_info_column">
+  	ID,TASK_ID,REQ_ID,PAY_SYS_NO,BIZ_SYS_ACCOUNT_NO,ZENGDAI_ACCOUNT_NO,BIZ_SYS_NO,RECEIVER_ACCOUNT_NO,REVEIVER_ACCOUNT_NAME,PAYER_NAME,PAYER_BANK_CARD_NO,PAYER_BANK_CARD_TYPE,PAYER_ID_TYPE,PAYER_ID,PAYER_BANK_CODE,PAYER_SUB_BANK_CODE,CURRENCY,AMOUNT,FEE,BIZ_REMARK,BIZ_FLOW,PRIORITY,STATUS,REMARK,CREATER,CREATE_TIME,UPDATE_TIME,SPARE1,SPARE2,TRADE_FLOW,PAY_TRANS_FLOW,FAIL_REASON,PAYER_ACCOUNT_NO,BIZ_TYPE,IS_NEED_PUSH,INFO_CATEGORY_CODE,TRANS_REP_CODE,IS_NEED_SPILT,THIRD_RETURN_TIME,NOTIFY_QUERY_STATUS,NOTIFY_MERGE_STATUS,PAYER_MOBILE,SETTLE_DATE
+  </sql>
+  
+  <select id="select_tppTradeTCollectInfoList"  resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN, (select app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME,
+		(select DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=X.pay_sys_no) pay_sys_name,  
+		(select bank_name from dd_t_bank_info t where t.bank_code=x.PAYER_BANK_CODE) payer_bank_name,
+		(select INFO_CATEGORY_NAME from TPP_SYS_T_INFO_CATEGORY t where t.INFO_CATEGORY_CODE=x.INFO_CATEGORY_CODE) INFO_CATEGORY_NAME 
+		FROM (
+		select * from (
+		 SELECT  <include refid="Collect_info_column"/>
+		  FROM TPP_TRADE_T_COLLECT_INFO union all select <include refid="Collect_info_column"/> from TPP_TRADE_T_COLLECT_INFO_his
+		  )
+		  WHERE 1=1 
+		  	<if test="taskId != null and taskId != ''">
+		        and TASK_ID = #{taskId}
+		    </if> 
+		    <if test="tradeFlow != null and tradeFlow !=''">
+		        and TRADE_FLOW = #{tradeFlow}
+		    </if>
+		    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+		    </if> 
+		    <if test="SEARCH_NOTIFY_QUERY_STATUS != null and SEARCH_NOTIFY_QUERY_STATUS != ''">
+		    	and NOTIFY_QUERY_STATUS = #{SEARCH_NOTIFY_QUERY_STATUS}
+		    </if>
+		    <if test="SEARCH_NOTIFY_MERGE_STATUS != null and SEARCH_NOTIFY_MERGE_STATUS != ''">
+		    	and NOTIFY_MERGE_STATUS = #{SEARCH_NOTIFY_MERGE_STATUS}
+		    </if> 
+		    <if test="SEARCH_DATE_TYPE != null and SEARCH_DATE_TYPE != ''">
+		    	<if test="SEARCH_DATE_TYPE == 'CREATE_TIME'">
+				    <if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+				    	and CREATE_TIME >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+				    </if>
+				    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+				    	and CREATE_TIME <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+				    </if>
+				</if>
+				<if test="SEARCH_DATE_TYPE == 'THIRD_RETURN_TIME'">
+					<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+				    	and THIRD_RETURN_TIME >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+				    </if>
+				    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+				    	and THIRD_RETURN_TIME <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+				    </if>
+				</if>
+		    </if>
+		    <if test="SEARCH_BIZ_FLOW != null and SEARCH_BIZ_FLOW != ''">
+		    	and BIZ_FLOW = #{SEARCH_BIZ_FLOW}
+		    </if> 
+		    <if test="APPIDS != null and APPIDS != ''">
+		    	and BIZ_SYS_NO in 
+		    	<foreach item="item" index="index" collection="APPIDS" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+		    </if>
+		    <if test="SEARCH_ID != null and SEARCH_ID != ''">
+		    	and ID = #{SEARCH_ID}
+		    </if>
+		    <if test="SEARCH_TRADE_STATUS != null and SEARCH_TRADE_STATUS != ''">
+		    	and STATUS = #{SEARCH_TRADE_STATUS}
+		    </if>
+		    <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+		    	and BIZ_TYPE = #{SEARCH_BIZ_TYPE}
+		    </if>
+		    <if test="SEARCH_INFO_CATEGORY != null and SEARCH_INFO_CATEGORY != ''">
+		    	and INFO_CATEGORY_CODE = #{SEARCH_INFO_CATEGORY}
+		    </if>
+		    <if test="SEARCH_PAYER_INFO != null and SEARCH_PAYER_INFO != ''">
+		    	and (PAYER_NAME = #{SEARCH_PAYER_INFO}
+		    	or PAYER_BANK_CARD_NO = #{SEARCH_PAYER_INFO}
+		    	or PAYER_ID = #{SEARCH_PAYER_INFO}
+		    	or PAYER_MOBILE = #{SEARCH_PAYER_INFO}
+		    	)
+		    </if>
+		    <if test="SEARCH_SETTLE_DATE != null and SEARCH_SETTLE_DATE != ''">
+		    	and SETTLE_DATE = #{SEARCH_SETTLE_DATE}
+		    </if>
+		    <if test="SEARCH_PAY_SYS_NO != null and SEARCH_PAY_SYS_NO != ''">
+		    	and PAY_SYS_NO = #{SEARCH_PAY_SYS_NO}
+		    </if>
+		     <if test="SEARCH_BANK_CODE != null and SEARCH_BANK_CODE != ''">
+		    	and PAYER_BANK_CODE = #{SEARCH_BANK_CODE}
+		    </if>
+		  	<if test="orderStr != null">
+		  	 	 ${orderStr} 
+		  	</if>
+		<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppTradeTCollectInfoList_count"  resultType="int">
+			SELECT  count(ID) from (
+			select <include refid="Collect_info_column"/>
+		    FROM TPP_TRADE_T_COLLECT_INFO union all select <include refid="Collect_info_column"/>
+		    FROM TPP_TRADE_T_COLLECT_INFO_HIS
+		    )
+			WHERE 1=1 	
+			<if test="taskId != null and taskId != ''">
+		        and TASK_ID = '${taskId}'
+		    </if> 
+		    <if test="tradeFlow != null and tradeFlow !=''">
+		        and TRADE_FLOW = '${tradeFlow}' 
+		    </if> 
+		    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+		    </if> 
+		    <if test="SEARCH_NOTIFY_QUERY_STATUS != null and SEARCH_NOTIFY_QUERY_STATUS != ''">
+		    	and NOTIFY_QUERY_STATUS = #{SEARCH_NOTIFY_QUERY_STATUS}
+		    </if>
+		    <if test="SEARCH_NOTIFY_MERGE_STATUS != null and SEARCH_NOTIFY_MERGE_STATUS != ''">
+		    	and NOTIFY_MERGE_STATUS = #{SEARCH_NOTIFY_MERGE_STATUS}
+		    </if> 
+		   <if test="SEARCH_DATE_TYPE != null and SEARCH_DATE_TYPE != ''">
+		    	<if test="SEARCH_DATE_TYPE == 'CREATE_TIME'">
+				    <if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+				    	and create_time >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+				    </if>
+				    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+				    	and create_time <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+				    </if>
+				</if>
+				<if test="SEARCH_DATE_TYPE == 'THIRD_RETURN_TIME'">
+					<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+				    	and THIRD_RETURN_TIME >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+				    </if>
+				    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+				    	and THIRD_RETURN_TIME <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+				    </if>
+				</if>
+		    </if>
+		    <if test="SEARCH_BIZ_FLOW != null and SEARCH_BIZ_FLOW != ''">
+		    	and BIZ_FLOW = #{SEARCH_BIZ_FLOW}
+		    </if> 
+		    <if test="APPIDS != null and APPIDS != ''">
+		    	and biz_sys_no in 
+		    	<foreach item="item" index="index" collection="APPIDS" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+		    </if>
+		    <if test="SEARCH_ID != null and SEARCH_ID != ''">
+		    	and id = #{SEARCH_ID}
+		    </if>
+		    <if test="SEARCH_TRADE_STATUS != null and SEARCH_TRADE_STATUS != ''">
+		    	and status = #{SEARCH_TRADE_STATUS}
+		    </if>
+		    <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+		    	and biz_type = #{SEARCH_BIZ_TYPE}
+		    </if>
+		    <if test="SEARCH_INFO_CATEGORY != null and SEARCH_INFO_CATEGORY != ''">
+		    	and info_category_code = #{SEARCH_INFO_CATEGORY}
+		    </if>
+		    <if test="SEARCH_PAYER_INFO != null and SEARCH_PAYER_INFO != ''">
+		    	and (PAYER_NAME = #{SEARCH_PAYER_INFO}
+		    	or PAYER_BANK_CARD_NO = #{SEARCH_PAYER_INFO}
+		    	or PAYER_ID = #{SEARCH_PAYER_INFO}
+		    	or payer_mobile = #{SEARCH_PAYER_INFO}
+		    	)
+		    </if>
+		    <if test="SEARCH_SETTLE_DATE != null and SEARCH_SETTLE_DATE != ''">
+		    	and settle_date = #{search_settle_date}
+		    </if>
+		    <if test="SEARCH_PAY_SYS_NO != null and SEARCH_PAY_SYS_NO != ''">
+		    	and PAY_SYS_NO = #{SEARCH_PAY_SYS_NO}
+		    </if>
+		    <if test="SEARCH_BANK_CODE != null and SEARCH_BANK_CODE != ''">
+		    	and PAYER_BANK_CODE = #{SEARCH_BANK_CODE}
+		    </if>
+	 </select>
+     
+     
+     
+     <select id="select_summary"  resultType="java.util.HashMap">
+		select count(ID) totalSum,sum(AMOUNT) totalAmount from (
+		 SELECT  <include refid="Collect_info_column"/>
+		  FROM TPP_TRADE_T_COLLECT_INFO union all select <include refid="Collect_info_column"/> from TPP_TRADE_T_COLLECT_INFO_his
+		  )
+		  WHERE 1=1 
+		  	<if test="taskId != null and taskId != ''">
+		        and TASK_ID = #{taskId}
+		    </if> 
+		    <if test="tradeFlow != null and tradeFlow !=''">
+		        and TRADE_FLOW = #{tradeFlow}
+		    </if>
+		    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+		    </if> 
+		    <if test="SEARCH_NOTIFY_QUERY_STATUS != null and SEARCH_NOTIFY_QUERY_STATUS != ''">
+		    	and NOTIFY_QUERY_STATUS = #{SEARCH_NOTIFY_QUERY_STATUS}
+		    </if>
+		    <if test="SEARCH_NOTIFY_MERGE_STATUS != null and SEARCH_NOTIFY_MERGE_STATUS != ''">
+		    	and NOTIFY_MERGE_STATUS = #{SEARCH_NOTIFY_MERGE_STATUS}
+		    </if> 
+		    <if test="SEARCH_DATE_TYPE != null and SEARCH_DATE_TYPE != ''">
+		    	<if test="SEARCH_DATE_TYPE == 'CREATE_TIME'">
+				    <if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+				    	and create_time >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+				    </if>
+				    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+				    	and create_time <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+				    </if>
+				</if>
+				<if test="SEARCH_DATE_TYPE == 'THIRD_RETURN_TIME'">
+					<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+				    	and THIRD_RETURN_TIME >= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+				    </if>
+				    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE != ''">
+				    	and THIRD_RETURN_TIME <![CDATA[<=]]> to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss')
+				    </if>
+				</if>
+		    </if>
+		    <if test="SEARCH_BIZ_FLOW != null and SEARCH_BIZ_FLOW != ''">
+		    	and BIZ_FLOW = #{SEARCH_BIZ_FLOW}
+		    </if> 
+		    <if test="APPIDS != null and APPIDS != ''">
+		    	and biz_sys_no in 
+		    	<foreach item="item" index="index" collection="APPIDS" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+		    </if>
+		    <if test="SEARCH_ID != null and SEARCH_ID != ''">
+		    	and id = #{SEARCH_ID}
+		    </if>
+		    <if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+		    	and status = #{SEARCH_STATUS}
+		    </if>
+		    <if test="SEARCH_TRADE_STATUS != null and SEARCH_TRADE_STATUS != ''">
+		    	and status = #{SEARCH_TRADE_STATUS}
+		    </if>
+		    <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+		    	and biz_type = #{SEARCH_BIZ_TYPE}
+		    </if>
+		    <if test="SEARCH_INFO_CATEGORY != null and SEARCH_INFO_CATEGORY != ''">
+		    	and info_category_code = #{SEARCH_INFO_CATEGORY}
+		    </if>
+		    <if test="SEARCH_PAYER_INFO != null and SEARCH_PAYER_INFO != ''">
+		    	and (PAYER_NAME = #{SEARCH_PAYER_INFO}
+		    	or PAYER_BANK_CARD_NO = #{SEARCH_PAYER_INFO}
+		    	or PAYER_ID = #{SEARCH_PAYER_INFO}
+		    	or payer_mobile = #{SEARCH_PAYER_INFO}
+		    	)
+		    </if>
+		    <if test="SEARCH_SETTLE_DATE != null and SEARCH_SETTLE_DATE != ''">
+		    	and settle_date = #{search_settle_date}
+		    </if>
+		    <if test="SEARCH_PAY_SYS_NO != null and SEARCH_PAY_SYS_NO != ''">
+		    	and PAY_SYS_NO = #{SEARCH_PAY_SYS_NO}
+		    </if>
+		    <if test="SEARCH_BANK_CODE != null and SEARCH_BANK_CODE != ''">
+		    	and PAYER_BANK_CODE = #{SEARCH_BANK_CODE}
+		    </if>
+     </select>
+</mapper>

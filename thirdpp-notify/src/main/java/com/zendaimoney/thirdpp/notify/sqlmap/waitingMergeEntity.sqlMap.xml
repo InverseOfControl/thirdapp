@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.notify.entity.WaitingMergeEntity">
+	<typeAlias alias="WaitingMerge"
+		type="com.zendaimoney.thirdpp.notify.entity.WaitingMergeEntity" />
+	<resultMap id="WaitingMergeMap" class="WaitingMerge">
+		<result column="ID" property="id" jdbcType="java.lang.Long" />
+		<result column="TRADE_FLOW" property="tradeFlow" jdbcType="java.lang.String" />
+		<result column="BIZ_TYPE_NO" property="bizTypeNo" jdbcType="java.lang.String" />
+		<result column="STATUS" property="status" jdbcType="java.lang.String" />
+		<result column="MERGE_MODULE_NAME" property="mergeModuleName" jdbcType="java.lang.String" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="java.util.Date" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="java.util.Date" />
+	</resultMap>
+	
+	<select id="selectWaiting" parameterClass="java.util.Map" resultMap="WaitingMergeMap">
+		select * from (select * from tpp_trade_t_waiting_merge 
+    					where status = #status# 
+      					and merge_module_name = #mergeModuleName#)
+			where  <![CDATA[rownum <= #rowNum#]]>
+	</select>
+	
+	<update id="update" parameterClass="WaitingMerge">
+		update tpp_trade_t_waiting_merge 
+			set status = #status#, update_time = sysdate 
+		where id = #id#
+	</update>
+</sqlMap>

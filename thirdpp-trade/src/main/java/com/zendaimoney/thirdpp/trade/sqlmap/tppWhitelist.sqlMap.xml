@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.TppWhiteList">
+	<typeAlias alias="TppWhiteList" type="com.zendaimoney.thirdpp.trade.entity.TppWhiteList" />
+
+	<resultMap id="TppWhiteListMap" class="TppWhiteList">
+	<result property="id" column="ID" jdbcType="java.lang.Long"/>
+	<result property="infoCategoryCode" column="INFO_CATEGORY_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="bankCardNo" column="BANK_CARD_NO" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="accountNo" column="ACCOUNT_NO" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="status" column="STATUS" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="note" column="NOTE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="createTime" column="CREATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="creater" column="CREATER" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="updateTime" column="UPDATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="bizSysNo" column="BIZ_SYS_NO" jdbcType="java.lang.String"  nullValue=""/>
+	</resultMap>
+	
+	<select id="queryTppWhiteList" parameterClass="java.util.Map" resultMap="TppWhiteListMap">		 
+		 select ID,INFO_CATEGORY_CODE,BANK_CARD_NO,ACCOUNT_NO,STATUS,NOTE,BIZ_SYS_NO,CREATE_TIME,CREATER,UPDATE_TIME from TPP_WHITELIST t
+		 where 1=1
+		 <isNotEmpty prepend="and" property="infoCategoryCode">
+		  t.INFO_CATEGORY_CODE=#infoCategoryCode#
+		 </isNotEmpty>
+		 <isNotEmpty prepend="and" property="bankCardNo">
+		  t.BANK_CARD_NO=#bankCardNo#
+		 </isNotEmpty>
+		 
+		 <isNotEmpty prepend="and" property="accountNo">
+		  t.ACCOUNT_NO=#accountNo#
+		 </isNotEmpty>
+		 
+		 <isNotEmpty prepend="and" property="bizSysNo">
+		  t.BIZ_SYS_NO=#bizSysNo#
+		 </isNotEmpty>
+		 and t.status = '1'
+		 
+	</select>
+
+</sqlMap>

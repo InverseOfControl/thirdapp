@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.trust.channel.entity.OpenBound">
+	<typeAlias alias="OpenBound" type="com.zendaimoney.trust.channel.entity.OpenBound" />
+
+	<resultMap id="OpenboundMap" class="OpenBound">
+		<result property="tradeFlow" column="TRADE_FLOW" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="tradeType" column="TRADE_TYPE" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="bizSysNo" column="BIZ_SYS_NO" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="paySysNo" column="PAY_SYS_NO" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="status" column="STATUS" jdbcType="java.lang.Integer"  nullValue=""/>
+		<result property="updateTime" column="UPDATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="clientNo" column="CLIENT_NO" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="accountNo" column="ACCOUNT_NO" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="userName" column="USER_NAME" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="userType" column="USER_TYPE" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="idType" column="ID_TYPE" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="idNo" column="ID_NO" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="mobile" column="MOBILE" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="bankAccountType" column="BANK_ACCOUNT_TYPE" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="bankCardNo" column="BANK_CARD_NO" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="bankAccoutName" column="BANK_ACCOUT_NAME" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="openBankCode" column="OPEN_BANK_CODE" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="openSubBank" column="OPEN_SUB_BANK" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="ip" column="ip" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="creater" column="creater" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="bizFlow" column="BIZ_FLOW" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="respFlow" column="RESP_FLOW" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="respTime" column="RESP_TIME" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="respInfo" column="RESP_INFO" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="mac" column="MAC" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="infoCategoryCode" column="INFO_CATEGORY_CODE" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="respTimeExt" column="RESP_TIME_EXT" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="note" column="NOTE" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="isBatch" column="IS_BATCH" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="batchNo" column="BATCH_NO" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="spare1" column="SPARE1" jdbcType="java.lang.String"  nullValue=""/>
+		<result property="spare2" column="SPARE2" jdbcType="java.lang.String"  nullValue=""/>
+	</resultMap>
+	
+	<!-- 更新开户绑卡请求交易状态 -->
+	<insert id="update" parameterClass="OpenBound">
+		update TPP_TRUST_OPENBD set
+		UPDATE_TIME = sysdate
+		
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respTime">
+			RESP_TIME= sysdate
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respInfo">
+			RESP_INFO=#respInfo#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="accountNo">
+			ACCOUNT_NO=#accountNo#
+		</isNotEmpty>
+		where TRADE_FLOW=#tradeFlow#
+		and STATUS= '0'
+	 </insert>
+
+</sqlMap>

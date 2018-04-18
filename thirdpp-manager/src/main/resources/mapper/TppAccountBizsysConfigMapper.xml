@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppAccountBizsysConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppAccountBizsysConfig" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR" />
+    <result column="FTP_SERVER" property="ftpServer" jdbcType="VARCHAR" />
+    <result column="FTP_PORT" property="ftpPort" jdbcType="VARCHAR" />
+    <result column="FTP_USERNAME" property="ftpUsername" jdbcType="VARCHAR" />
+    <result column="FTP_PWD" property="ftpPwd" jdbcType="VARCHAR" />
+    <result column="FTP_PATH" property="ftpPath" jdbcType="VARCHAR" />
+    <result column="LOCAL_ACCOUNT_ROOT_PATH" property="localAccountRootPath" jdbcType="VARCHAR" />
+    <result column="FILE_NAME_FORMAT" property="fileNameFormat" jdbcType="VARCHAR" />
+    <result column="FILE_SUFFIX" property="fileSuffix" jdbcType="VARCHAR" />
+    <result column="ATTRS_DEFINITION" property="attrsDefinition" jdbcType="VARCHAR" />
+    <result column="ATTRS_SPLIT" property="attrsSplit" jdbcType="VARCHAR" />
+    <result column="MAX_PUSH_FAILED_TIMES" property="maxPushFailedTimes" jdbcType="DECIMAL" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+    <result column="CURRENCY_UNIT" property="currencyUnit" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <result column="APP_NAME" property="appName" jdbcType="VARCHAR" />
+    <result column="MAX_LOCALIZE_FAILED_TIMES" property="maxLocalizeFailedTimes" jdbcType="DECIMAL" />
+    <result column="FILE_ENCODING" property="fileEncoding" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_TIME" property="accountTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, BIZ_SYS_NO,  FTP_SERVER, FTP_PORT, FTP_USERNAME, FTP_PWD, FTP_PATH, LOCAL_ACCOUNT_ROOT_PATH, 
+     FILE_NAME_FORMAT, FILE_SUFFIX, ATTRS_DEFINITION, 
+    ATTRS_SPLIT, MAX_PUSH_FAILED_TIMES, CURRENCY_UNIT, STATUS, 
+    CREATE_TIME,BIZ_TYPE,APP_NAME,MAX_LOCALIZE_FAILED_TIMES,FILE_ENCODING,MAX_LOCALIZE_FAILED_TIMES,FILE_ENCODING,
+    ACCOUNT_TIME,CURRENCY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TPP_ACCOUNT_BIZSYS_CONFIG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TPP_ACCOUNT_BIZSYS_CONFIG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <!-- 批量删除 -->
+  <delete id="batchDelete" parameterType="java.util.List">  
+    delete from TPP_ACCOUNT_BIZSYS_CONFIG where ID in  
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+        #{item}   
+    </foreach>  
+	</delete>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppAccountBizsysConfig" >
+  	<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_TPP_ACCOUNT_BIZSYS_CONFIG.nextval from dual
+    </selectKey>
+    insert into TPP_ACCOUNT_BIZSYS_CONFIG (ID, BIZ_SYS_NO, 
+      FTP_SERVER,FTP_PORT,FTP_USERNAME, FTP_PWD, FTP_PATH, 
+      LOCAL_ACCOUNT_ROOT_PATH, 
+      FILE_NAME_FORMAT, FILE_SUFFIX, 
+      ATTRS_DEFINITION, 
+      ATTRS_SPLIT, MAX_PUSH_FAILED_TIMES, CURRENCY_UNIT, 
+      STATUS, CREATE_TIME,BIZ_TYPE,APP_NAME,MAX_LOCALIZE_FAILED_TIMES,FILE_ENCODING,ACCOUNT_TIME,CURRENCY)
+    values (#{id,jdbcType=DECIMAL}, #{bizSysNo,jdbcType=VARCHAR}, 
+      #{ftpServer,jdbcType=VARCHAR},#{ftpPort,jdbcType=VARCHAR},
+      #{ftpUsername,jdbcType=VARCHAR}, #{ftpPwd,jdbcType=VARCHAR}, #{ftpPath,jdbcType=VARCHAR}, 
+      #{localAccountRootPath,jdbcType=VARCHAR}, 
+      #{fileNameFormat,jdbcType=VARCHAR}, #{fileSuffix,jdbcType=VARCHAR}, 
+      #{attrsDefinition,jdbcType=VARCHAR},
+      #{attrsSplit,jdbcType=VARCHAR}, #{maxPushFailedTimes,jdbcType=DECIMAL}, #{currencyUnit,jdbcType=VARCHAR}, 
+      #{status,jdbcType=DECIMAL}, sysdate,#{bizType,jdbcType=VARCHAR},#{appName,jdbcType=VARCHAR},
+      #{maxLocalizeFailedTimes,jdbcType=DECIMAL},#{fileEncoding,jdbcType=VARCHAR},#{accountTime,jdbcType=VARCHAR},#{currency,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppAccountBizsysConfig" >
+    insert into TPP_ACCOUNT_BIZSYS_CONFIG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO,
+      </if>
+      <if test="ftpUsername != null" >
+        FTP_USERNAME,
+      </if>
+      <if test="ftpPwd != null" >
+        FTP_PWD,
+      </if>
+      <if test="ftpPath != null" >
+        FTP_PATH,
+      </if>
+      <if test="localAccountRootPath != null" >
+        LOCAL_ACCOUNT_ROOT_PATH,
+      </if>
+      <if test="fileNameFormat != null" >
+        FILE_NAME_FORMAT,
+      </if>
+      <if test="fileSuffix != null" >
+        FILE_SUFFIX,
+      </if>
+      <if test="attrsDefinition != null" >
+        ATTRS_DEFINITION,
+      </if>
+      <if test="attrsSplit != null" >
+        ATTRS_SPLIT,
+      </if>
+      <if test="maxPushFailedTimes != null" >
+        MAX_PUSH_FAILED_TIMES,
+      </if>
+      <if test="currencyUnit != null" >
+        CURRENCY_UNIT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="accountTime != null" >
+        ACCOUNT_TIME,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="bizSysNo != null" >
+        #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpUsername != null" >
+        #{ftpUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPwd != null" >
+        #{ftpPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPath != null" >
+        #{ftpPath,jdbcType=VARCHAR},
+      </if>
+      <if test="localAccountRootPath != null" >
+        #{localAccountRootPath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNameFormat != null" >
+        #{fileNameFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSuffix != null" >
+        #{fileSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="attrsDefinition != null" >
+        #{attrsDefinition,jdbcType=VARCHAR},
+      </if>
+      <if test="attrsSplit != null" >
+        #{attrsSplit,jdbcType=VARCHAR},
+      </if>
+      <if test="maxPushFailedTime != null" >
+        #{maxPushFailedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="currencyUnit != null" >
+        #{currencyUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="accountTime != null" >
+        #{accountTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.manager.models.TppAccountBizsysConfig" >
+    update TPP_ACCOUNT_BIZSYS_CONFIG
+    <set >
+      <!-- <if test="bizSysNo != null" >
+        BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+      </if> -->
+      <if test="ftpUsername != null" >
+        FTP_USERNAME = #{ftpUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpServer != null" >
+        FTP_SERVER = #{ftpServer,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPwd != null" >
+        FTP_PWD = #{ftpPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPwd != null" >
+        FTP_PWD = #{ftpPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPath != null" >
+        FTP_PATH = #{ftpPath,jdbcType=VARCHAR},
+      </if>
+      <if test="localAccountRootPath != null" >
+        LOCAL_ACCOUNT_ROOT_PATH = #{localAccountRootPath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNameFormat != null" >
+        FILE_NAME_FORMAT = #{fileNameFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSuffix != null" >
+        FILE_SUFFIX = #{fileSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="attrsDefinition != null" >
+        ATTRS_DEFINITION = #{attrsDefinition,jdbcType=VARCHAR},
+      </if>
+      <if test="attrsSplit != null" >
+        ATTRS_SPLIT = #{attrsSplit,jdbcType=VARCHAR},
+      </if>
+      <if test="maxPushFailedTimes != null" >
+        MAX_PUSH_FAILED_TIMES = #{maxPushFailedTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="currencyUnit != null" >
+        CURRENCY_UNIT = #{currencyUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+       <if test="accountTime != null" >
+        ACCOUNT_TIME = #{accountTime,jdbcType=DECIMAL},
+      </if>
+       <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=DECIMAL},
+      </if>
+     <!--  <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if> -->
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.manager.models.TppAccountBizsysConfig" >
+    update TPP_ACCOUNT_BIZSYS_CONFIG
+    set 
+      FTP_SERVER = #{ftpServer,jdbcType=VARCHAR},
+      FTP_PORT = #{ftpPort,jdbcType=VARCHAR},
+      FTP_USERNAME = #{ftpUsername,jdbcType=VARCHAR},
+      FTP_PWD = #{ftpPwd,jdbcType=VARCHAR},
+      FTP_PATH = #{ftpPath,jdbcType=VARCHAR},
+      LOCAL_ACCOUNT_ROOT_PATH = #{localAccountRootPath,jdbcType=VARCHAR},
+      FILE_NAME_FORMAT = #{fileNameFormat,jdbcType=VARCHAR},
+      FILE_SUFFIX = #{fileSuffix,jdbcType=VARCHAR},
+      ATTRS_DEFINITION = #{attrsDefinition,jdbcType=VARCHAR},
+      ATTRS_SPLIT = #{attrsSplit,jdbcType=VARCHAR},
+      MAX_PUSH_FAILED_TIMES = #{maxPushFailedTimes,jdbcType=DECIMAL},
+      CURRENCY_UNIT = #{currencyUnit,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      APP_NAME = #{appName,jdbcType=VARCHAR},
+      MAX_LOCALIZE_FAILED_TIMES = #{maxLocalizeFailedTimes,jdbcType=DECIMAL},
+      FILE_ENCODING = #{fileEncoding,jdbcType=VARCHAR},
+      ACCOUNT_TIME = #{accountTime,jdbcType=VARCHAR},
+      CURRENCY= #{currency,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <sql id="Bizsys_Config_Column_List">
+  		ID  <!--主键-->
+ 		,BIZ_SYS_NO  <!--业务系统号-->
+ 		,FTP_SERVER
+ 		,FTP_PORT
+ 		,FTP_USERNAME  <!--FTP 登录帐号-->
+ 		,FTP_PWD  <!--FTP 登录密码-->
+ 		,FTP_PATH  <!--FTP 文件存放目录-->
+ 		,LOCAL_ACCOUNT_ROOT_PATH  <!--本地存放对账文件根目录-->
+ 		,FILE_NAME_FORMAT  <!--对账文件名称格式-->
+ 		,FILE_SUFFIX  <!--对账文件后缀-->
+ 		,ATTRS_DEFINITION  <!--对账文件属性定义-->
+ 		,ATTRS_SPLIT  <!--对账文件属性分隔符-->
+ 		,MAX_PUSH_FAILED_TIMES  <!--最大推送失败次数-->
+ 		,CURRENCY_UNIT  <!--对账文件中使用的货币单位 0=元 1=分-->
+ 		,STATUS  <!--状态 0= 关闭1= 开启-->
+ 		,CREATE_TIME  <!--创建时间-->
+ 		,BIZ_TYPE
+ 		,APP_NAME
+ 		,MAX_LOCALIZE_FAILED_TIMES
+ 		,FILE_ENCODING
+ 		,ACCOUNT_TIME
+ 		,CURRENCY
+  </sql>
+  
+  <select id="select_tppAccountBizsysConfigSelective" resultType="java.util.HashMap">
+  	SELECT    <include refid="Bizsys_Config_Column_List" />
+		FROM TPP_ACCOUNT_BIZSYS_CONFIG
+  			WHERE 1=1 
+  			<if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+    			and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+    		</if>
+    		<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+    			and BIZ_TYPE like '%'||(#{SEARCH_BIZ_TYPE})||'%'
+    		</if>
+  </select>
+  <select id="select_tppAccountBizsysConfigForUpdateSelective" resultType="java.util.HashMap">
+  	SELECT    <include refid="Bizsys_Config_Column_List" />
+		FROM TPP_ACCOUNT_BIZSYS_CONFIG
+  			WHERE 1=1  and id != #{SEARCH_ID}
+  			<if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+    			and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+    		</if>
+    		<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+    			and BIZ_TYPE like '%'||(#{SEARCH_BIZ_TYPE})||'%'
+    		</if>
+  </select>
+  
+  <!--用于模糊查询-->
+     <select id="select_tppAccountBizsysConfigList" resultType="java.util.HashMap">
+     SELECT * FROM (
+		SELECT X.*,ROWNUM RN,(select app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME
+			FROM (
+				select * from (
+		          SELECT  
+				 		<include refid="Bizsys_Config_Column_List" />
+				  FROM TPP_ACCOUNT_BIZSYS_CONFIG)
+				  WHERE 1=1 
+				  	<if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+			   			and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO} 
+			   		</if>
+			   		<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+			   			and STATUS = #{SEARCH_STATUS} 
+			   		</if>
+			   		<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+				    	<foreach item="item" index="index" collection="SEARCH_BIZ_TYPE">
+		                       and BIZ_TYPE like '%'||(#{item})||'%'
+		                </foreach>
+				    </if>
+				    <if test="orderStr != null">
+				  		${orderStr} 
+				  	</if>
+	 <![CDATA[
+ 		) X WHERE ROWNUM  <= #{rowEnd}
+	) WHERE RN >= #{rowBegin}
+	
+	]]>
+	
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppAccountBizsysConfigList_count"  resultType="int">
+			SELECT  count(ID)
+		    FROM TPP_ACCOUNT_BIZSYS_CONFIG
+			WHERE 1=1 
+				<if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+		   			and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO} 
+		   		</if>
+		   		<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+		   			and STATUS = #{SEARCH_STATUS} 
+		   		</if>
+		   		<if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+			    	<foreach item="item" index="index" collection="SEARCH_BIZ_TYPE">
+	                       and BIZ_TYPE like '%'||(#{item})||'%'
+	                </foreach>
+			    </if>
+	 </select>
+</mapper>

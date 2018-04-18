@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TDictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TDictionary">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="DIC_CODE" jdbcType="VARCHAR" property="dicCode" />
+    <result column="DIC_NAME" jdbcType="VARCHAR" property="dicName" />
+      <result column="PARENT_NAME" jdbcType="VARCHAR" property="parentName" />
+    <result column="DIC_TYPE" jdbcType="VARCHAR" property="dicType" />
+    <result column="PARENT_ID" property="parentId" />
+    <result column="DIC_DESC" property="dicDesc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, DIC_CODE, DIC_NAME,  PARENT_ID,DIC_DESC
+  </sql>
+   <select id="getDicTypeList"  resultType="java.util.HashMap">  
+   		select * from  dd_t_dictionary where DIC_TYPE='3' and  PARENT_ID!=0
+   </select>
+   <select id="getDicName"  resultType="java.lang.String">  
+   		select dic_name from dd_t_dictionary  where ID=#{parentId} and dic_code=#{dicCode}
+   </select>
+   <select id="getParentDicName"  resultType="java.lang.String">  
+   		select dic_name from dd_t_dictionary  where ID=#{id} 
+   </select>
+   <select id="getDictionaryParentList" resultMap="BaseResultMap">  
+   		select  * from dd_t_dictionary  where PARENT_ID=0
+   </select>
+  <select id="getDictionaryList" resultType="java.util.HashMap">  
+ 	SELECT * FROM (
+		SELECT X.*,ROWNUM RN FROM (
+    select  
+   	 pd.ID,
+      pd.DIC_CODE,
+      pd.DIC_NAME, 
+      pd. PARENT_ID,
+    	 pd.DIC_DESC ,
+      d.DIC_NAME AS PARENT_NAME
+    from dd_t_dictionary pd  left join dd_t_dictionary d  on  d.id=pd.parent_id
+   	where 1=1
+    <if test="dicName != null and dicName !=''">
+        and pd.DIC_NAME like '%${dicName}%'
+    </if> 
+    <if test="dicCode != null and dicCode !=''">
+        and pd.DIC_CODE = #{dicCode}
+    </if> 
+    <if test="dicType != null and dicType !=''">
+        and pd.DIC_TYPE = #{dicType}  
+    </if> 
+    <if test="parentId != null and parentId !=''">
+        and pd.PARENT_ID = #{parentId} 
+    </if>  
+     order by pd.DIC_CODE asc
+    <![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>   
+  </select>
+  <select id="getDictionaryListCount" resultType="Integer">
+    select  
+   	count(pd.ID)
+    from dd_t_dictionary pd  left join dd_t_dictionary d  on  d.id=pd.parent_id
+   	where 1=1
+  	 <if test="dicName != null and dicName !=''">
+         and pd.DIC_NAME like '%${dicName}%'
+    </if> 
+    <if test="dicCode != null and dicCode !=''">
+        and pd.DIC_CODE = #{dicCode}
+    </if> 
+    <if test="dicType != null and dicType !=''">
+        and pd.DIC_TYPE = #{dicType}  
+    </if> 
+    <if test="parentId != null and parentId !=''">
+        and pd.PARENT_ID = #{parentId} 
+    </if>  
+  
+  </select>
+ <select id="selectDictionaryByID" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+  		ID, DIC_CODE, DIC_NAME,  DIC_TYPE,PARENT_ID,DIC_DESC
+    from DD_T_DICTIONARY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TDictionary" >
+    <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+       select SEQ_DD_T_DICTIONARY.nextval from dual
+    </selectKey>
+   insert into DD_T_DICTIONARY( ID, DIC_CODE, DIC_NAME, DIC_TYPE, PARENT_ID,DIC_DESC)
+   		values(#{id,jdbcType=DECIMAL},#{dicCode,jdbcType=VARCHAR},#{dicName,jdbcType=VARCHAR},#{dicType,jdbcType=VARCHAR},
+   			  	 #{parentId,jdbcType=VARCHAR},#{dicDesc,jdbcType=VARCHAR}
+   		)
+  </insert>
+   <update id="updateDictionary" parameterType="com.zdmoney.manager.models.TDictionary" >
+    update DD_T_DICTIONARY
+    set DIC_CODE = #{dicCode,jdbcType=VARCHAR},
+      DIC_NAME = #{dicName,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      DIC_DESC= #{dicDesc,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  	<delete id="batchDeleteInfo" parameterType="java.util.List">  
+    	delete from DD_T_DICTIONARY where ID in  
+    	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+       	 #{item}   
+    	</foreach>  
+	</delete>
+	<select id="getdicCodeCount" resultType="integer" parameterType="com.zdmoney.manager.models.TDictionary" >
+		select count(ID) from DD_T_DICTIONARY  where DIC_CODE = #{dicCode} and PARENT_ID =#{parentId}
+	</select>
+		<select id="getdicTypeCount" resultType="integer">
+		select count(*) from DD_T_DICTIONARY  where DIC_TYPE = #{type}
+	</select>
+	<select id="select_DictionarySelective" parameterType="com.zdmoney.manager.models.TDictionary" resultMap="BaseResultMap">
+		select * from DD_T_DICTIONARY where 1=1 and  PARENT_ID!=0 
+		<if test="dicName != null and dicName !=''">
+	         and DIC_NAME = #{dicName}
+	    </if> 
+	    <if test="dicCode != null and dicCode !=''">
+	        and DIC_CODE = #{dicCode}
+	    </if> 
+	    <if test="dicType != null and dicType !=''">
+	        and DIC_TYPE = #{dicType}  
+	    </if> 
+	    <if test="parentId != null and parentId !=''">
+	        and PARENT_ID = #{parentId} 
+	    </if>  
+	    	
+	    order by DIC_CODE asc
+	</select>
+</mapper>

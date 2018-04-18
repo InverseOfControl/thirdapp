@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings
+			cacheModelsEnabled="true"
+			enhancementEnabled="true"
+			lazyLoadingEnabled="true"
+			maxRequests="200"
+			maxSessions="100"
+			maxTransactions="50"
+			useStatementNamespaces="true"
+			/>
+		
+    <sqlMap resource="com/zendaimoney/thirdpp/query/sqlmap/collectInfo.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/query/sqlmap/payInfo.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/query/sqlmap/threadInfo.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/query/sqlmap/tppsysQueryInfo.sqlMap.xml"/>
+    <sqlMap resource="com/zendaimoney/thirdpp/query/sqlmap/tradeWaitingQuery.sqlMap.xml"/>
+</sqlMapConfig>

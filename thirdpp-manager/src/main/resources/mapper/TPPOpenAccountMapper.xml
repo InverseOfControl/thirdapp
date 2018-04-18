@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TppOpenAccountMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TPPOpenAccount">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="ZENGDAI_ACCOUNT_NO" jdbcType="VARCHAR" property="zengDaiAccountNo" />
+		<result column="BIZ_SYS_NO" jdbcType="VARCHAR" property="bizSysNo" />
+		<result column="BIZ_SYS_NAME" jdbcType="VARCHAR" property="bizSysName" />
+		<result column="BIZ_SYS_ACCOUNT_NO" jdbcType="VARCHAR" property="bizSysAccountNo"/>
+		<result column="THIRD_ACCOUNT_NO"  jdbcType="VARCHAR" property="thirdAccountNo" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="USER_PWD"  jdbcType="VARCHAR" property="userPwd" />
+		<result column="REAL_NAME" jdbcType="VARCHAR" property="realName" />
+		<result column="GENDER"  jdbcType="VARCHAR" property="gender" />
+		<result column="NATION" jdbcType="VARCHAR" property="nation" />
+		<result column="MOBILE"  jdbcType="VARCHAR" property="mobile" />
+		<result column="PAY_SYS_NO" jdbcType="VARCHAR" property="paySysNo" />
+		<result column="PAY_SYS_NAME" jdbcType="VARCHAR" property="paySysName" />
+		<result column="STATUS"  jdbcType="VARCHAR" property="status" />
+		<result column="ID_TYPE" jdbcType="VARCHAR" property="idType" />
+		<result column="ID_NO" jdbcType="VARCHAR" property="idNo" />
+		<result column="OPEN_TIME"   property="openTime" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATE_TIME"   property="updateTime" />
+		<result column="REQ_ID"  jdbcType="VARCHAR" property="reqId" />
+		<result column="SPARE1" jdbcType="VARCHAR" property="spare1" />
+		<result column="SPARE2" jdbcType="VARCHAR" property="spare2" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,
+		ZENGDAI_ACCOUNT_NO,
+		BIZ_SYS_NO,
+		BIZ_SYS_ACCOUNT_NO,
+		THIRD_ACCOUNT_NO,
+		USER_NAME,
+		USER_PWD,
+		REAL_NAME,
+		GENDER,
+		NATION,
+		MOBILE,
+		PAY_SYS_NO,
+		STATUS,
+		ID_TYPE,
+		ID_NO,
+		OPEN_TIME,
+		CREATE_TIME,
+		UPDATE_TIME,
+		REQ_ID
+	</sql>
+	<select id="getOpenAccountList" resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN ,
+		(select t.DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=x.PAY_SYS_NO) PAY_SYS_NAME,
+		(SELECT app_name FROM tpp_sys_app WHERE tpp_sys_app.app_code=x.biz_sys_no
+    			) BIZ_SYS_NAME
+				 FROM ( select
+		<include refid="Base_Column_List"></include>
+		from TPP_OPEN_ACCOUNT  where 1=1
+		<if test="zengDaiAccountNo != null and zengDaiAccountNo !=''">
+			and ZENGDAI_ACCOUNT_NO= #{zengDaiAccountNo}
+		</if>
+		<if test="realName != null and realName !=''">
+			and REAL_NAME like '%${realName}%'
+		</if>
+		<if test="bizSysNo != null and bizSysNo !=''">
+			and BIZ_SYS_NO = #{bizSysNo}
+		</if>
+		<if test="paySysNo != null and paySysNo !=''">
+			and PAY_SYS_NO = #{paySysNo}
+		</if>
+		<if test="status != null and status !=''">
+			and STATUS = #{status}
+		</if>
+		<if test="mobile != null and mobile !=''">
+			and MOBILE = #{mobile}
+		</if>
+		<if test="beginTime != null and beginTime!=''">
+			and OPEN_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss') 
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and OPEN_TIME &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss') 
+		</if> 
+		order by ID desc  
+    <![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+	</select>
+	<select id="getOpenAccountListCount" resultType="Integer">
+		select count(ID) from TPP_OPEN_ACCOUNT where 1=1
+		<if test="zengDaiAccountNo != null and zengDaiAccountNo !=''">
+			and ZENGDAI_ACCOUNT_NO= #{zengDaiAccountNo}
+		</if>
+		<if test="realName != null and realName !=''">
+			and REAL_NAME like '%${realName}%'
+		</if>
+		<if test="bizSysNo != null and bizSysNo !=''">
+			and BIZ_SYS_NO = #{bizSysNo}
+		</if>
+		<if test="paySysNo != null and paySysNo !=''">
+			and PAY_SYS_NO = #{paySysNo}
+		</if>
+		<if test="status != null and status !=''">
+			and STATUS = #{status}
+		</if>
+		<if test="mobile != null and mobile !=''">
+			and MOBILE = #{mobile}
+		</if>
+		<if test="beginTime != null and beginTime!=''">
+			and OPEN_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss') 
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and OPEN_TIME &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss') 
+		</if> 
+	</select>
+	<select id="getOpenAccountById"  resultMap="BaseResultMap">
+		  select <include refid="Base_Column_List"></include>,(SELECT app_name FROM tpp_sys_app WHERE tpp_sys_app.app_code=x.biz_sys_no
+    			) BIZ_SYS_NAME from TPP_OPEN_ACCOUNT x  where x.id = #{id}
+	</select> 
+</mapper>

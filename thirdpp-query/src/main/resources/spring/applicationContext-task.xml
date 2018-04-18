@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+	
+	<task:scheduler id="backup-task" pool-size="5" />
+	<task:scheduler id="waiting-query" pool-size="5" />
+	
+	<!-- IOC注入 -->
+	<!-- 备份service注入 -->
+	<bean id="dataBackUpService" class="com.zendaimoney.thirdpp.query.service.DataBackUpService"/>
+	
+	<!-- 轮询临时表service注入 -->
+	<bean id="waitingQueryService" class="com.zendaimoney.thirdpp.query.service.TradeWaitingQueryService"></bean>
+	
+	<task:scheduled-tasks scheduler="backup-task">
+		<!-- 每天凌晨1点实行一次 0 0 1 * * ? -->
+		<task:scheduled ref="dataBackUpService" method="backup" cron="0 0 1 * * ?"  />
+	</task:scheduled-tasks>
+	
+	<task:scheduled-tasks scheduler="waiting-query">
+		<!-- 每1分钟实行一次 0 */1 * * * ? -->
+		<task:scheduled ref="waitingQueryService" method="deal" cron="0 */1 * * * ?"  />
+	</task:scheduled-tasks>
+
+</beans>

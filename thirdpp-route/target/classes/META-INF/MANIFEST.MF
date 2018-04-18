@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: thirdpp-route
+Implementation-Version: 0.0.1
+Built-By: YM10159
+Implementation-Vendor-Id: com.zendaimoney.thirdpp
+Build-Jdk: 1.8.0_161
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Zendai
+

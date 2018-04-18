@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppAccountInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppAccountInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="THIRD_TYPE_NO" property="thirdTypeNo" jdbcType="VARCHAR" />
+    <result column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <result column="THIRD_PARTY_ACCOUNT_REQ_ID" property="thirdPartyAccountReqId" jdbcType="VARCHAR" />
+    <result column="BIZSYS_ACCOUNT_REQ_ID" property="bizsysAccountReqId" jdbcType="VARCHAR" />
+     <result column="ACCOUNT_DAY" property="accountDay" jdbcType="VARCHAR" />
+    <result column="TASK_ID" property="taskId" jdbcType="DECIMAL" />
+    <result column="TASK_AMOUNT" property="taskAmount" jdbcType="DECIMAL" />
+    <result column="IS_SEPARATE" property="isSeparate" jdbcType="DECIMAL" />
+    <result column="SEPARATE_COUNT" property="separateCount" jdbcType="DECIMAL" />
+    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR" />
+    <result column="TRADE_FLOW" property="tradeFlow" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="ORIGINAL_AMOUNT" property="originalAmount" jdbcType="VARCHAR" />
+    <result column="THIRD_PARTY_TRADE_FLOW" property="thirdPartyTradeFlow" jdbcType="VARCHAR" />
+    <result column="TRADE_TIME" property="tradeTime" jdbcType="VARCHAR" />
+    <result column="CURRENT_INDEX" property="currentIndex" jdbcType="DECIMAL" />
+    <result column="ACCOUNT_STATUS" property="accountStatus" jdbcType="DECIMAL" />
+    <result column="BIZSYS_ACCOUNT_STATUS" property="bizsysAccountStatus" jdbcType="DECIMAL" />
+    <result column="FAILED_REASON" property="failedReason" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="BIZ_FLOW" property="bizFlow" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, THIRD_TYPE_NO, MERCHANT_NO, BIZ_TYPE, THIRD_PARTY_ACCOUNT_REQ_ID, BIZSYS_ACCOUNT_REQ_ID, 
+    ACCOUNT_DAY,TASK_AMOUNT,TASK_ID, IS_SEPARATE, SEPARATE_COUNT, BIZ_SYS_NO, TRADE_FLOW, AMOUNT, ORIGINAL_AMOUNT, 
+    THIRD_PARTY_TRADE_FLOW, TRADE_TIME, CURRENT_INDEX, ACCOUNT_STATUS, 
+    BIZSYS_ACCOUNT_STATUS, FAILED_REASON, CREATE_TIME, BIZ_FLOW
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from TPP_ACCOUNT_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from TPP_ACCOUNT_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppAccountInfo" >
+    insert into TPP_ACCOUNT_INFO (ID, THIRD_TYPE_NO, MERCHANT_NO, 
+      BIZ_TYPE, THIRD_PARTY_ACCOUNT_REQ_ID, BIZSYS_ACCOUNT_REQ_ID, 
+      TASK_ID, IS_SEPARATE, SEPARATE_COUNT, 
+      BIZ_SYS_NO, TRADE_FLOW, AMOUNT, 
+      ORIGINAL_AMOUNT, THIRD_PARTY_TRADE_FLOW, TRADE_TIME, 
+      CURRENT_INDEX, ACCOUNT_STATUS, 
+      BIZSYS_ACCOUNT_STATUS, FAILED_REASON, CREATE_TIME, 
+      BIZ_FLOW)
+    values (#{id,jdbcType=DECIMAL}, #{thirdTypeNo,jdbcType=VARCHAR}, #{merchantNo,jdbcType=VARCHAR}, 
+      #{bizType,jdbcType=VARCHAR}, #{thirdPartyAccountReqId,jdbcType=VARCHAR}, #{bizsysAccountReqId,jdbcType=VARCHAR}, 
+      #{taskId,jdbcType=DECIMAL}, #{isSeparate,jdbcType=DECIMAL}, #{separateCount,jdbcType=DECIMAL}, 
+      #{bizSysNo,jdbcType=VARCHAR}, #{tradeFlow,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{originalAmount,jdbcType=DECIMAL}, #{thirdPartyTradeFlow,jdbcType=VARCHAR}, #{tradeTime,jdbcType=VARCHAR}, 
+      #{currentIndex,jdbcType=DECIMAL}, #{accountStatus,jdbcType=DECIMAL}, 
+      #{bizsysAccountStatus,jdbcType=DECIMAL}, #{failedReason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{bizFlow,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppAccountInfo" >
+    insert into TPP_ACCOUNT_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="thirdTypeNo != null" >
+        THIRD_TYPE_NO,
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO,
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE,
+      </if>
+      <if test="thirdPartyAccountReqId != null" >
+        THIRD_PARTY_ACCOUNT_REQ_ID,
+      </if>
+      <if test="bizsysAccountReqId != null" >
+        BIZSYS_ACCOUNT_REQ_ID,
+      </if>
+      <if test="taskId != null" >
+        TASK_ID,
+      </if>
+      <if test="isSeparate != null" >
+        IS_SEPARATE,
+      </if>
+      <if test="separateCount != null" >
+        SEPARATE_COUNT,
+      </if>
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO,
+      </if>
+      <if test="tradeFlow != null" >
+        TRADE_FLOW,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="originalAmount != null" >
+        ORIGINAL_AMOUNT,
+      </if>
+      <if test="thirdPartyTradeFlow != null" >
+        THIRD_PARTY_TRADE_FLOW,
+      </if>
+      <if test="tradeTime != null" >
+        TRADE_TIME,
+      </if>
+      <if test="currentIndex != null" >
+        CURRENT_INDEX,
+      </if>
+      <if test="accountStatus != null" >
+        ACCOUNT_STATUS,
+      </if>
+      <if test="bizsysAccountStatus != null" >
+        BIZSYS_ACCOUNT_STATUS,
+      </if>
+      <if test="failedReason != null" >
+        FAILED_REASON,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="bizFlow != null" >
+        BIZ_FLOW,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="thirdTypeNo != null" >
+        #{thirdTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPartyAccountReqId != null" >
+        #{thirdPartyAccountReqId,jdbcType=VARCHAR},
+      </if>
+      <if test="bizsysAccountReqId != null" >
+        #{bizsysAccountReqId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=DECIMAL},
+      </if>
+      <if test="isSeparate != null" >
+        #{isSeparate,jdbcType=DECIMAL},
+      </if>
+      <if test="separateCount != null" >
+        #{separateCount,jdbcType=DECIMAL},
+      </if>
+      <if test="bizSysNo != null" >
+        #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeFlow != null" >
+        #{tradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="originalAmount != null" >
+        #{originalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="thirdPartyTradeFlow != null" >
+        #{thirdPartyTradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeTime != null" >
+        #{tradeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="currentIndex != null" >
+        #{currentIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="accountStatus != null" >
+        #{accountStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="bizsysAccountStatus != null" >
+        #{bizsysAccountStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="failedReason != null" >
+        #{failedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bizFlow != null" >
+        #{bizFlow,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.manager.models.TppAccountInfo" >
+    update TPP_ACCOUNT_INFO
+    <set >
+      <if test="thirdTypeNo != null" >
+        THIRD_TYPE_NO = #{thirdTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPartyAccountReqId != null" >
+        THIRD_PARTY_ACCOUNT_REQ_ID = #{thirdPartyAccountReqId,jdbcType=VARCHAR},
+      </if>
+      <if test="bizsysAccountReqId != null" >
+        BIZSYS_ACCOUNT_REQ_ID = #{bizsysAccountReqId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        TASK_ID = #{taskId,jdbcType=DECIMAL},
+      </if>
+      <if test="isSeparate != null" >
+        IS_SEPARATE = #{isSeparate,jdbcType=DECIMAL},
+      </if>
+      <if test="separateCount != null" >
+        SEPARATE_COUNT = #{separateCount,jdbcType=DECIMAL},
+      </if>
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeFlow != null" >
+        TRADE_FLOW = #{tradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="originalAmount != null" >
+        ORIGINAL_AMOUNT = #{originalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="thirdPartyTradeFlow != null" >
+        THIRD_PARTY_TRADE_FLOW = #{thirdPartyTradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeTime != null" >
+        TRADE_TIME = #{tradeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="currentIndex != null" >
+        CURRENT_INDEX = #{currentIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="accountStatus != null" >
+        ACCOUNT_STATUS = #{accountStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="bizsysAccountStatus != null" >
+        BIZSYS_ACCOUNT_STATUS = #{bizsysAccountStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="failedReason != null" >
+        FAILED_REASON = #{failedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bizFlow != null" >
+        BIZ_FLOW = #{bizFlow,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.manager.models.TppAccountInfo" >
+    update TPP_ACCOUNT_INFO
+    set THIRD_TYPE_NO = #{thirdTypeNo,jdbcType=VARCHAR},
+      MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR},
+      BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      THIRD_PARTY_ACCOUNT_REQ_ID = #{thirdPartyAccountReqId,jdbcType=VARCHAR},
+      BIZSYS_ACCOUNT_REQ_ID = #{bizsysAccountReqId,jdbcType=VARCHAR},
+      TASK_ID = #{taskId,jdbcType=DECIMAL},
+      IS_SEPARATE = #{isSeparate,jdbcType=DECIMAL},
+      SEPARATE_COUNT = #{separateCount,jdbcType=DECIMAL},
+      BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+      TRADE_FLOW = #{tradeFlow,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      ORIGINAL_AMOUNT = #{originalAmount,jdbcType=DECIMAL},
+      THIRD_PARTY_TRADE_FLOW = #{thirdPartyTradeFlow,jdbcType=VARCHAR},
+      TRADE_TIME = #{tradeTime,jdbcType=VARCHAR},
+      CURRENT_INDEX = #{currentIndex,jdbcType=DECIMAL},
+      ACCOUNT_STATUS = #{accountStatus,jdbcType=DECIMAL},
+      BIZSYS_ACCOUNT_STATUS = #{bizsysAccountStatus,jdbcType=DECIMAL},
+      FAILED_REASON = #{failedReason,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      BIZ_FLOW = #{bizFlow,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <sql id="Account_info_Column_List" >
+  		ID  <!--主键-->
+		,THIRD_TYPE_NO  <!--对账渠道编码-->
+		,MERCHANT_NO  <!--商户号-->
+		,BIZ_TYPE  <!--业务类型-->
+		,THIRD_PARTY_ACCOUNT_REQ_ID  <!--第三方对账请求 id 对应对账操作请求表的REQ_ID-->
+		,BIZSYS_ACCOUNT_REQ_ID  <!--业务系统对账请求 id 对应业务系统对账请求表的REQ_ID-->
+		,TASK_ID  <!--任务id 对应任务表的id-->
+		,IS_SEPARATE  <!--是否拆单 0不拆单1:拆单 -->
+		,SEPARATE_COUNT  <!--拆单数-->
+		,BIZ_SYS_NO  <!--业务系统号-->
+		,TRADE_FLOW  <!--交易流水号-->
+		,AMOUNT  <!--金额-->
+		,ORIGINAL_AMOUNT  <!--原始金额-->
+		,THIRD_PARTY_TRADE_FLOW  <!--第三方交易流水号-->
+		,TRADE_TIME  <!--商户清算时间-->
+		,CURRENT_INDEX  <!--当前索引值-->
+		,ACCOUNT_STATUS  <!--与第三方对账状态0=对账失败 1=对账成功-->
+		,BIZSYS_ACCOUNT_STATUS  <!--与业务系统对账状态 0=未对账，1=已对账-->
+		,FAILED_REASON  <!--对账失败原因  原始交易订单不存在订单状态不匹配（第三方成功，我方失败）交易金额不匹配-->
+		,CREATE_TIME  <!--创建时间-->
+		,BIZ_FLOW  <!--业务流水号-->
+		,ACCOUNT_DAY
+		,TASK_AMOUNT
+  </sql>
+  <!--用于模糊查询-->
+	<select id="select_tppAccountInfoList" resultType="java.util.HashMap">
+		SELECT * FROM (
+			SELECT X.*,ROWNUM RN,(select app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME,
+			(select dic_name from dd_t_dictionary t where t.dic_type='3' and t.dic_code=X.THIRD_TYPE_NO) THIRD_PAY_NAME
+			FROM (
+			SELECT * FROM (
+			 SELECT  <include refid="Account_info_Column_List"/> FROM TPP_ACCOUNT_INFO 
+			  	UNION ALL 
+			  SELECT <include refid="Account_info_Column_List"/> FROM TPP_ACCOUNT_INFO_HIS
+			  )
+			  WHERE 1=1 
+			  	<if test="SEARCH_THIRD_TYPE_NO != null and SEARCH_THIRD_TYPE_NO != ''">
+			    	and THIRD_TYPE_NO = #{SEARCH_THIRD_TYPE_NO}
+			    </if> 
+			    <if test="SEARCH_MERCHANT_NO != null and SEARCH_MERCHANT_NO != ''">
+			    	and MERCHANT_NO = #{SEARCH_MERCHANT_NO}
+			    </if> 
+			    <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+			    	and BIZ_TYPE = #{SEARCH_BIZ_TYPE}
+			    </if> 
+			    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+			    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+			    </if> 
+			    <if test="SEARCH_TRADE_FLOW != null and SEARCH_TRADE_FLOW != ''">
+			    	and TRADE_FLOW = #{SEARCH_TRADE_FLOW}
+			    </if> 
+			    <if test="SEARCH_THIRD_PARTY_TRADE_FLOW != null and SEARCH_THIRD_PARTY_TRADE_FLOW != ''">
+			    	and THIRD_PARTY_TRADE_FLOW = #{SEARCH_THIRD_PARTY_TRADE_FLOW}
+			    </if> 
+			    <if test="SEARCH_ACCOUNT_STATUS != null and SEARCH_ACCOUNT_STATUS != ''">
+			    	and ACCOUNT_STATUS = #{SEARCH_ACCOUNT_STATUS}
+			    </if> 
+			    <if test="SEARCH_BIZSYS_ACCOUNT_STATUS != null and SEARCH_BIZSYS_ACCOUNT_STATUS != ''">
+			    	and BIZSYS_ACCOUNT_STATUS = #{SEARCH_BIZSYS_ACCOUNT_STATUS}
+			    </if> 
+			    <if test="SEARCH_BIZ_FLOW != null and SEARCH_BIZ_FLOW != ''">
+			    	and BIZ_FLOW = #{SEARCH_BIZ_FLOW}
+			    </if> 
+			    <if test="SEARCH_ACCOUNT_BEGIN_DATE != null and SEARCH_ACCOUNT_BEGIN_DATE != ''">
+			    	and account_day >= #{SEARCH_ACCOUNT_BEGIN_DATE}
+			    </if>
+			    <if test="SEARCH_ACCOUNT_END_DATE != null and SEARCH_ACCOUNT_END_DATE != ''">
+			    	and account_day <![CDATA[<=]]> #{SEARCH_ACCOUNT_END_DATE} 
+			    </if>
+			    <if test="orderStr != null">
+			  		${orderStr} 
+			  	</if>
+			<![CDATA[
+				 ) X WHERE ROWNUM  <= #{rowEnd}
+				) WHERE RN >= #{rowBegin}
+			]]>
+	</select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppAccountInfoList_count"  resultType="int">
+			SELECT  count(ID) FROM (
+				SELECT <include refid="Account_info_Column_List"/>
+			    FROM TPP_ACCOUNT_INFO 
+			    	union all 
+			    SELECT <include refid="Account_info_Column_List"/>
+			    FROM TPP_ACCOUNT_INFO_HIS
+			    )
+			WHERE 1=1 	
+				<if test="SEARCH_THIRD_TYPE_NO != null and SEARCH_THIRD_TYPE_NO != ''">
+			    	and THIRD_TYPE_NO = #{SEARCH_THIRD_TYPE_NO}
+			    </if> 
+			    <if test="SEARCH_MERCHANT_NO != null and SEARCH_MERCHANT_NO != ''">
+			    	and MERCHANT_NO = #{SEARCH_MERCHANT_NO}
+			    </if> 
+			    <if test="SEARCH_BIZ_TYPE != null and SEARCH_BIZ_TYPE != ''">
+			    	and BIZ_TYPE = #{SEARCH_BIZ_TYPE}
+			    </if> 
+			    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO != ''">
+			    	and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+			    </if> 
+			    <if test="SEARCH_TRADE_FLOW != null and SEARCH_TRADE_FLOW != ''">
+			    	and TRADE_FLOW = #{SEARCH_TRADE_FLOW}
+			    </if> 
+			    <if test="SEARCH_THIRD_PARTY_TRADE_FLOW != null and SEARCH_THIRD_PARTY_TRADE_FLOW != ''">
+			    	and THIRD_PARTY_TRADE_FLOW = #{SEARCH_THIRD_PARTY_TRADE_FLOW}
+			    </if> 
+			    <if test="SEARCH_ACCOUNT_STATUS != null and SEARCH_ACCOUNT_STATUS != ''">
+			    	and ACCOUNT_STATUS = #{SEARCH_ACCOUNT_STATUS}
+			    </if> 
+			    <if test="SEARCH_BIZSYS_ACCOUNT_STATUS != null and SEARCH_BIZSYS_ACCOUNT_STATUS != ''">
+			    	and BIZSYS_ACCOUNT_STATUS = #{SEARCH_BIZSYS_ACCOUNT_STATUS}
+			    </if> 
+			    <if test="SEARCH_BIZ_FLOW != null and SEARCH_BIZ_FLOW != ''">
+			    	and BIZ_FLOW = #{SEARCH_BIZ_FLOW}
+			    </if> 
+			    <if test="SEARCH_ACCOUNT_BEGIN_DATE != null and SEARCH_ACCOUNT_BEGIN_DATE != ''">
+			    	and account_day >= #{SEARCH_ACCOUNT_BEGIN_DATE}
+			    </if>
+			    <if test="SEARCH_ACCOUNT_END_DATE != null and SEARCH_ACCOUNT_END_DATE != ''">
+			    	and account_day <![CDATA[<=]]> #{SEARCH_ACCOUNT_END_DATE} 
+			    </if>
+	 </select>
+</mapper>

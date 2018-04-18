@@ -1,0 +1,63 @@
+@charset "utf-8";
+
+body, td, input {
+    font-family: "宋体";
+    font-size: 12px;
+}
+body, div, form, img, ul, li, p, h1, h2, h3, h4, h5, h6, dl, dt, dd {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+li {
+    list-style-type: none;
+}
+
+.FlowChart {
+    margin-left: 40%;
+    width: 238px;
+}
+.FlowChart li,.fcRi_chart li{
+    float: left;
+    height:43px;
+    width: 200px;
+}
+.FlowChart li span,.fcRi_chart li span{
+    float: left;
+}
+.FlowChart li a,.fcRi_chart li a{
+    background: none repeat scroll 0 0 green;
+    color: #fff;
+    display: inline-block;
+    height: 43px;
+    line-height: 43px;
+    text-align: center;
+    text-decoration: none;
+    width: 200px;
+    font-size: 18px;
+}
+.fc_arrow {
+    background-position: 41px 0;
+    display: inline-block;
+    height: 30px;
+    width: 104px;
+    margin-left:48%;
+    margin-top:10px;
+    background: url('../images/batch.png') no-repeat;
+}
+
+.fcRi_chart{
+	width:250px;
+	position: absolute;
+	top:0px;
+	left:260px;
+}
+
+.fcRi_arrow1{
+    height: 11px;
+    width: 30px;
+    background: url('../images/batchrig.png') no-repeat;
+	position: absolute;
+	top:15px;
+	left:220px;
+}

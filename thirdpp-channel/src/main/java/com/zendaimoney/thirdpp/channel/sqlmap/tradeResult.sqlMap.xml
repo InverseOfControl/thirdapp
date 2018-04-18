@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.channel.entity.TradeResult">
+	<typeAlias alias="TradeResult" type="com.zendaimoney.thirdpp.channel.entity.TradeResult" />
+
+	<resultMap id="TradeResultMap" class="TradeResult">
+	<result property="id" column="ID" jdbcType="java.lang.Long" />
+	<result property="paySysNo" column="PAY_SYS_NO" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="transferFlow" column="TRANSFER_FLOW" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="payTransFlow" column="PAY_TRANS_FLOW" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="bizType" column="BIZ_TYPE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="transRepCode" column="TRANS_REP_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="transRepInfo" column="TRANS_REP_INFO" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="status" column="STATUS" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="createTime" column="CREATE_TIME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="reqId" column="REQ_ID" jdbcType="java.lang.String"  nullValue=""/>
+	</resultMap>
+	
+	<insert id="insert" parameterClass="TradeResult">
+		INSERT INTO
+		TPP_CHANNEL_TRADE_RESULT(ID,PAY_SYS_NO,TRANSFER_FLOW,
+		PAY_TRANS_FLOW,BIZ_TYPE,TRANS_REP_CODE,TRANS_REP_INFO
+		,STATUS,CREATE_TIME,REQ_ID,UPDATE_TIME)
+		VALUES
+		(SEQ_TPP_CHANNEL_TRADE_RESULT.Nextval,#paySysNo#
+		,#transferFlow#,#payTransFlow#,#bizType#,#transRepCode#,#transRepInfo#
+		,#status#,sysdate,#reqId#,sysdate)
+	</insert> 
+
+</sqlMap>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace = "com.zendaimoney.thirdpp.account.entity.ChannelAccountRequest">
+	
+	<typeAlias alias = "ChannelAccountRequest" type = "com.zendaimoney.thirdpp.account.entity.ChannelAccountRequest"/>
+	<resultMap id = "ChannelAccountRequestMap" class = "ChannelAccountRequest">
+		<result column = "REQ_ID" property = "reqId" jdbcType = "java.lang.String"/>
+		<result column = "APP_NAME" property = "appName" jdbcType = "java.lang.String"/>
+		<result column = "THIRD_TYPE_NO" property = "thirdTypeNo" jdbcType = "java.lang.String"/>
+		<result column = "MERCHANT_NO" property = "merchantNo" jdbcType = "java.lang.String"/>
+		<result column = "BIZ_TYPE" property = "bizType" jdbcType = "java.lang.String"/>
+		<result column = "ACCOUNT_DAY" property = "accountDay" jdbcType = "java.lang.String"/>
+		<result column = "CONFIG_ID" property = "configId" jdbcType = "java.lang.Integer"/>
+		<result column = "DOWNLOAD_START_TIME" property = "downloadStartTime" jdbcType = "java.util.Date"/>
+		<result column = "DOWNLOAD_FAILED_TIMES" property = "downloadFailedTimes" jdbcType = "java.lang.Integer" nullValue="0"/>
+		<result column = "DOWNLOAD_FILE_NAME" property = "downloadFileName" jdbcType = "java.lang.String"/>
+		<result column = "DOWNLOAD_FILE_SIZE" property = "downloadFileSize" jdbcType = "java.lang.Long"/>
+		<result column = "DOWNLOAD_FILE_PATH" property = "downloadFilePath" jdbcType = "java.lang.String"/>
+		<result column = "DOWNLOAD_END_TIME" property = "downloadEndTime" jdbcType = "java.util.Date"/>
+		<result column = "TOTAL_COUNT_AMOUNT_DESC" property = "totalCountAmountDesc" jdbcType = "java.lang.String"/>
+		<result column = "INSERT_START_TIME" property = "insertStartTime" jdbcType = "java.util.Date"/>
+		<result column = "INSERT_FAILED_TIMES" property = "insertFailedTimes" jdbcType = "java.lang.Integer" nullValue="0"/>
+		<result column = "INSERT_END_TIME" property = "insertEndTime" jdbcType = "java.util.Date"/>
+		<result column = "ACCOUNT_FAILED_TIMES" property = "accountFailedTimes" jdbcType = "java.lang.Integer" nullValue="0"/>
+		<result column = "BACKUP_START_TIME" property = "backupStartTime" jdbcType = "java.util.Date"/>
+		<result column = "BACKUP_FAILED_TIMES" property = "backupFailedTimes" jdbcType = "java.lang.Integer" nullValue="0"/>
+		<result column = "BACKUP_END_TIME" property = "backupEndTime" jdbcType = "java.util.Date"/>
+		<result column = "STATUS" property = "status" jdbcType = "java.lang.Integer"/>
+		<result column = "HANDLE_ACCOUNT_STATUS" property = "handleAccountStatus" jdbcType = "java.lang.Integer" nullValue="0"/>
+		<result column = "FAILED_REASON" property = "failedReason" jdbcType = "java.lang.String"/>
+		<result column = "CREATE_TIME" property = "createTime" jdbcType = "java.util.Date"/>
+		<result column = "UPDATE_TIME" property = "updateTime" jdbcType = "java.util.Date"/>
+		<result column = "SPARE1" property = "spare1" jdbcType = "java.lang.String"/>
+		<result column = "SPARE2" property = "spare2" jdbcType = "java.lang.String"/>
+	</resultMap>
+	
+	<select id = "queryChannelAccountRequestByConfig" resultMap = "ChannelAccountRequestMap" parameterClass = "java.util.Map">
+		select * 
+		from TPP_ACCOUNT_CHANNEL_REQUEST 
+		where THIRD_TYPE_NO = #thirdTypeNo# 
+		and MERCHANT_NO = #merchantNo# 
+		and CONFIG_ID = #configId# 
+		and ACCOUNT_DAY = #accountDay# 
+		<![CDATA[and rownum <= 1]]>
+	</select>
+	
+	<insert id = "insert" parameterClass = "ChannelAccountRequest">
+		insert into TPP_ACCOUNT_CHANNEL_REQUEST (REQ_ID, THIRD_TYPE_NO, MERCHANT_NO, BIZ_TYPE, ACCOUNT_DAY, CONFIG_ID, DOWNLOAD_START_TIME, 
+			DOWNLOAD_FAILED_TIMES, DOWNLOAD_FILE_NAME, DOWNLOAD_FILE_SIZE, DOWNLOAD_FILE_PATH, DOWNLOAD_END_TIME, 
+			TOTAL_COUNT_AMOUNT_DESC, INSERT_START_TIME, INSERT_FAILED_TIMES, INSERT_END_TIME, ACCOUNT_FAILED_TIMES, BACKUP_START_TIME, BACKUP_FAILED_TIMES, 
+			BACKUP_END_TIME, STATUS, HANDLE_ACCOUNT_STATUS, FAILED_REASON, CREATE_TIME, UPDATE_TIME, SPARE1, SPARE2, APP_NAME)
+		values(#reqId#, #thirdTypeNo#, #merchantNo#, #bizType#, #accountDay#, #configId#, #downloadStartTime#, #downloadFailedTimes#, 
+		#downloadFileName#, #downloadFileSize#, #downloadFilePath#, 
+		#downloadEndTime#, #totalCountAmountDesc#, #insertStartTime#, #insertFailedTimes#, #insertEndTime#, #accountFailedTimes#, #backupStartTime#, #backupFailedTimes#, 
+		#backupEndTime#, #status#, #handleAccountStatus#, #failedReason#, sysdate, #updateTime#, #spare1#, #spare2#, #appName#)
+	</insert>
+	
+	<insert id = "update" parameterClass = "ChannelAccountRequest">
+		update TPP_ACCOUNT_CHANNEL_REQUEST 
+		set UPDATE_TIME = sysdate 
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="handleAccountStatus">
+			HANDLE_ACCOUNT_STATUS=#handleAccountStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="downloadStartTime">
+			DOWNLOAD_START_TIME=#downloadStartTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="downloadFailedTimes">
+			DOWNLOAD_FAILED_TIMES=#downloadFailedTimes#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="downloadFileName">
+			DOWNLOAD_FILE_NAME=#downloadFileName#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="downloadFileSize">
+			DOWNLOAD_FILE_SIZE=#downloadFileSize#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="downloadFilePath">
+			DOWNLOAD_FILE_PATH=#downloadFilePath#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="downloadEndTime">
+			DOWNLOAD_END_TIME=#downloadEndTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="totalCountAmountDesc">
+			TOTAL_COUNT_AMOUNT_DESC=#totalCountAmountDesc#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="insertStartTime">
+			INSERT_START_TIME=#insertStartTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="insertFailedTimes">
+			INSERT_FAILED_TIMES=#insertFailedTimes#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="insertEndTime">
+			INSERT_END_TIME=#insertEndTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="accountFailedTimes">
+			ACCOUNT_FAILED_TIMES=#accountFailedTimes#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="backupStartTime">
+			BACKUP_START_TIME=#backupStartTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="backupFailedTimes">
+			BACKUP_FAILED_TIMES=#backupFailedTimes#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="backupEndTime">
+			BACKUP_END_TIME=#backupEndTime#
+		</isNotEmpty>
+		<isNotNull prepend="," property="failedReason">
+			FAILED_REASON=#failedReason#
+		</isNotNull>
+		<isNotEmpty prepend="," property="spare1">
+			SPARE1=#spare1#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="spare2">
+			SPARE2=#spare2#
+		</isNotEmpty>
+		 where REQ_ID = #reqId#
+	</insert>
+	
+	<select id = "queryChannelAccountRequestByRequestId" resultMap = "ChannelAccountRequestMap" parameterClass = "java.util.Map">
+		select * from TPP_ACCOUNT_CHANNEL_REQUEST where REQ_ID = #requestId#
+	</select>
+	
+	<insert id = "updateHandleAccountStatus" parameterClass = "ChannelAccountRequest">
+		update TPP_ACCOUNT_CHANNEL_REQUEST 
+		set UPDATE_TIME = sysdate 
+		<isNotEmpty prepend="," property="handleAccountStatus">
+			HANDLE_ACCOUNT_STATUS=#handleAccountStatus#
+		</isNotEmpty>
+		where REQ_ID = #reqId# 
+		and (HANDLE_ACCOUNT_STATUS = 0 or HANDLE_ACCOUNT_STATUS = 2)
+	</insert>
+	
+</sqlMap>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.notify.entity.SysApp">
+	<typeAlias alias="SysApp"
+		type="com.zendaimoney.thirdpp.notify.entity.SysApp" />
+	<resultMap id="SysAppMap" class="SysApp">
+		<result column="ID" property="id" jdbcType="java.lang.Long" />
+		<result column="APP_NAME" property="appName" jdbcType="java.lang.String"
+			nullValue="" />
+		<result column="APP_CODE" property="appCode" jdbcType="java.lang.String"
+			nullValue="" />
+		<result column="IS_FLAG" property="isFlag"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="CONTACT_NAME" property="contactName"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="CONTACT_MOBILE" property="contactMobile" jdbcType="java.lang.String"
+			nullValue="" />
+		<result column="REMARK" property="remark"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="CREATE_TIME" property="createTime"
+			jdbcType="java.util.Date"  />
+		<result column="CREATER" property="creater" jdbcType="java.lang.String"
+			nullValue="" />
+		<result column="UPDATE_TIME" property="updateTime"
+			jdbcType="java.util.Date"  />
+		<result column="UPDATER" property="updater"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="SPARE1" property="spare1"
+			jdbcType="java.lang.String" nullValue="" />
+		<result column="SPARE2" property="spare2"
+			jdbcType="java.lang.String" nullValue="" />
+			
+		<result column="COLLECT_NOTIFY_URL" property="collectNotifyUrl"
+			jdbcType="java.lang.String" nullValue="" />
+			
+		<result column="PAY_NOTIFY_URL" property="payNotifyUrl"
+		jdbcType="java.lang.String" nullValue="" />
+		
+		<result column="CASH_BACK_NOTIFY_URL" property="cashBackNotifyUrl"
+		jdbcType="java.lang.String" nullValue="" />
+		
+		<result column="CASH_DRAW_NOTIFY_URL" property="cashDrawNotifyUrl"
+		jdbcType="java.lang.String" nullValue="" />
+		
+		<result column="ORDER_PAY_NOTIFY_URL" property="orderPayNotifyUrl"
+		jdbcType="java.lang.String" nullValue="" />
+	</resultMap>
+	
+	<select id="selectUrlByAppCode" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select notify_url from tpp_sys_app 
+		where app_code = #appCode#
+	</select>
+	
+	<select id="queryAppUrlByAppCode" parameterClass="java.lang.String" resultMap="SysAppMap">
+		select *
+		from tpp_sys_app 
+		where app_code = #appCode#
+		<![CDATA[and rownum <= 1]]>
+	</select>
+</sqlMap>

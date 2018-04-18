@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TAppIpsMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TAppIps">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="APP_CODE" jdbcType="VARCHAR" property="appCode" />
+		<result column="APP_NAME" jdbcType="VARCHAR" property="appName" />
+		<result column="IP" jdbcType="VARCHAR" property="ip" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="CREATER" jdbcType="VARCHAR" property="creater" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+		<!-- <collection property="permissions" resultMap="com.zdmoney.manager.mapper.TSysPermissionMapper.BaseResultMap"/> -->
+	</resultMap>
+	<sql id="Base_Column_List">
+		ips.ID,
+		ips.APP_CODE,
+		app.APP_NAME,
+		ips.IP,
+		ips.CREATE_TIME,
+		ips.CREATER,
+		ips.UPDATE_TIME,
+		ips.UPDATER
+	</sql>
+	<select id="getappIpsList" resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN ,(select t1.USER_NAME from T_SYS_USER t1 where t1.LOGIN_USER_NAME =x.CREATER) CREATER_NAME,
+				(select t2.USER_NAME from T_SYS_USER t2 where t2.LOGIN_USER_NAME =x.UPDATER) UPDATER_NAME FROM ( select
+		<include refid="Base_Column_List"></include>
+		from tpp_sys_app_ips ips left join tpp_sys_app app on
+		ips.app_code=app.app_code where 1=1
+		<if test="appId != null and appId !=''">
+			and app.ID = #{appId}
+		</if>
+		<if test="appName != null and appName!=''">
+			and app.APP_NAME like '%${appName}%'
+		</if>
+		<if test="appCode != null and appCode!=''">
+			and ips.APP_CODE = #{appCode}
+		</if>
+		<if test="ip != null and ip!=''">
+			and ips.ip = #{ip}
+		</if>
+		<if test="beginTime != null and beginTime!=''">
+			and ips.CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and ips.CREATE_TIME &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss')
+		</if> 
+		order by CREATE_TIME desc  
+    <![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+	</select>
+	<select id="getappIpsListCount" resultType="Integer">
+		select count(ips.ID) from tpp_sys_app_ips ips left join tpp_sys_app app on
+		ips.app_code=app.app_code where 1=1
+		<if test="appId != null and appId !=''">
+			and app.ID = #{appId}
+		</if>
+		<if test="appName != null and appName!=''">
+				and app.APP_NAME like '%${appName}%'
+		</if>
+		<if test="appCode != null and appCode!=''">
+			and ips.APP_CODE = #{appCode}
+		</if>
+		<if test="ip != null and ip!=''">
+			and ips.ip = #{ip}
+		</if>
+		<if test="beginTime != null and beginTime!=''">
+			and ips.CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and ips.CREATE_TIME &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+
+
+	</select>
+	<select id="selectAppIpsByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List"></include>
+		from tpp_sys_app_ips ips inner join tpp_sys_app app on
+		ips.app_code=app.app_code
+		where ips.ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TAppIps">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_SYS_APP_IPS.nextval from dual
+		</selectKey>
+		insert into TPP_SYS_APP_IPS(id,APP_CODE,IP,CREATE_TIME,CREATER)
+		values(#{id,jdbcType=DECIMAL},#{appCode,jdbcType=VARCHAR},#{ip,jdbcType=VARCHAR},sysdate,
+		#{creater,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateAppIps" parameterType="com.zdmoney.manager.models.TAppIps">
+		update TPP_SYS_APP_IPS
+		set APP_CODE= #{appCode,jdbcType=VARCHAR},
+		IP = #{ip,jdbcType=VARCHAR},
+		UPDATE_TIME =SYSDATE,
+		UPDATER = #{updater,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<!-- 批量删除 -->
+	<delete id="batchDeleteIps" parameterType="java.util.List">
+		delete from TPP_SYS_APP_IPS where ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>

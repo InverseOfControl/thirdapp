@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.transfer.entity.SysThirdChannelInfo">
+	<typeAlias alias="SysThirdChannelInfo" type="com.zendaimoney.thirdpp.transfer.entity.SysThirdChannelInfo" />
+
+	<resultMap id="SysThirdChannelInfoMap" class="SysThirdChannelInfo">
+	<result property="id" column="ID" jdbcType="java.lang.Long"/>
+	<result property="channelName" column="CHANNEL_NAME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="thirdTypeNo" column="THIRD_TYPE_NO" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="merchantType" column="MERCHANT_TYPE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="userName" column="USER_NAME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="userPwd" column="USER_PWD" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="certName" column="CERTIFICATE_NAME" jdbcType="java.lang.String"  nullValue="" />
+	<result property="certPwd" column="CERTIFICATE_PWD" jdbcType="java.lang.String"  nullValue="" />
+	<result property="creater" column="CREATER"  jdbcType="java.lang.String" nullValue="" />
+    <result property="createTime" column="CREATE_TIME"  jdbcType="java.lang.String" nullValue="" />
+    <result property="updateTime" column="UPDATE_TIME"  jdbcType="java.lang.String" nullValue="" />
+    <result property="updater" column="UPDATER"  jdbcType="java.lang.String" nullValue="" />
+    <result property="merchantNo" column="CERTIFICATE_NO"  jdbcType="java.lang.String" nullValue="" />
+    <result property="status" column="STATUS" jdbcType="java.lang.Integer"/>
+	</resultMap>
+	
+	<select id="querySysThirdChannelInfos"  resultMap="SysThirdChannelInfoMap">
+		select t.id,t.channel_name,t.third_type_no,t.merchant_type,t.user_name,t.user_pwd,t.certificate_name,t.certificate_pwd,t.creater,t.create_time,t.update_time,t.updater,t.CERTIFICATE_NO,t.STATUS from tpp_sys_t_third_channel_info t
+	</select>
+
+</sqlMap>

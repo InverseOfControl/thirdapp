@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TSysRoleMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TSysRole">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="UPDATOR" jdbcType="VARCHAR" property="updator" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="RESV_FLD1" jdbcType="VARCHAR" property="resvFld1" />
+    <result column="RESV_FLD2" jdbcType="VARCHAR" property="resvFld2" />
+    <result column="RESV_FLD3" jdbcType="VARCHAR" property="resvFld3" />
+    <result column="IS_ACTIVE" jdbcType="VARCHAR" property="isActive" />
+<!--     <collection property="permissions" resultMap="com.zdmoney.manager.mapper.TSysPermissionMapper.BaseResultMap"/> -->
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ROLE_NAME, CREATOR, UPDATOR, CREATE_TIME, UPDATE_TIME, RESV_FLD1, RESV_FLD2, 
+    RESV_FLD3, IS_ACTIVE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_ROLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SYS_ROLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TSysRole">
+   <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_SYS_ROLE.nextval from dual
+    </selectKey>
+    insert into T_SYS_ROLE (ID, ROLE_NAME, CREATOR, 
+      UPDATOR, CREATE_TIME, UPDATE_TIME, 
+      RESV_FLD1, RESV_FLD2, RESV_FLD3, 
+      IS_ACTIVE)
+    values (#{id,jdbcType=DECIMAL}, #{roleName,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{updator,jdbcType=VARCHAR}, sysdate, sysdate, 
+      #{resvFld1,jdbcType=VARCHAR}, #{resvFld2,jdbcType=VARCHAR}, #{resvFld3,jdbcType=VARCHAR}, 
+      #{isActive,jdbcType=VARCHAR})
+       <!-- 
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_SYS_ROLE.nextval from dual
+    </selectKey>
+	merge into T_SYS_ROLE t using dual on ( t.role_name =#{roleName,jdbcType=VARCHAR}) 
+	when not matched then
+	  insert(ID, ROLE_NAME, CREATOR, 
+	      UPDATOR, CREATE_TIME, UPDATE_TIME, 
+	      RESV_FLD1, RESV_FLD2, RESV_FLD3, 
+	      IS_ACTIVE)
+	    values (#{id,jdbcType=DECIMAL}, #{roleName,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+	      #{updator,jdbcType=VARCHAR}, sysdate, sysdate, 
+	      #{resvFld1,jdbcType=VARCHAR}, #{resvFld2,jdbcType=VARCHAR}, #{resvFld3,jdbcType=VARCHAR}, 
+	      #{isActive,jdbcType=VARCHAR}) -->
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TSysRole">
+    insert into T_SYS_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="roleName != null">
+        ROLE_NAME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="updator != null">
+        UPDATOR,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="resvFld1 != null">
+        RESV_FLD1,
+      </if>
+      <if test="resvFld2 != null">
+        RESV_FLD2,
+      </if>
+      <if test="resvFld3 != null">
+        RESV_FLD3,
+      </if>
+      <if test="isActive != null">
+        IS_ACTIVE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null">
+        #{updator,jdbcType=VARCHAR},
+      </if>
+        sysdate,
+        sysdate,
+      <if test="resvFld1 != null">
+        #{resvFld1,jdbcType=VARCHAR},
+      </if>
+      <if test="resvFld2 != null">
+        #{resvFld2,jdbcType=VARCHAR},
+      </if>
+      <if test="resvFld3 != null">
+        #{resvFld3,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null">
+        #{isActive,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.manager.models.TSysRole">
+    update T_SYS_ROLE
+    <set>
+      <if test="roleName != null">
+        ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null">
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+        UPDATE_TIME = sysdate,
+      <if test="resvFld1 != null">
+        RESV_FLD1 = #{resvFld1,jdbcType=VARCHAR},
+      </if>
+      <if test="resvFld2 != null">
+        RESV_FLD2 = #{resvFld2,jdbcType=VARCHAR},
+      </if>
+      <if test="resvFld3 != null">
+        RESV_FLD3 = #{resvFld3,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null">
+        IS_ACTIVE = #{isActive,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.manager.models.TSysRole">
+    update T_SYS_ROLE
+    set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      UPDATOR = #{updator,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate,
+      RESV_FLD1 = #{resvFld1,jdbcType=VARCHAR},
+      RESV_FLD2 = #{resvFld2,jdbcType=VARCHAR},
+      RESV_FLD3 = #{resvFld3,jdbcType=VARCHAR},
+      IS_ACTIVE = #{isActive,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="getRoleList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_ROLE where 1=1
+    <if test="roleName != null">
+        and ROLE_NAME like '%'||(#{roleName})||'%'
+    </if> 
+    <if test="isActive != null">
+        and IS_ACTIVE = #{isActive}
+    </if> 
+    <if test="beginTime != null">
+        and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-MM-dd')  
+    </if> 
+    <if test="endTime != null">
+        and CREATE_TIME &lt;= to_date(#{endTime},'yyyy-MM-dd')  
+    </if>    
+  </select>
+  <!-- 查询用户对于的角色列表 -->
+  <select id="getRolesByUser" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select 
+    r.ID, r.ROLE_NAME, r.CREATOR, r.UPDATOR, r.CREATE_TIME, r.UPDATE_TIME, r.RESV_FLD1, r.RESV_FLD2, 
+    r.RESV_FLD3, r.IS_ACTIVE
+    from T_SYS_USER_ROLE ur left join T_SYS_ROLE r on ur.ROLE_ID=r.ID
+    where 1=1
+    <if test="userId != null">
+        and ur.USER_ID = #{userId}
+    </if> 
+    order by r.id
+  </select>
+  
+  <!-- 查询除分配给用户的其他角色 -->
+  <select id="getOtherRoles" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_ROLE where IS_ACTIVE=1
+    <if test="userId != null">
+        and ID not in(select t.ROLE_ID from T_SYS_USER_ROLE t where t.USER_ID = #{userId})
+    </if> 
+  </select>
+  
+  <!-- 查询一个角色列表中已分配给用户的数量 -->
+  <select id="getRoleUsedCount" parameterType="java.util.List" resultType="int">
+    select count(ID) from T_SYS_USER_ROLE where ROLE_ID in  
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+        #{item}   
+    </foreach>  
+  </select>
+  
+   <!-- 批量删除 -->
+  <delete id="batchDeleteRole" parameterType="java.util.List">  
+    delete from T_SYS_ROLE where ID in  
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+        #{item}   
+    </foreach>  
+</delete>
+
+
+	 <select id="select_tSysRoleByRoleName" resultType="java.util.HashMap">
+	 	select *  FROM T_SYS_ROLE
+			  WHERE 1=1 
+			  	and ROLE_NAME = #{roleName}
+	 </select>
+	 
+     <select id="select_tSysRoleList" resultType="java.util.HashMap">
+      SELECT * FROM (
+			SELECT X.*,ROWNUM RN FROM (
+	          SELECT  
+			 		ID  <!--主键ID-->
+			  		,ROLE_NAME  <!--角色名称-->
+			  		,CREATOR  <!--创建者-->
+			  		,UPDATOR  <!--更新者-->
+			  		,CREATE_TIME  <!--创建时间-->
+			  		,UPDATE_TIME  <!--更新时间-->
+			  		,RESV_FLD1  <!--备用域1-->
+			  		,RESV_FLD2  <!--备用域2-->
+			  		,RESV_FLD3  <!--备用域3-->
+			  		,IS_ACTIVE  <!--是否有效-->
+			  FROM T_SYS_ROLE
+			  WHERE 1=1 
+			  <if test="SEARCH_ROLE_NAME != null and SEARCH_ROLE_NAME != ''">
+			  	and ROLE_NAME like '%'||(#{SEARCH_ROLE_NAME})||'%'
+			  </if>
+		  	<if test="orderStr != null">
+			  	 	 ${orderStr} 
+		  	</if>
+		<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+     </select>
+     
+     <select id="select_tSysRoleList_count"  resultType="int">
+			SELECT  count(ID)
+		    FROM T_SYS_ROLE
+			WHERE 1=1
+			<if test="SEARCH_ROLE_NAME != null and SEARCH_ROLE_NAME != ''">
+			  	and ROLE_NAME like '%'||(#{SEARCH_ROLE_NAME})||'%'
+			  </if>    
+	 </select>
+	 
+	 <!-- 角色——用户 -->
+	 <select id="select_tSysUserListByRole" resultType="java.util.HashMap">
+		 SELECT * FROM (
+			SELECT X.*,ROWNUM RN,(select USER_NAME from T_sys_user t1 where t1.login_user_name=x.CREATOR) CREATOR_NAME,(select USER_NAME from T_sys_user t2 where t2.login_user_name=x.UPDATOR) UPDATOR_NAME FROM (
+			 select * from t_sys_user t1 
+			 	where t1.id in (select t2.user_id from t_sys_user_role t2 where t2.role_id=#{roleId})
+			 	<if test="orderStr != null">
+			  	 	 ${orderStr} 
+			  	</if>
+			<![CDATA[
+				 ) X WHERE ROWNUM  <= #{rowEnd}
+				) WHERE RN >= #{rowBegin}
+			]]>
+     </select>
+     
+     <select id="select_tSysUserListByRole_count"  resultType="int">
+		select count(t1.ID) from t_sys_user t1 
+	 		where t1.id in (select t2.user_id from t_sys_user_role t2 where t2.role_id=#{roleId})  
+	 </select>
+	 <!-- 角色——系统 -->
+	 <select id="select_tSysAppListByRole" resultType="java.util.HashMap">
+		 SELECT * FROM (
+			SELECT X.*,ROWNUM RN,(select USER_NAME from T_sys_user t1 where t1.login_user_name=x.creater) CREATER_NAME,(select USER_NAME from T_sys_user t2 where t2.login_user_name=x.updater) UPDATER_NAME FROM (
+			 	select * from tpp_sys_app t1 
+			 		where t1.id in (select t2.app_id from t_sys_role_app t2 where t2.role_id=#{roleId}) 
+			 	<if test="orderStr != null">
+			  	 	 ${orderStr} 
+			  	</if>
+			<![CDATA[
+				 ) X WHERE ROWNUM  <= #{rowEnd}
+				) WHERE RN >= #{rowBegin}
+			]]>
+     </select>
+     
+     <select id="select_tSysAppListByRole_count"  resultType="int">
+	 	select count(t1.ID) from tpp_sys_app t1 
+			where t1.id in (select t2.app_id from t_sys_role_app t2 where t2.role_id=#{roleId}) 
+	 </select>
+	 
+	 <delete id="delete_role_app">
+	 	delete from t_sys_role_app where role_id=#{roleId} and app_id=#{appId}
+	 </delete>
+	 <delete id="delete_roleAppByRole" parameterType="java.lang.Long">
+	 	delete from t_sys_role_app where role_id=#{roleId}
+	 </delete>
+	 <delete id="delete_roleUser">
+	 	delete from t_sys_user_role t where user_id=#{userId} and role_id=#{roleId}
+	 </delete>
+	 
+	 <delete id="delete_roleUserByRole" parameterType="java.lang.Long">
+	 	delete from t_sys_user_role t where role_id=#{roleId}
+	 </delete>
+	 
+	 <select id="select_appList" resultType="java.util.HashMap">
+	 	select * from tpp_sys_app t 
+	 </select>
+	 
+	 <select id="select_appListByRole" resultType="java.util.HashMap">
+	 	select * from t_sys_role_app t where role_id = #{roleId}
+	 </select>
+	 <insert id="insert_sysRoleApp" parameterType="com.zdmoney.manager.models.TSysRoleApp" >
+	 	
+	 
+	 	<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+	       select SEQ_SYS_ROLE_APP.nextval from dual
+	    </selectKey>
+	    insert into T_SYS_ROLE_APP (ID, ROLE_ID, APP_ID, 
+	      CREATOR, UPDATOR, CREATE_TIME, 
+	      UPDATE_TIME, RESV_FLD1, RESV_FLD2, 
+	      RESV_FLD3)
+	    values (#{id,jdbcType=DECIMAL}, #{roleId,jdbcType=DECIMAL}, #{appId,jdbcType=DECIMAL}, 
+	      #{creator,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}, sysdate, 
+	     sysdate, #{resvFld1,jdbcType=VARCHAR}, #{resvFld2,jdbcType=VARCHAR}, 
+	      #{resvFld3,jdbcType=VARCHAR})
+	  </insert>
+	  
+	  <select id="select_notRoleUserByRole" resultType="java.util.HashMap">
+	  	<!-- select * from t_sys_user t1 where t1.id not in (select t2.user_id from t_sys_user_role t2 where t2.role_id=#{roleId}) -->
+	  	SELECT * FROM (
+		SELECT X.*,ROWNUM RN,(select USER_NAME from T_sys_user t1 where t1.login_user_name=x.CREATOR) CREATOR_NAME,(select USER_NAME from T_sys_user t2 where t2.login_user_name=x.UPDATOR) UPDATOR_NAME FROM  (
+          SELECT  
+		 		ID  <!--主键ID-->
+		  		,USER_NAME  <!--用户名-->
+		  		,LOGIN_USER_NAME  <!--员工号作为登录名-->
+		  		,PASSWORD  <!--MD5加密-->
+		  		,EMAIL  <!--电子邮箱-->
+		  		,PHONE_NO  <!--电话号码-->
+		  		,CREATOR  <!--创建者-->
+		  		,UPDATOR  <!--更新者-->
+		  		,CREATE_TIME  <!--创建时间-->
+		  		,UPDATE_TIME  <!--更新时间-->
+		  		,RESV_FLD1  <!--备用域1-->
+		  		,RESV_FLD2  <!--备用域2-->
+		  		,RESV_FLD3  <!--备用域3-->
+		  		,IS_ACTIVE  <!--是否有效-->
+		  		,MERCHANT_CODE  <!--商户代码-->
+		  FROM T_SYS_USER
+		  WHERE id not in (select t2.user_id from t_sys_user_role t2 where t2.role_id=#{roleId}) 
+		  	<if test="SEARCH_USER_NAME != null and SEARCH_USER_NAME != ''">
+		  		and user_name=#{SEARCH_USER_NAME}
+		  	</if>
+		  	<if test="SEARCH_LOGIN_USER_NAME != null and SEARCH_LOGIN_USER_NAME != ''">
+		  		and login_user_name = #{SEARCH_LOGIN_USER_NAME}
+		  	</if>
+		  	<if test="SEARCH_IS_ACTIVE != null and SEARCH_IS_ACTIVE != ''">
+		  		and is_active = #{SEARCH_IS_ACTIVE}
+		  	</if>
+		  	<if test="orderStr != null">
+		  	 	 ${orderStr} 
+		  	</if>
+		<![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+	  </select>
+	  <!--用于查询总数-->
+     <select id="select_notRoleUserByRole_count"  resultType="int">
+			SELECT  count(ID)
+		    FROM T_SYS_USER
+			WHERE id not in (select t2.user_id from t_sys_user_role t2 where t2.role_id=#{roleId})  
+			<if test="SEARCH_USER_NAME != null and SEARCH_USER_NAME != ''">
+		  		and user_name=#{SEARCH_USER_NAME}
+		  	</if>
+		  	<if test="SEARCH_LOGIN_USER_NAME != null and SEARCH_LOGIN_USER_NAME != ''">
+		  		and login_user_name = #{SEARCH_LOGIN_USER_NAME}
+		  	</if>
+		  	<if test="SEARCH_IS_ACTIVE != null and SEARCH_IS_ACTIVE != ''">
+		  		and is_active = #{SEARCH_IS_ACTIVE}
+		  	</if>
+	 </select>
+	  <select id="select_appIdsByRoles" parameterType="java.util.List" resultType="String">
+	  	select distinct t2.app_code from t_sys_role_app t,tpp_sys_app t2 where t.app_id=t2.id and t.role_id in 
+	  	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+	        #{item}   
+	    </foreach> 
+	  </select>
+</mapper>

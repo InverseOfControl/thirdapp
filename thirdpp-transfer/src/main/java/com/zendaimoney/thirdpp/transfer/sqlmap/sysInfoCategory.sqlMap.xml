@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.transfer.entity.SysInfoCategory">
+	<typeAlias alias="SysInfoCategory" type="com.zendaimoney.thirdpp.transfer.entity.SysInfoCategory" />
+
+	<resultMap id="SysInfoCategoryMap" class="SysInfoCategory">
+	<result property="id" column="ID" jdbcType="java.lang.Long"/>
+	<result property="infoCategoryCode" column="INFO_CATEGORY_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="infoCategoryName" column="INFO_CATEGORY_NAME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="priority" column="PRIORITY" jdbcType="java.lang.Integer" />
+	<result property="creater" column="CREATER"  jdbcType="java.lang.String" nullValue="" />
+    <result property="createTime" column="CREATE_TIME"  jdbcType="java.lang.String" nullValue="" />
+    <result property="updateTime" column="UPDATE_TIME"  jdbcType="java.lang.String" nullValue="" />
+    <result property="updater" column="UPDATER"  jdbcType="java.lang.String" nullValue="" />
+    <result property="merchantType" column="MERCHANT_TYPE"  jdbcType="java.lang.String" nullValue="" />
+	</resultMap>
+	
+	<select id="querySysInfoCategorys" resultMap="SysInfoCategoryMap">
+		select t.id,t.info_category_code,t.info_category_name,t.priority,t.creater,t.create_time,t.update_time,t.updater,t.merchant_type from tpp_sys_t_info_category t 
+	</select>
+
+</sqlMap>

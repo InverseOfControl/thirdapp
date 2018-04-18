@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.query.entity.TppsysQueryInfo">
+	<typeAlias alias="TppsysQueryInfo" type="com.zendaimoney.thirdpp.query.entity.TppsysQueryInfo" />
+	<resultMap id="TppsysQueryInfoMap" class="TppsysQueryInfo">
+		<result column="ID" property="id" jdbcType="java.lang.Long" nullValue=""/>
+		<result column="BIZ_TYPE" property="bizType" jdbcType="java.lang.String" nullValue=""/>
+		<result column="PAY_SYS_NO" property="paySysNo" jdbcType="java.lang.String" nullValue="" />
+		<result column="IS_ACTIVE" property="isActive" jdbcType="java.lang.String" nullValue="0" />
+		<result column="SLEEP_TIME" property="sleepTime" jdbcType="java.lang.Long" nullValue="0" />
+		<result column="APP_NAME" property="appName" jdbcType="java.lang.String" nullValue="" />
+	</resultMap>
+
+	<select id="queryTppsysQueryInfos" parameterClass="java.util.Map" resultMap="TppsysQueryInfoMap">
+		select t.id,t.biz_type,t.pay_sys_no,t.is_active,t.sleep_time,t.app_name 
+		from tpp_sys_t_query_info t
+		where 1=1 
+		and IS_ACTIVE = '1'
+		<isNotEmpty prepend="and" property="bizType">
+			t.biz_type=#bizType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paySysNo">
+			t.pay_sys_no=#paySysNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="appName">
+			t.APP_NAME=#appName#
+		</isNotEmpty>
+	</select>
+	
+</sqlMap>

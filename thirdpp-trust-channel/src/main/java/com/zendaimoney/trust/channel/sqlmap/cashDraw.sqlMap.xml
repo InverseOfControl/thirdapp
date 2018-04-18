@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.trust.channel.entity.CashDraw">
+	<typeAlias alias="CashDraw" type="com.zendaimoney.trust.channel.entity.CashDraw" />
+
+	<resultMap id="CashDrawMap" class="CashDraw">
+		<result property="isNeedPush" column="is_need_push" jdbcType="java.lang.String" nullValue=""/>
+		<result property="isBatch" column="is_batch" jdbcType="java.lang.String" nullValue=""/>
+		<result property="batchNo" column="batch_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="tradeFlow" column="trade_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="tradeType" column="trade_type" jdbcType="java.lang.String" nullValue=""/>
+		<result property="fromAccountNo" column="from_account_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="fromClientNo" column="from_client_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="fromAdvancedAccountNo" column="from_advanced_account_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="fromAdvancedClientNo" column="from_advanced_client_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="toBankCardNo" column="to_bank_card_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="toBankCardType" column="to_bank_card_type" jdbcType="java.lang.String" nullValue=""/>
+		<result property="toBankCode" column="to_bank_code" jdbcType="java.lang.String" nullValue=""/>
+		<result property="toSubBankCode" column="to_sub_bank_code" jdbcType="java.lang.String" nullValue=""/>
+		<result property="toBankName" column="to_bank_name" jdbcType="java.lang.String" nullValue=""/>
+		<result property="toSubBankName" column="to_sub_bank_name" jdbcType="java.lang.String" nullValue=""/>
+		<result property="toName" column="to_name" jdbcType="java.lang.String" nullValue=""/>
+		<result property="amount" column="amount" jdbcType="java.math.BigDecimal" nullValue=""/>
+		<result property="feeAmount" column="fee_amount" jdbcType="java.math.BigDecimal" nullValue=""/>
+		<result property="actualAmount" column="actual_amount" jdbcType="java.math.BigDecimal" nullValue=""/>
+		<result property="currency" column="currency" jdbcType="java.lang.String" nullValue=""/>
+		<result property="status" column="status" jdbcType="java.lang.String" nullValue=""/>
+		<result property="createTime" column="create_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="creater" column="creater" jdbcType="java.lang.String" nullValue=""/>
+		<result property="ip" column="ip" jdbcType="java.lang.String" nullValue=""/>
+		<result property="mac" column="mac" jdbcType="java.lang.String" nullValue=""/>
+		<result property="bizSysNo" column="biz_sys_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="bizFlow" column="biz_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="paySysNo" column="pay_sys_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="infoCategoryCode" column="info_category_code" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respTime" column="resp_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respTimeExt" column="resp_time_ext" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respFlow" column="resp_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respAdvancedAmount" column="resp_advanced_amount" jdbcType="java.math.BigDecimal" nullValue=""/>
+		<result property="failReason" column="fail_reason" jdbcType="java.lang.String" nullValue=""/>
+		<result property="payTime" column="pay_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="payTimeExt" column="pay_time_ext" jdbcType="java.lang.String" nullValue=""/>
+		<result property="payTransFlow" column="pay_trans_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="notifyUrl" column="notify_url" jdbcType="java.lang.String" nullValue=""/>
+		<result property="settleDate" column="settle_date" jdbcType="java.lang.String" nullValue=""/>
+		<result property="note" column="note" jdbcType="java.lang.String" nullValue=""/>
+		<result property="spare1" column="spare1" jdbcType="java.lang.String" nullValue=""/>
+		<result property="spare2" column="spare2" jdbcType="java.lang.String" nullValue=""/>
+	</resultMap>
+	
+	<!-- 更新批量文件请求 -->
+	<insert id="update" parameterClass="CashDraw">
+		update TPP_TRADE_CASH_DRAW set
+		resp_time = sysdate
+		<isNotEmpty prepend="," property="status">
+			status=#status#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend="," property="failReason">
+			fail_reason=#failReason#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend="," property="settleDate">
+			settle_date=#settleDate#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend="," property="payTransFlow">
+			pay_trans_flow=#payTransFlow#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend="," property="payTimeExt">
+			pay_time_ext=#payTimeExt#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend="," property="respTimeExt">
+			resp_time_ext=#respTimeExt#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respAdvancedAmount">
+			resp_advanced_amount=#respAdvancedAmount#
+		</isNotEmpty>
+		where TRADE_FLOW=#tradeFlow#
+	 </insert>
+
+</sqlMap>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TChannelInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TChannelInfo">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="CHANNEL_NAME" jdbcType="VARCHAR" property="channelName" />
+		<result column="THIRD_TYPE_NO" jdbcType="VARCHAR" property="thirdTypeNo" />
+		<result column="THIRD_TYPE_NO" jdbcType="VARCHAR" property="thirdTypeName" />
+		<result column="MERCHANT_TYPE" jdbcType="VARCHAR" property="merchantType" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="USER_PWD" jdbcType="VARCHAR" property="userPwd" />
+		<result column="CERTIFICATE_NAME" jdbcType="VARCHAR" property="certificateName" />
+		<result column="CERTIFICATE_PWD" jdbcType="VARCHAR" property="certificatePwd" />
+		<result column="CERTIFICATE_NO" jdbcType="VARCHAR" property="certificateNo" />
+		<result column="STATUS" jdbcType="VARCHAR" property="status" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="CREATER" jdbcType="VARCHAR" property="creater" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		 ID,
+		 CHANNEL_NAME,
+		 THIRD_TYPE_NO,
+		 MERCHANT_TYPE,
+		 USER_NAME,
+		 USER_PWD,
+		 CERTIFICATE_NAME,
+		 CERTIFICATE_PWD,
+		 CREATER,
+		 CREATE_TIME,
+		 UPDATE_TIME,
+		 UPDATER,
+		 CERTIFICATE_NO,
+		 STATUS
+	</sql>
+	<select id="getChannelInfoList" resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN ,
+		(select t.DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=x.THIRD_TYPE_NO) THIRD_TYPE_NAME,  
+		(select t1.USER_NAME from T_SYS_USER t1 where t1.LOGIN_USER_NAME =x.CREATER) CREATER_NAME,
+		(select t2.USER_NAME from T_SYS_USER t2 where t2.LOGIN_USER_NAME =x.UPDATER) UPDATER_NAME FROM ( select
+		 * 
+		from TPP_SYS_T_THIRD_CHANNEL_INFO
+		 	 where 1=1 
+	   <if test="channelName != null and channelName !=''">
+			and CHANNEL_NAME like '%${channelName}%'
+		</if> 
+		<if test="merchantType != null and merchantType !=''">
+			and MERCHANT_TYPE =  #{merchantType}
+		</if>
+		<if test="status != null and status !=''">
+			and STATUS = #{status}
+		</if>
+		<if test="thirdTypeNo != null and thirdTypeNo !=''">
+			and THIRD_TYPE_NO = #{thirdTypeNo}
+		</if>
+		<if test="beginTime != null and beginTime!=''">
+			and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-MM-dd')
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and CREATE_TIME &lt;= to_date(#{endTime},'yyyy-MM-dd')
+		</if> 
+			 order by ID desc  
+    <![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+	</select>
+	<select id="getChannelInfoListCount" resultType="Integer">
+		select count(*) from TPP_SYS_T_THIRD_CHANNEL_INFO   where 1=1
+		<if test="channelName != null and channelName !=''">
+				and CHANNEL_NAME like '%${channelName}%'
+		</if>
+		<if test="merchantType != null and merchantType !=''">
+			and MERCHANT_TYPE =  #{merchantType}
+		</if>
+		<if test="status != null and status	!=''">
+			and STATUS = #{status}
+		</if>
+		 <if test="thirdTypeNo != null and thirdTypeNo !=''">
+			and THIRD_TYPE_NO = #{thirdTypeNo}
+		</if>
+		<if test="beginTime != null and beginTime!=''">
+			and CREATE_TIME &gt;= to_date(#{beginTime},'yyyy-MM-dd')
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and CREATE_TIME &lt;= to_date(#{endTime},'yyyy-MM-dd')
+		</if> 
+
+	</select>
+		<select id="selectMerchantTypeCount" resultType="Integer">
+			select count(*)	from TPP_SYS_T_THIRD_CHANNEL_INFO where MERCHANT_TYPE=#{merchantType} and  THIRD_TYPE_NO=#{thirdTypeNo}
+		</select>
+	<select id="selectChannelInfoByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+	 	*
+		from TPP_SYS_T_THIRD_CHANNEL_INFO  
+		where   ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TChannelInfo">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_SYS_T_THIRD_CHANNEL.nextval from dual
+		</selectKey>
+		insert into TPP_SYS_T_THIRD_CHANNEL_INFO(id,CHANNEL_NAME,THIRD_TYPE_NO,
+				MERCHANT_TYPE,USER_NAME,USER_PWD,CERTIFICATE_NAME,CERTIFICATE_PWD, CERTIFICATE_NO,
+				STATUS,	CREATE_TIME,CREATER)
+				 values(#{id,jdbcType=DECIMAL},#{channelName,jdbcType=VARCHAR},#{thirdTypeNo,jdbcType=VARCHAR},
+				   	 #{merchantType,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},
+				     #{userPwd,jdbcType=VARCHAR},#{certificateName,jdbcType=VARCHAR},
+				     #{certificatePwd,jdbcType=VARCHAR},#{certificateNo,jdbcType=VARCHAR},
+				     #{status,jdbcType=VARCHAR}, 
+						sysdate,
+					#{creater,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateChannelInfo" parameterType="com.zdmoney.manager.models.TChannelInfo">
+		update TPP_SYS_T_THIRD_CHANNEL_INFO
+		set CHANNEL_NAME= #{channelName,jdbcType=VARCHAR},
+		THIRD_TYPE_NO = #{thirdTypeNo,jdbcType=VARCHAR},
+		MERCHANT_TYPE = #{merchantType,jdbcType=VARCHAR},
+		USER_NAME = #{userName,jdbcType=VARCHAR},
+		USER_PWD = #{userPwd,jdbcType=VARCHAR},
+		CERTIFICATE_NAME = #{certificateName,jdbcType=VARCHAR},
+		CERTIFICATE_PWD = #{certificatePwd,jdbcType=VARCHAR},
+		CERTIFICATE_NO = #{certificateNo,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=VARCHAR},		
+		UPDATE_TIME =SYSDATE,
+		UPDATER = #{updater,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateChannelStatus">
+	update TPP_SYS_T_THIRD_CHANNEL_INFO
+		set STATUS= #{status,jdbcType=VARCHAR}
+			where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<!-- 批量删除 -->
+	<delete id="batchDeleteChannelInfo" parameterType="java.util.List">
+		delete from TPP_SYS_T_THIRD_CHANNEL_INFO where ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>

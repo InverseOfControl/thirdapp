@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppTradeTWaitingQueryMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppTradeTWaitingQuery" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TRADE_FLOW" property="tradeFlow" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE_NO" property="bizTypeNo" jdbcType="VARCHAR" />
+    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR" />
+    <result column="PAY_SYS_NO" property="paySysNo" jdbcType="VARCHAR" />
+    <result column="INFO_CATEGORY_CODE" property="infoCategoryCode" jdbcType="VARCHAR" />
+    <result column="QUERY_MODULE_NAME" property="queryModuleName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+     <result column="PAYER_ACCOUNT_NO" property="payerAccountNo" jdbcType="VARCHAR" />
+     <result column="AUDITOR" property="auditor" jdbcType="VARCHAR" />
+     <result column="AUDIT_TIME" property="auditTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TRADE_FLOW, BIZ_TYPE_NO, BIZ_SYS_NO, PAY_SYS_NO, INFO_CATEGORY_CODE, QUERY_MODULE_NAME, 
+    CREATE_TIME, UPDATE_TIME, STATUS, CREATER,AUDITOR,AUDIT_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TPP_TRADE_T_WAITING_QUERY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TPP_TRADE_T_WAITING_QUERY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppTradeTWaitingQuery" >
+  	<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_TPP_TRADE_T_WAITING_QUERY.nextval from dual
+    </selectKey>
+    insert into TPP_TRADE_T_WAITING_QUERY (ID, TRADE_FLOW, BIZ_TYPE_NO, 
+      BIZ_SYS_NO, PAY_SYS_NO, INFO_CATEGORY_CODE, 
+      QUERY_MODULE_NAME, CREATE_TIME, UPDATE_TIME, PAYER_ACCOUNT_NO,
+      STATUS, CREATER,OP_MODE)
+    values (#{id,jdbcType=DECIMAL}, #{tradeFlow,jdbcType=VARCHAR}, #{bizTypeNo,jdbcType=VARCHAR}, 
+      #{bizSysNo,jdbcType=VARCHAR}, #{paySysNo,jdbcType=VARCHAR}, #{infoCategoryCode,jdbcType=VARCHAR}, 
+      #{queryModuleName,jdbcType=VARCHAR}, sysdate, sysdate, #{payerAccountNo,jdbcType=VARCHAR},
+      #{status,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{opMode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppTradeTWaitingQuery" >
+    insert into TPP_TRADE_T_WAITING_QUERY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="tradeFlow != null" >
+        TRADE_FLOW,
+      </if>
+      <if test="bizTypeNo != null" >
+        BIZ_TYPE_NO,
+      </if>
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO,
+      </if>
+      <if test="paySysNo != null" >
+        PAY_SYS_NO,
+      </if>
+      <if test="infoCategoryCode != null" >
+        INFO_CATEGORY_CODE,
+      </if>
+      <if test="queryModuleName != null" >
+        QUERY_MODULE_NAME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="creater != null" >
+        CREATER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeFlow != null" >
+        #{tradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="bizTypeNo != null" >
+        #{bizTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizSysNo != null" >
+        #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="paySysNo != null" >
+        #{paySysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCategoryCode != null" >
+        #{infoCategoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="queryModuleName != null" >
+        #{queryModuleName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        sysdate,
+      </if>
+      <if test="updateTime != null" >
+        sysdate,
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.manager.models.TppTradeTWaitingQuery" >
+    update TPP_TRADE_T_WAITING_QUERY
+    <set >
+      <if test="tradeFlow != null" >
+        TRADE_FLOW = #{tradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="bizTypeNo != null" >
+        BIZ_TYPE_NO = #{bizTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="paySysNo != null" >
+        PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCategoryCode != null" >
+        INFO_CATEGORY_CODE = #{infoCategoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="queryModuleName != null" >
+        QUERY_MODULE_NAME = #{queryModuleName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="auditor != null" >
+        AUDITOR = #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null" >
+        AUDIT_TIME = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+   <update id="updateByPrimaryKeySelectiveHis" parameterType="com.zdmoney.manager.models.TppTradeTWaitingQuery" >
+    update TPP_TRADE_T_WAITING_QUERY_HIS
+    <set >
+      <if test="tradeFlow != null" >
+        TRADE_FLOW = #{tradeFlow,jdbcType=VARCHAR},
+      </if>
+      <if test="bizTypeNo != null" >
+        BIZ_TYPE_NO = #{bizTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizSysNo != null" >
+        BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="paySysNo != null" >
+        PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCategoryCode != null" >
+        INFO_CATEGORY_CODE = #{infoCategoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="queryModuleName != null" >
+        QUERY_MODULE_NAME = #{queryModuleName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="auditor != null" >
+        AUDITOR = #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null" >
+        AUDIT_TIME = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.manager.models.TppTradeTWaitingQuery" >
+    update TPP_TRADE_T_WAITING_QUERY
+    set TRADE_FLOW = #{tradeFlow,jdbcType=VARCHAR},
+      BIZ_TYPE_NO = #{bizTypeNo,jdbcType=VARCHAR},
+      BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+      PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+      INFO_CATEGORY_CODE = #{infoCategoryCode,jdbcType=VARCHAR},
+      QUERY_MODULE_NAME = #{queryModuleName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      AUDITOR = #{auditor,jdbcType=VARCHAR},
+      AUDIT_TIME = #{auditTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <sql id="waiting_query_column">
+  	ID,TRADE_FLOW,BIZ_TYPE_NO,BIZ_SYS_NO,PAY_SYS_NO,INFO_CATEGORY_CODE,QUERY_MODULE_NAME,CREATE_TIME,UPDATE_TIME,STATUS,CREATER,PAYER_ACCOUNT_NO,OP_MODE,AUDIT_TIME,AUDITOR
+  </sql>
+  
+  <!--用于模糊查询-->
+     <select id="select_tppTradeTWaitingQueryList" resultType="java.util.HashMap">
+        SELECT * FROM (
+			SELECT X.*,ROWNUM RN ,(select app_name from tpp_sys_app where tpp_sys_app.app_code=x.biz_sys_no) BIZ_SYS_NAME, 
+			(select DIC_NAME from dd_t_dictionary t where t.dic_type='3' and t.dic_code=X.pay_sys_no) PAY_SYS_NAME,  
+			(select INFO_CATEGORY_NAME from TPP_SYS_T_INFO_CATEGORY t where t.INFO_CATEGORY_CODE=x.INFO_CATEGORY_CODE) INFO_CATEGORY_NAME ,
+			(select USER_NAME from T_sys_user t1 where t1.login_user_name=x.AUDITOR) AUDITOR_NAME
+			FROM (
+				select * from (
+					SELECT  <include refid="waiting_query_column"/>
+					FROM TPP_TRADE_T_WAITING_QUERY union all select <include refid="waiting_query_column"/> from TPP_TRADE_T_WAITING_QUERY_his
+				)
+				WHERE 1=1 
+				<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+			        and CREATE_TIME &gt;= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+			    </if> 
+			    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE !=''">
+			        and CREATE_TIME &lt;= to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss') 
+			    </if>
+				<if test="tradeFlow != null and tradeFlow !=''">
+			        and TRADE_FLOW = #{tradeFlow}
+			    </if>
+			    <if test="SEARCH_TRADE_FLOW != null and SEARCH_TRADE_FLOW !=''">
+			        and TRADE_FLOW = #{SEARCH_TRADE_FLOW}
+			    </if>
+			    <if test="SEARCH_BIZ_TYPE_NO != null and SEARCH_BIZ_TYPE_NO !=''">
+			        and BIZ_TYPE_NO = #{SEARCH_BIZ_TYPE_NO}
+			    </if>
+			    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO !=''">
+			        and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+			    </if>
+			    <if test="SEARCH_PAY_SYS_NO != null and SEARCH_PAY_SYS_NO !=''">
+			        and PAY_SYS_NO = #{SEARCH_PAY_SYS_NO}
+			    </if>
+			    <if test="SEARCH_INFO_CATEGORY_CODE != null and SEARCH_INFO_CATEGORY_CODE !=''">
+			        and INFO_CATEGORY_CODE = #{SEARCH_INFO_CATEGORY_CODE}
+			    </if>
+			    <if test="SEARCH_QUERY_MODULE_NAME != null and SEARCH_QUERY_MODULE_NAME !=''">
+			        and QUERY_MODULE_NAME = #{SEARCH_QUERY_MODULE_NAME}
+			    </if>
+			    <if test="SEARCH_PAYER_ACCOUNT_NO != null and SEARCH_PAYER_ACCOUNT_NO !=''">
+			        and PAYER_ACCOUNT_NO = #{SEARCH_PAYER_ACCOUNT_NO}
+			    </if>
+			    <if test="SEARCH_STATUS != null and SEARCH_STATUS !=''">
+			        and STATUS = #{SEARCH_STATUS}
+			    </if>
+			    <if test="SEARCH_OP_MODE != null and SEARCH_OP_MODE !=''">
+			        and OP_MODE = #{SEARCH_OP_MODE}
+			    </if>
+			<![CDATA[
+			) X WHERE ROWNUM  <= #{rowEnd}
+		) WHERE RN >= #{rowBegin}
+		]]>
+	 	<if test="orderStr != null">
+	  		${orderStr} 
+	  	</if>
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppTradeTWaitingQueryList_count" resultType="int">
+		select count(id) from (
+			SELECT  <include refid="waiting_query_column"/>
+			FROM TPP_TRADE_T_WAITING_QUERY union all select <include refid="waiting_query_column"/> from TPP_TRADE_T_WAITING_QUERY_his
+		)
+		WHERE 1=1 
+		<if test="SEARCH_BEGIN_DATE != null and SEARCH_BEGIN_DATE != ''">
+	        and CREATE_TIME &gt;= to_date(#{SEARCH_BEGIN_DATE},'yyyy-mm-dd hh24:mi:ss') 
+	    </if> 
+	    <if test="SEARCH_END_DATE != null and SEARCH_END_DATE !=''">
+	        and CREATE_TIME &lt;= to_date(#{SEARCH_END_DATE},'yyyy-mm-dd hh24:mi:ss') 
+	    </if>
+		<if test="tradeFlow != null and tradeFlow !=''">
+	        and TRADE_FLOW = #{tradeFlow}
+	    </if>
+	    <if test="SEARCH_BIZ_TYPE_NO != null and SEARCH_BIZ_TYPE_NO !=''">
+	        and BIZ_TYPE_NO = #{SEARCH_BIZ_TYPE_NO}
+	    </if>
+	    <if test="SEARCH_BIZ_SYS_NO != null and SEARCH_BIZ_SYS_NO !=''">
+	        and BIZ_SYS_NO = #{SEARCH_BIZ_SYS_NO}
+	    </if>
+	    <if test="SEARCH_PAY_SYS_NO != null and SEARCH_PAY_SYS_NO !=''">
+	        and PAY_SYS_NO = #{SEARCH_PAY_SYS_NO}
+	    </if>
+	    <if test="SEARCH_INFO_CATEGORY_CODE != null and SEARCH_INFO_CATEGORY_CODE !=''">
+	        and INFO_CATEGORY_CODE = #{SEARCH_INFO_CATEGORY_CODE}
+	    </if>
+	    <if test="SEARCH_QUERY_MODULE_NAME != null and SEARCH_QUERY_MODULE_NAME !=''">
+	        and QUERY_MODULE_NAME = #{SEARCH_QUERY_MODULE_NAME}
+	    </if>
+	    <if test="SEARCH_PAYER_ACCOUNT_NO != null and SEARCH_PAYER_ACCOUNT_NO !=''">
+	        and PAYER_ACCOUNT_NO = #{SEARCH_PAYER_ACCOUNT_NO}
+	    </if>
+	    <if test="SEARCH_STATUS != null and SEARCH_STATUS !=''">
+	        and STATUS = #{SEARCH_STATUS}
+	    </if>
+	    <if test="SEARCH_OP_MODE != null and SEARCH_OP_MODE !=''">
+	        and OP_MODE = #{SEARCH_OP_MODE}
+	    </if>
+	 </select>
+	 <update id="batchCheckedWaitingQuery" parameterType="java.util.HashMap">
+	 	update TPP_TRADE_T_WAITING_QUERY set  status = 0,AUDIT_TIME=sysdate,AUDITOR=#{AUDITOR} where
+	 	 create_time >= to_date(#{checked_begin_date},'yyyy-mm-dd hh24:mi:ss')
+	 	 	and create_time <![CDATA[<=]]> to_date(#{checked_end_date},'yyyy-mm-dd hh24:mi:ss')
+	 	 	and status = 2 
+	 	 	<if test="paySysNo != null and paySysNo != ''">
+		  			and PAY_SYS_NO=#{paySysNo}
+		  	</if>
+		  	<if test="bizSysNo != null and bizSysNo != ''">
+		  			and BIZ_SYS_NO=#{bizSysNo}
+		  	</if>
+		  	<if test="infoCategoryCode != null and infoCategoryCode != ''">
+		  			and INFO_CATEGORY_CODE=#{infoCategoryCode}
+		  	</if>
+		  	<if test="opMode != null and opMode != ''">
+		  			and OP_MODE=#{opMode}
+		  	</if>
+	 </update>
+	 <update id="batchCheckedWaitingQueryHis" parameterType="java.util.HashMap">
+	 	update TPP_TRADE_T_WAITING_QUERY_HIS set  status = 0,AUDIT_TIME=sysdate,AUDITOR=#{AUDITOR} where
+	 	 create_time >= to_date(#{checked_begin_date},'yyyy-mm-dd hh24:mi:ss')
+	 	 	and create_time <![CDATA[<=]]> to_date(#{checked_end_date},'yyyy-mm-dd hh24:mi:ss')
+	 	 	and status = 2 
+	 	 	<if test="paySysNo != null and paySysNo != ''">
+		  			and PAY_SYS_NO=#{paySysNo}
+		  	</if>
+		  	<if test="bizSysNo != null and bizSysNo != ''">
+		  			and BIZ_SYS_NO=#{bizSysNo}
+		  	</if>
+		  	<if test="infoCategoryCode != null and infoCategoryCode != ''">
+		  			and INFO_CATEGORY_CODE=#{infoCategoryCode}
+		  	</if>
+		  	<if test="opMode != null and opMode != ''">
+		  			and OP_MODE=#{opMode}
+		  	</if>
+	 </update>
+</mapper>

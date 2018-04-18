@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";
+.mark{
+	background:url(../../image/mark.png) no-repeat; width:16px; height:16px;display:block; margin:3px;float:left;
+}
+.emark{
+	background:url(../../image/emark.png) no-repeat;}

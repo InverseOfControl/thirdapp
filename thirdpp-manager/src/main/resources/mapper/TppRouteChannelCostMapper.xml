@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TppRouteChannelCostMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppRouteChannelCost">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="THIRD_TYPE_NO" jdbcType="VARCHAR" property="thirdTypeNo" />
+		<result column="THIRD_TYPE_NAME" jdbcType="VARCHAR" property="thirdTypeName" />
+		<result column="COST_TYPE" jdbcType="VARCHAR" property="costType" />
+		<result column="HAS_LIMIT_AMOUNT" jdbcType="VARCHAR" property="hasLimitAmount" />
+		<result column="LIMIT_AMOUNT" jdbcType="DECIMAL" property="limitAmount" />
+		<result column="FIXED_AMOUNT" jdbcType="DECIMAL" property="fixedAmount" />
+		<result column="PERCENT" jdbcType="DECIMAL" property="percent" />
+		<result column="MIN_AMOUNT" jdbcType="DECIMAL" property="minAmount" />
+		<result column="MAX_AMOUNT" jdbcType="DECIMAL" property="maxAmount" />
+		<result column="RANGE" jdbcType="VARCHAR" property="range" />
+	</resultMap>
+	
+	
+	<select id="getCostInfoList" resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN FROM (
+		select 
+			c.id,
+			c.third_type_no,
+			c.cost_type,
+			c.has_limit_amount,
+			c.limit_amount,
+			c.fixed_amount,
+			c.percent,
+			c.min_amount,
+			c.max_amount,
+			 NVL(to_char(c.min_amount),'0')||' - '||NVL(to_char(c.max_amount),'0') range,
+			d.dic_name third_type_name
+  			from tpp_route_channel_cost c
+  			inner join dd_t_dictionary d
+    		on d.dic_code = c.third_type_no
+    		and d.dic_type='3'
+    		where 1=1
+   			<if test="thirdTypeNo != null" > 
+   				and c.third_type_no = #{thirdTypeNo,jdbcType=VARCHAR}
+   			</if>
+			 order by c.min_amount asc  
+    
+			 ) X 
+			 <if test="rowEnd != null" >
+			 WHERE ROWNUM  &lt;= #{rowEnd}
+			 </if>
+			) 
+			<if test="rowBegin != null" >
+			WHERE RN &gt;=  #{rowBegin}
+			 </if>
+	</select>
+	
+	<select id="getCostInfoByID" resultMap="BaseResultMap">
+		select 
+			c.id,
+			c.third_type_no,
+			c.cost_type,
+			c.has_limit_amount,
+			c.limit_amount,
+			c.fixed_amount,
+			c.percent,
+			c.min_amount,
+			c.max_amount,
+			d.dic_name third_type_name
+  			from tpp_route_channel_cost c
+  			inner join dd_t_dictionary d
+    		on d.dic_code = c.third_type_no
+    		and d.dic_type='3'
+    		where   c.ID = #{id,jdbcType=DECIMAL}
+	</select>
+	
+<!-- 	<select id="getSection" resultMap="BaseResultMap"> -->
+<!-- 		select t.id, -->
+<!-- 			t.third_type_no, -->
+<!-- 			t.cost_type, -->
+<!-- 			t.has_limit_amount, -->
+<!-- 			t.limit_amount, -->
+<!-- 			t.fixed_amount, -->
+<!-- 			t.percent, -->
+<!-- 			t.min_amount, -->
+<!-- 			t.max_amount -->
+<!--   			from tpp_route_channel_cost t -->
+<!--  			where  -->
+<!--  			1=1 and  -->
+<!--  			t.third_type_no = #{thirdTypeNo} -->
+<!--  			and ( -->
+<!--  			<if test="minAmount != null and maxAmount == null" > -->
+<!--  			 (t.min_amount &lt; = #{minAmount} or (case when t.max_amount is not null then t.max_amount else  999999999999999999999 end) &gt;= t.max_amount) -->
+<!--  			   or (t.min_amount &lt; = t.max_amount or (case when t.max_amount is not null then t.max_amount else  999999999999999999999 end) &gt;= t.max_amount) -->
+<!--  			</if> -->
+<!--  			<if test="minAmount != null and maxAmount != null" > -->
+<!--  			 (t.min_amount &lt; = #{minAmount} and (case when t.max_amount is not null then t.max_amount else  999999999999999999999 end) &gt;= #{minAmount}) -->
+<!--  			   or (t.min_amount &lt; = #{maxAmount} and (case when t.max_amount is not null then t.max_amount else  999999999999999999999 end) &gt;= #{maxAmount}) -->
+<!--  			</if> -->
+<!--  			) -->
+<!-- 	</select> -->
+	<select id="getSection" resultMap="BaseResultMap">
+		select t.id,
+			t.third_type_no,
+			t.cost_type,
+			t.has_limit_amount,
+			t.limit_amount,
+			t.fixed_amount,
+			t.percent,
+			t.min_amount,
+			t.max_amount
+  			from tpp_route_channel_cost t
+ 			where 
+ 			1=1 and 
+ 			t.third_type_no = #{thirdTypeNo}
+ 			and (
+ 			<if test="minAmount != null" >
+ 			 (t.min_amount &lt; = #{minAmount} and (case when t.max_amount is not null then t.max_amount else  999999999999999999999 end) &gt;= #{minAmount})
+ 			</if>
+ 			<if test="maxAmount != null" >
+ 			or (t.min_amount &lt; = #{maxAmount} and (case when t.max_amount is not null then t.max_amount else  999999999999999999999 end) &gt;= #{maxAmount})
+ 			</if>
+ 			)
+	</select>
+	
+	<update id="update" parameterType="com.zdmoney.manager.models.TppRouteChannelCost">
+		update tpp_route_channel_cost
+		<trim prefix="set" suffixOverrides=",">
+			<if test="thirdTypeNo!=null">THIRD_TYPE_NO=#{thirdTypeNo,jdbcType=VARCHAR},</if>
+			<if test="costType!=null">COST_TYPE=#{costType,jdbcType=VARCHAR},</if>
+			<if test="hasLimitAmount!=null">HAS_LIMIT_AMOUNT=#{hasLimitAmount,jdbcType=VARCHAR},</if>
+			<if test="limitAmount!=null">LIMIT_AMOUNT=#{limitAmount,jdbcType=DECIMAL},</if>
+			<if test="fixedAmount!=null">FIXED_AMOUNT=#{fixedAmount,jdbcType=DECIMAL},</if>
+			<if test="percent!=null">PERCENT=#{percent,jdbcType=DECIMAL},</if>
+			<if test="minAmount!=null">MIN_AMOUNT=#{minAmount,jdbcType=DECIMAL},</if>
+			<if test="maxAmount!=null">MAX_AMOUNT=#{maxAmount,jdbcType=DECIMAL},</if>
+		</trim>
+		WHERE id=#{id,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateAll" parameterType="com.zdmoney.manager.models.TppRouteChannelCost">
+		update tpp_route_channel_cost
+		<trim prefix="set" suffixOverrides=",">
+			THIRD_TYPE_NO=#{thirdTypeNo,jdbcType=VARCHAR},
+			COST_TYPE=#{costType,jdbcType=VARCHAR},
+			HAS_LIMIT_AMOUNT=#{hasLimitAmount,jdbcType=VARCHAR},
+			LIMIT_AMOUNT=#{limitAmount,jdbcType=DECIMAL},
+			FIXED_AMOUNT=#{fixedAmount,jdbcType=DECIMAL},
+			PERCENT=#{percent,jdbcType=DECIMAL},
+			MIN_AMOUNT=#{minAmount,jdbcType=DECIMAL},
+			MAX_AMOUNT=#{maxAmount,jdbcType=DECIMAL},
+		</trim>
+		WHERE id=#{id,jdbcType=VARCHAR}
+	</update>
+	
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TppRouteChannelCost">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_ROUTE.nextval from dual
+		</selectKey>
+		insert into  tpp_route_channel_cost (<include refid="key"/>) values(<include refid="value"/>)
+	</insert>
+    
+    <!-- sql片段对应字段名,id属性值任意 -->
+    <sql id="key">
+        <!-- 去掉最后一个, -->
+        <trim suffixOverrides=",">
+                id,
+             <if test="thirdTypeNo!=null">
+                THIRD_TYPE_NO,
+            </if>
+            <if test="costType!=null">
+                COST_TYPE,
+            </if>
+            <if test="hasLimitAmount!=null">
+                HAS_LIMIT_AMOUNT,
+            </if>
+            <if test="limitAmount!=null">
+               LIMIT_AMOUNT,
+            </if>
+            <if test="fixedAmount!=null">
+                FIXED_AMOUNT,
+            </if>
+            <if test="percent!=null">
+                PERCENT,
+            </if>
+            <if test="minAmount!=null">
+                MIN_AMOUNT,
+            </if>
+            <if test="maxAmount!=null">
+               MAX_AMOUNT
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- sql片段对应?,id属性值任意 -->
+    <sql id="value">
+        <!-- 去掉最后一个, -->
+        <trim suffixOverrides=",">
+               #{id,jdbcType=DECIMAL},
+             <if test="thirdTypeNo!=null">
+                #{thirdTypeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="costType!=null">
+                #{costType,jdbcType=VARCHAR},
+            </if>
+            <if test="hasLimitAmount!=null">
+                #{hasLimitAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="limitAmount!=null">
+                #{limitAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="fixedAmount!=null">
+                #{fixedAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="percent!=null">
+                #{percent,jdbcType=DECIMAL},
+            </if>
+            <if test="minAmount!=null">
+                #{minAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="maxAmount!=null">
+                #{maxAmount,jdbcType=DECIMAL}
+            </if>
+        </trim>
+    </sql>
+	
+	<delete id="delete">
+        delete from tpp_route_channel_cost where id in
+
+        <!-- foreach用于迭代数组元素
+             open表示开始符号
+             close表示结束符合
+             separator表示元素间的分隔符
+             item表示迭代的数组，属性值可以任意，但提倡与方法的数组名相同
+             #{ids}表示数组中的每个元素值
+         -->
+        <foreach collection="array" open="(" close=")" separator="," item="ids">
+            #{ids}
+        </foreach>
+    </delete> 
+	
+</mapper>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.manager.mapper.TppAccountBizsysNotifyMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppAccountBizsysNotify" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="BIZSYS_ACCOUNT_DAY" property="bizsysAccountDay" jdbcType="VARCHAR" />
+    <result column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
+    <result column="THIRD_PARTY_ACCOUNT_REQ_ID" property="thirdPartyAccountReqId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, BIZSYS_ACCOUNT_DAY, MERCHANT_NO, THIRD_PARTY_ACCOUNT_REQ_ID, STATUS, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from TPP_ACCOUNT_BIZSYS_NOTIFY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from TPP_ACCOUNT_BIZSYS_NOTIFY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.manager.models.TppAccountBizsysNotify" >
+    insert into TPP_ACCOUNT_BIZSYS_NOTIFY (ID, BIZSYS_ACCOUNT_DAY, MERCHANT_NO, 
+      THIRD_PARTY_ACCOUNT_REQ_ID, STATUS, CREATE_TIME
+      )
+    values (#{id,jdbcType=DECIMAL}, #{bizsysAccountDay,jdbcType=VARCHAR}, #{merchantNo,jdbcType=VARCHAR}, 
+      #{thirdPartyAccountReqId,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.manager.models.TppAccountBizsysNotify" >
+    insert into TPP_ACCOUNT_BIZSYS_NOTIFY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="bizsysAccountDay != null" >
+        BIZSYS_ACCOUNT_DAY,
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO,
+      </if>
+      <if test="thirdPartyAccountReqId != null" >
+        THIRD_PARTY_ACCOUNT_REQ_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="bizsysAccountDay != null" >
+        #{bizsysAccountDay,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPartyAccountReqId != null" >
+        #{thirdPartyAccountReqId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.manager.models.TppAccountBizsysNotify" >
+    update TPP_ACCOUNT_BIZSYS_NOTIFY
+    <set >
+      <if test="bizsysAccountDay != null" >
+        BIZSYS_ACCOUNT_DAY = #{bizsysAccountDay,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPartyAccountReqId != null" >
+        THIRD_PARTY_ACCOUNT_REQ_ID = #{thirdPartyAccountReqId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.manager.models.TppAccountBizsysNotify" >
+    update TPP_ACCOUNT_BIZSYS_NOTIFY
+    set BIZSYS_ACCOUNT_DAY = #{bizsysAccountDay,jdbcType=VARCHAR},
+      MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR},
+      THIRD_PARTY_ACCOUNT_REQ_ID = #{thirdPartyAccountReqId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <sql id="Bizsys_Notify_Column_List">
+  	ID  <!--主键-->
+ 		,BIZSYS_ACCOUNT_DAY  <!--对账日期-->
+ 		,MERCHANT_NO  <!--商户号-->
+ 		,THIRD_PARTY_ACCOUNT_REQ_ID  <!--第三方对账请求 id 对应对账操作请求表的REQ_ID-->
+ 		,STATUS  <!--状态 0=未与业务系统进行对账1= 与业务系统对账进行中2= 与业务系统对账完成-->
+ 		,CREATE_TIME  <!--创建时间-->
+  </sql>
+  <!--用于模糊查询-->
+     <select id="select_tppAccountBizsysNotifyList"  resultType="java.util.HashMap">
+     SELECT * FROM (
+		SELECT X.*,ROWNUM RN
+			FROM (
+				select * from (
+		          SELECT  
+				 		<include refid="Bizsys_Notify_Column_List" />
+				  FROM TPP_ACCOUNT_BIZSYS_NOTIFY)
+				  WHERE 1=1 
+		  			<if test="SEARCH_BIZSYS_ACCOUNT_DAY != null and SEARCH_BIZSYS_ACCOUNT_DAY != ''">
+			   			and BIZSYS_ACCOUNT_DAY = #{SEARCH_BIZSYS_ACCOUNT_DAY} 
+			   		</if>
+			   		<if test="SEARCH_MERCHANT_NO != null and SEARCH_MERCHANT_NO != ''">
+			   			and MERCHANT_NO like '%'||(#{SEARCH_MERCHANT_NO})||'%'
+			   		</if>
+			   		<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+			   			and STATUS = #{SEARCH_STATUS}
+			   		</if>
+			   		<if test="orderStr != null">
+				  		${orderStr} 
+				  	</if>
+  			<![CDATA[
+ 		) X WHERE ROWNUM  <= #{rowEnd}
+	) WHERE RN >= #{rowBegin}
+	
+	]]>
+	
+     </select>
+     
+     <!--用于查询总数-->
+     <select id="select_tppAccountBizsysNotifyList_count"  resultType="int">
+			SELECT  count(ID)
+		    FROM TPP_ACCOUNT_BIZSYS_NOTIFY
+			WHERE 1=1 
+			<if test="SEARCH_BIZSYS_ACCOUNT_DAY != null and SEARCH_BIZSYS_ACCOUNT_DAY != ''">
+	   			and BIZSYS_ACCOUNT_DAY = #{SEARCH_BIZSYS_ACCOUNT_DAY} 
+	   		</if>
+	   		<if test="SEARCH_MERCHANT_NO != null and SEARCH_MERCHANT_NO != ''">
+	   			and MERCHANT_NO like '%'||(#{SEARCH_MERCHANT_NO})||'%'
+	   		</if>
+	   		<if test="SEARCH_STATUS != null and SEARCH_STATUS != ''">
+	   			and STATUS = #{SEARCH_STATUS}
+	   		</if>
+	 </select>
+</mapper>

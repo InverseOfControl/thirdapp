@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.AreaInfo">
+
+	<typeAlias alias="AreaInfo" type="com.zendaimoney.thirdpp.trade.entity.AreaInfo" />
+	
+	<resultMap class="AreaInfo" id="AreaInfoMap">
+		<result property="id" column="ID" jdbcType="java.lang.Integer"/>
+		<result property="areaCode" column = "AREA_CODE" jdbcType = "java.lang.String"/>
+		<result property="areaName" column = "AREA_NAME" jdbcType = "java.lang.String"/>
+		<result property="parentId" column = "PARENT_ID" jdbcType = "java.lang.String"/>
+	</resultMap>
+	
+	<select id="queryAreaInfos" resultMap="AreaInfoMap" parameterClass="java.util.Map">
+		select ID, AREA_CODE, AREA_NAME, PARENT_ID 
+		from DD_T_AREA_INFO 
+		<dynamic prepend="where">
+			<isNotEmpty property="parentId">
+				 PARENT_ID = #parentId# 
+			</isNotEmpty>
+			<isEmpty property="parentId">
+				 PARENT_ID = 0 
+			</isEmpty>
+		<!-- 按照中文拼音字母升序排列 -->
+		order by NLSSORT(AREA_NAME,'NLS_SORT=SCHINESE_PINYIN_M')
+		</dynamic>
+	</select>
+	
+	<select id="queryAreaInfoByAreaCodeAndParentCode" resultMap = "AreaInfoMap" parameterClass="java.util.Map">
+		select ID, AREA_CODE, AREA_NAME, PARENT_ID 
+		from DD_T_AREA_INFO 
+		where AREA_CODE = #areaCode# 
+		and PARENT_ID = #parentId#
+		<![CDATA[and rownum <= 1]]>
+	</select>
+	
+	<select id="queryAreaInfoByAreaCode" resultMap = "AreaInfoMap" parameterClass="java.util.Map">
+		select ID, AREA_CODE, AREA_NAME, PARENT_ID 
+		from DD_T_AREA_INFO 
+		where AREA_CODE = #areaCode# 
+		<![CDATA[and rownum <= 1]]>
+	</select>
+	
+</sqlMap>

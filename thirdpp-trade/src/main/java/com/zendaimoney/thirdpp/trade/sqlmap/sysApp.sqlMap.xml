@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.trade.entity.SysApp">
+	<typeAlias alias="SysApp" type="com.zendaimoney.thirdpp.trade.entity.SysApp" />
+
+	<resultMap id="SysAppMap" class="SysApp">
+	<result property="id" column="ID" jdbcType="java.lang.Long"/>
+	<result property="appCode" column="APP_CODE" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="appName" column="APP_NAME" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="collectNotifyUrl" column="COLLECT_NOTIFY_URL" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="payNotifyUrl" column="PAY_NOTIFY_URL" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="cashBackNotifyUrl" column="CASH_BACK_NOTIFY_URL" jdbcType="java.lang.String"  nullValue=""/>
+	<result property="cashDrawNotifyUrl" column="CASH_DRAW_NOTIFY_URL" jdbcType="java.lang.String" nullValue=""/>
+	<result property="orderPayNotifyUrl" column="ORDER_PAY_NOTIFY_URL" jdbcType="java.lang.String" nullValue=""/>
+	</resultMap>
+	
+	<select id="querySysApp" parameterClass="java.lang.String" resultMap="SysAppMap">		 
+		select t.id,t.app_name,t.app_code,t.collect_notify_url,t.pay_notify_url,t.cash_back_notify_url,t.cash_draw_notify_url,t.order_pay_notify_url from tpp_sys_app t
+		 where t.is_flag ='1' and t.app_code=#appCode# and rownum =1
+	</select>
+
+</sqlMap>

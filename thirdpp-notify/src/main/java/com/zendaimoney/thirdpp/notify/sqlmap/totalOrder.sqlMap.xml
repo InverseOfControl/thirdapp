@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.thirdpp.notify.entity.TotalOrder">
+	<typeAlias alias="TotalOrderInfo" type="com.zendaimoney.thirdpp.notify.entity.TotalOrder" />
+    
+ <select id="selectCollectInfo" parameterClass="java.lang.Long" resultClass="TotalOrderInfo">
+  		select task.id as taskId,
+  	   task.separate_count as separateCount,
+       task.biz_sys_no as bizSysNo,
+       task.biz_type as bizType,
+       task.biz_flow as bizFlow,
+       task.is_need_push as isNeedPush,
+       count(1) as totalCount,
+       task.amount as orderAmount,
+       sum(info.amount) as totalAmount,
+       sum(case
+             when info.status = '000000' then
+              1
+             else
+              0
+           end) as successCount,
+       sum(case
+             when info.status = '000000' then
+              info.amount
+             else
+              0
+           end) as successAmount,
+       sum(case
+             when info.status in ('111111', '333333') then
+              1
+             else
+              0
+           end) as failCount,
+       sum(case
+             when info.status in ('111111', '333333') then
+              info.amount
+             else
+              0
+           end) as failAmount,
+       sum(case
+             when info.status = '222222' then
+              1
+             else
+              0
+           end) as tradingCount,
+       sum(case
+             when info.status = '222222' then
+              info.amount
+             else
+              0
+           end) as tradingAmount,
+           task.priority,
+           task.pay_sys_no as paySysNo,
+           LISTAGG(info.spare2,',') within GROUP (order by info.spare2) as merId 
+  from tpp_trade_t_collect_info info
+  left join tpp_trade_t_collect_task task
+    on info.task_id = task.id
+ where info.task_id = #taskId#
+   and task.trade_status = '222222'
+ group by task.id,
+ 		  task.separate_count,
+          task.biz_sys_no,
+          task.biz_type,
+          task.biz_flow,
+          task.is_need_push,
+          task.amount,
+          task.priority,
+          task.pay_sys_no
+ </select>
+ 
+ 
+ <select id="selectPayInfo" parameterClass="java.lang.Long" resultClass="TotalOrderInfo">
+ 		select task.id as taskId,
+ 	   task.separate_count as separateCount,
+       task.biz_sys_no as bizSysNo,
+       task.biz_type as bizType,
+       task.biz_flow as bizFlow,
+       task.is_need_push as isNeedPush,
+       task.amount as orderAmount,
+       count(1) as totalCount,
+       sum(info.amount) as totalAmount,
+       sum(case
+             when info.status = '000000' then
+              1
+             else
+              0
+           end) as successCount,
+       sum(case
+             when info.status = '000000' then
+              info.amount
+             else
+              0
+           end) as successAmount,
+       sum(case
+             when info.status in ('111111', '333333') then
+              1
+             else
+              0
+           end) as failCount,
+       sum(case
+             when info.status in ('111111', '333333') then
+              info.amount
+             else
+              0
+           end) as failAmount,
+       sum(case
+             when info.status = '222222' then
+              1
+             else
+              0
+           end) as tradingCount,
+       sum(case
+             when info.status = '222222' then
+              info.amount
+             else
+              0
+           end) as tradingAmount,
+          task.priority
+  from tpp_trade_t_pay_info info
+  left join tpp_trade_t_pay_task task
+    on info.task_id = task.id
+ where task.id = #taskId#
+   and task.trade_status = '222222'
+ group by task.id,
+ 		  task.separate_count,
+          task.biz_sys_no,
+          task.biz_type,
+          task.biz_flow,
+          task.is_need_push,
+          task.amount,
+          task.priority
+ </select>
+</sqlMap>

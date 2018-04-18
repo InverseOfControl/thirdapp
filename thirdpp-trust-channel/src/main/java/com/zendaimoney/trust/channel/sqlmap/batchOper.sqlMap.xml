@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zendaimoney.trust.channel.entity.BatchOper">
+	<typeAlias alias="BatchOper" type="com.zendaimoney.trust.channel.entity.BatchOper" />
+
+	<resultMap id="BatchOperMap" class="BatchOper">
+		<result property="infoCategoryCode" column="info_category_code" jdbcType="java.lang.String" nullValue=""/>
+		<result property="bizSysNo" column="biz_sys_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="failCount" column="fail_count" jdbcType="java.lang.String" nullValue=""/>
+		<result property="failReason" column="fail_reason" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respFileName" column="resp_file_name" jdbcType="java.lang.String" nullValue=""/>
+		<result property="batchNo" column="batch_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respFlow" column="resp_flow" jdbcType="java.lang.String" nullValue=""/>
+		<result property="reqFileName" column="req_file_name" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respTime" column="resp_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respInfo" column="resp_info" jdbcType="java.lang.String" nullValue=""/>
+		<result property="status" column="status" jdbcType="java.lang.String" nullValue=""/>
+		<result property="busiType" column="busi_type" jdbcType="java.lang.String" nullValue=""/>
+		<result property="tradeDesc" column="trade_desc" jdbcType="java.lang.String" nullValue=""/>
+		<result property="respTimeExt" column="resp_time_ext" jdbcType="java.lang.String" nullValue=""/>
+		<result property="paySysNo" column="pay_sys_no" jdbcType="java.lang.String" nullValue=""/>
+		<result property="notifyFileName" column="notify_file_name" jdbcType="java.lang.String" nullValue=""/>
+		<result property="notifyTime" column="notify_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="spare1" column="spare1" jdbcType="java.lang.String" nullValue=""/>
+		<result property="spare2" column="spare2" jdbcType="java.lang.String" nullValue=""/>
+		<result property="creatTime" column="creat_time" jdbcType="java.lang.String" nullValue=""/>
+		<result property="updateTime" column="update_time" jdbcType="java.lang.String" nullValue=""/>
+	</resultMap>
+	
+	<!-- 更新批量文件请求 -->
+	<insert id="update" parameterClass="BatchOper">
+		update TPP_TRUST_TRADE_BATCH set
+		UPDATE_TIME = sysdate
+		<isNotEmpty prepend="," property="respFileName">
+			resp_file_name=#respFileName#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="reqFileName">
+			REQ_FILE_NAME=#reqFileName#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respTime">
+			RESP_TIME=to_date(#respTime#,'yyyy-mm-dd,hh24:mi:ss')
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="respInfo">
+			RESP_INFO=#respInfo#
+		</isNotEmpty>
+		where batch_no=#batchNo#
+	 </insert>
+
+</sqlMap>

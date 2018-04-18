@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.zendaimoney.thirdpp.channel.entity.PayInfo" >
+<typeAlias alias="PayInfo" type="com.zendaimoney.thirdpp.channel.entity.PayInfo" />
+  <resultMap id="PayInfoMap" class="PayInfo" >
+    <result column="ID" property="id" jdbcType="java.lang.Long" />
+    <result column="TASK_ID" property="taskId" jdbcType="java.lang.Long" />
+    <result column="REQ_ID" property="reqId" jdbcType="java.lang.String" nullValue="" />
+    <result column="PAY_SYS_NO" property="paySysNo" jdbcType="java.lang.String" nullValue="" />
+    <result column="BIZ_SYS_ACCOUNT_NO" property="bizSysAccountNo" jdbcType="java.lang.String" nullValue="" />
+    <result column="ZENGDAI_ACCOUNT_NO" property="zengdaiAccountNo" jdbcType="java.lang.String" nullValue="" />
+    <result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="java.lang.String" nullValue="" />
+    <result column="PAYER_ACCOUNT_NO" property="payerAccountNo" jdbcType="java.lang.String" nullValue="" />
+    <result column="PAYER_ACCOUNT_NAME" property="payerAccountName" jdbcType="java.lang.String" nullValue="" />
+    <result column="RECEIVER_NAME" property="receiverName" jdbcType="java.lang.String" nullValue="" />
+    <result column="RECEIVER_BANK_CARD_NO" property="receiverBankCardNo" jdbcType="java.lang.String" nullValue="" />
+    <result column="RECEIVER_BANK_CARD_TYPE" property="receiverBankCardType" jdbcType="java.lang.String" nullValue="" />
+    <result column="RECEIVER_ID_TYPE" property="receiverIdType" jdbcType="java.lang.String" nullValue="" />
+    <result column="RECEIVER_ID" property="receiverId" jdbcType="java.lang.String" nullValue=""/>
+    <result column="RECEIVER_BANK_CODE" property="receiverBankCode" jdbcType="java.lang.String" nullValue="" />
+    <result column="RECEIVER_SUB_BANK_CODE" property="receiverSubBankCode" jdbcType="java.lang.String" nullValue="" />
+    <result column="CURRENCY" property="currency" jdbcType="java.lang.String" nullValue="" />
+    <result column="AMOUNT" property="amount" jdbcType="java.math.BigDecimal" />
+    <result column="FEE" property="fee" jdbcType="java.math.BigDecimal" />
+    <result column="BIZ_REMARK" property="bizRemark" jdbcType="java.lang.String" nullValue="" />
+    <result column="BIZ_FLOW" property="bizFlow" jdbcType="java.lang.String" nullValue=""/>
+    <result column="TRANSFER_FLOW" property="transferFlow" jdbcType="java.lang.String" nullValue="" />
+    <result column="PAY_TRANS_FLOW" property="payTransFlow" jdbcType="java.lang.String" nullValue="" />
+    <result column="PRIORITY" property="priority" jdbcType="java.lang.Integer" />
+    <result column="STATUS" property="status" jdbcType="java.lang.String" nullValue="" />
+    <result column="REMARK" property="remark" jdbcType="java.lang.String" nullValue="" />
+    <result column="CREATER" property="creater" jdbcType="java.lang.String" nullValue="" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="java.lang.String" nullValue="" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="java.lang.String" nullValue="" />
+    <result column="SPARE1" property="spare1" jdbcType="java.lang.String" nullValue="" />
+    <result column="SPARE2" property="spare2" jdbcType="java.lang.String" nullValue="" />
+    <result column="TRADE_FLOW" property="tradeFlow" jdbcType="java.lang.String" nullValue="" />
+    <result column="FAIL_REASON" property="failReason" jdbcType="java.lang.String" nullValue="" />
+    <result column="RECEIVER_ACCOUNT_NO" property="receiverAccountNo" jdbcType="java.lang.String" nullValue="" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="java.lang.String" nullValue="" />
+    <result column="IS_NEED_PUSH" property="isNeedPush" jdbcType="java.lang.Integer" />
+    <result column="INFO_CATEGORY_CODE" property="infoCategoryCode" jdbcType="java.lang.String" nullValue="" />
+    <result column="TRANS_REP_CODE" property="transRepCode" jdbcType="java.lang.String" nullValue="" />
+    <result column="THIRD_RETURN_TIME" property="thirdReturnTime" jdbcType="java.lang.String" nullValue="" />
+    <result column="NOTIFY_QUERY_STATUS" property="notifyQueryStatus" jdbcType="java.lang.Integer" />
+    <result column="NOTIFY_MERGE_STATUS" property="notifyMergeStatus" jdbcType="java.lang.Integer" />
+    <result column="SETTLE_DATE" property="settleDate" jdbcType="java.lang.String" nullValue="" />
+  </resultMap>
+   <insert id="insert" parameterClass="PayInfo" >
+    insert into TPP_TRADE_T_PAY_INFO (ID, TASK_ID, REQ_ID, 
+      PAY_SYS_NO, BIZ_SYS_ACCOUNT_NO, ZENGDAI_ACCOUNT_NO, 
+      BIZ_SYS_NO, PAYER_ACCOUNT_NO, PAYER_ACCOUNT_NAME, 
+      RECEIVER_NAME, RECEIVER_BANK_CARD_NO, RECEIVER_BANK_CARD_TYPE, 
+      RECEIVER_ID_TYPE, RECEIVER_ID, RECEIVER_BANK_CODE, 
+      RECEIVER_SUB_BANK_CODE, CURRENCY, AMOUNT, 
+      FEE, BIZ_REMARK, BIZ_FLOW, 
+      TRANSFER_FLOW, PAY_TRANS_FLOW, PRIORITY, 
+      STATUS, REMARK, CREATER, 
+      CREATE_TIME, UPDATE_TIME, SPARE1, 
+      SPARE2, TRADE_FLOW, FAIL_REASON, 
+      RECEIVER_ACCOUNT_NO, BIZ_TYPE, IS_NEED_PUSH, 
+      INFO_CATEGORY_CODE, TRANS_REP_CODE, THIRD_RETURN_TIME, 
+      NOTIFY_QUERY_STATUS, NOTIFY_MERGE_STATUS, SETTLE_DATE
+      )
+    values (SEQ_TPP_TRADE_INFO.Nextval, #taskId#, #reqId#, 
+      #paySysNo#, #bizSysAccountNo#, #zengdaiAccountNo#, 
+      #bizSysNo#, #payerAccountNo#, #payerAccountName#, 
+      #receiverName#, #receiverBankCardNo#, #receiverBankCardType#, 
+      #receiverIdType#, #receiverId#, #receiverBankCode#, 
+      #receiverSubBankCode#, #currency#, #amount#, 
+      #fee#, #bizRemark#, #bizFlow#, 
+      #transferFlow#, #payTransFlow#, #priority#, 
+      #status#, #remark#, #creater#, 
+      #createTime#, #updateTime#, #spare1#, 
+      #spare2#, #tradeFlow#, #failReason#, 
+      #receiverAccountNo#, #bizType#, #isNeedPush#, 
+      #infoCategoryCode#, #transRepCode#, #thirdReturnTime#, 
+      #notifyQueryStatus#, #notifyMergeStatus#, #settleDate#
+      )
+  </insert>
+   <insert id="update" parameterClass="PayInfo">
+		update TPP_TRADE_T_PAY_INFO set
+		UPDATE_TIME = sysdate
+		<isNotEmpty prepend="," property="status">
+			STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="payTransFlow">
+			PAY_TRANS_FLOW=#payTransFlow#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="failReason">
+			FAIL_REASON=#failReason#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="transRepCode">
+			TRANS_REP_CODE=#transRepCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="thirdReturnTime">
+			THIRD_RETURN_TIME=sysdate
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="notifyQueryStatus">
+			NOTIFY_QUERY_STATUS=#notifyQueryStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="notifyMergeStatus">
+			NOTIFY_MERGE_STATUS=#notifyMergeStatus#
+		</isNotEmpty>
+		where TRADE_FLOW=#tradeFlow#
+  </insert>
+</sqlMap>

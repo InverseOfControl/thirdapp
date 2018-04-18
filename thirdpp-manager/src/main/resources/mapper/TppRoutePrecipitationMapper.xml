@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.manager.mapper.TppRoutePrecipitationMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.manager.models.TppRoutePrecipitation">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="CERTIFICATE_NO" jdbcType="VARCHAR" property="certificateNo" />
+		<result column="CERTIFICATE_NAME" jdbcType="VARCHAR" property="certificateName" />
+		<result column="THIRD_TYPE_NO" jdbcType="VARCHAR" property="thirdTypeNo" />
+		<result column="THIRD_TYPE_NAME" jdbcType="VARCHAR" property="thirdTypeName" />
+		<result column="PRECIPITATION" jdbcType="DECIMAL" property="precipitation" />
+	</resultMap>
+	
+	
+	<select id="getPrecipitationInfoList" resultType="java.util.HashMap">
+		SELECT * FROM (
+		SELECT X.*,ROWNUM RN FROM (
+		select p.id,p.precipitation,p.certificate_no,p.certificate_name,p.third_type_no,d.dic_name THIRD_TYPE_NAME
+  			from tpp_route_precipitation p
+  			inner join dd_t_dictionary d
+    		on d.dic_code = p.third_type_no
+    		and d.dic_type='3'
+    		where 1=1
+    		and p.third_type_no = #{thirdTypeNo,jdbcType=VARCHAR}
+	   <if test="certificateNo != null and certificateNo !=''">
+			and p.certificate_no like '%${certificateNo}%'
+		</if>
+			 order by p.ID desc  
+    <![CDATA[
+			 ) X WHERE ROWNUM  <= #{rowEnd}
+			) WHERE RN >= #{rowBegin}
+		]]>
+	</select>
+	
+	<select id="getPrecipitationInfoListCount" resultType="Integer">
+		select count(*) from tpp_route_precipitation   where 1=1
+		<if test="certificateNo != null and certificateNo !=''">
+				and certificate_no like '%${certificateNo}%'
+		</if>
+
+	</select>
+	
+	<select id="selectPrecipitationInfoByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select p.id,p.precipitation,p.certificate_no,certificate_name,p.third_type_no,d.dic_name THIRD_TYPE_NAME
+  			from tpp_route_precipitation p
+  			inner join dd_t_dictionary d
+    		on d.dic_code = p.third_type_no
+    		and d.dic_type='3'
+		    where   p.ID = #{id,jdbcType=DECIMAL}
+	</select>
+	
+	<select id="selectPrecipitationInfoByCertificateNo" resultMap="BaseResultMap">
+		select p.id,p.precipitation,p.certificate_no,certificate_name,p.third_type_no,d.dic_name THIRD_TYPE_NAME
+  			from tpp_route_precipitation p
+  			inner join dd_t_dictionary d
+    		on d.dic_code = p.third_type_no
+    		and d.dic_type='3'
+		    where   p.certificate_no = #{certificateNo,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="insert" parameterType="com.zdmoney.manager.models.TppRoutePrecipitation">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			select SEQ_TPP_ROUTE.nextval from dual
+		</selectKey>
+		insert into tpp_route_precipitation(id,certificate_no,certificate_name,third_type_no,
+				precipitation)
+				 values(#{id,jdbcType=DECIMAL},#{certificateNo,jdbcType=VARCHAR},#{certificateName,jdbcType=VARCHAR},#{thirdTypeNo,jdbcType=VARCHAR},
+				   	 #{precipitation,jdbcType=DECIMAL}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.zdmoney.manager.models.TppRoutePrecipitation">
+		update tpp_route_precipitation
+		set precipitation= #{precipitation,jdbcType=DECIMAL},
+		certificate_no = #{certificateNo,jdbcType=VARCHAR},
+		certificate_name = #{certificateName,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	
+</mapper>

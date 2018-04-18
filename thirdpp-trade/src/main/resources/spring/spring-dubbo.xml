@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"     
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd   
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<bean id="brokerTradeServiceImplProvider" class="com.zendaimoney.thirdpp.trade.sei.BrokerTradeServiceImpl"></bean>
+	<dubbo:service interface="com.zendaimoney.thirdpp.trade.pub.service.IBrokerTradeService" ref="brokerTradeServiceImplProvider" retries="0" />
+	
+	<bean id="baseServiceImplProvider" class="com.zendaimoney.thirdpp.trade.sei.BaseServiceImpl"></bean>
+	<dubbo:service interface="com.zendaimoney.thirdpp.trade.pub.service.IBaseService" ref="baseServiceImplProvider" retries="0" />
+	
+	<bean id="authServiceImplProvider" class="com.zendaimoney.thirdpp.trade.sei.AuthServiceImpl"></bean>
+	<dubbo:service interface="com.zendaimoney.thirdpp.trade.pub.service.IAuthService" ref="authServiceImplProvider" retries="0" />
+	
+	<!-- 配置dubbo的并发数 -->
+	<dubbo:protocol name="${dubbo.protocol.name}" threads="${dubbo.protocol.threads}"/>
+    <dubbo:reference id="channelServiceConsumer" interface="com.zendaimoney.thirdpp.channel.pub.service.IChannelService"  
+    		check="false"  retries="0" timeout="70000"/>
+    
+    <dubbo:reference id="baseChannelServiceConsumer" interface="com.zendaimoney.thirdpp.channel.pub.service.IBaseChannelService" 
+    		check="false"  retries="0" timeout="70000"/>
+</beans>
